@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nyist.Tsep.dao.UserDao">
+	
+	<select id="findById" parameterType="java.lang.Integer" resultType="com.nyist.Tsep.model.hospital_login">
+		select * from hospital_login where hl_doctorid = #{id}
+	</select>	
+</mapper>

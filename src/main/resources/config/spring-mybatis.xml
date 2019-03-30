@@ -12,7 +12,7 @@
 
     <!-- 自动搜索bean -->
     <context:annotation-config/>
-    <context:component-scan base-package="com.zpjeck.dao" />
+    <context:component-scan base-package="com.hnu.dao" />
     <!--org.springframework.jdbc.datasource.DriverManagerDataSource-->
     <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -22,14 +22,14 @@
         <property name="password" value="123456"/>
     </bean>
 
-     <!--mybatis核心bean-->
-    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="datasource"/>-->
-        <!--&lt;!&ndash; 这句配置mapper配置文件的位置 如果采用注解的方式这句可以省去 &ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="mapperLocations" value="classpath:/WEB-INF/Mappers/*.xml" />&ndash;&gt;-->
-        <!--<property name="configLocation" value="classpath:config/mybatis-config.xml"></property>-->
-        <!--<property name="mapperLocations" value="classpath:mapping/*.xml"></property>-->
-    <!--</bean>-->
+     mybatis核心bean
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <!-- 这句配置mapper配置文件的位置 如果采用注解的方式这句可以省去 -->
+        <!--<property name="mapperLocations" value="classpath:/WEB-INF/Mappers/*.xml" />-->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
+    </bean>
 
 
 
@@ -38,7 +38,7 @@
 
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.zpjeck.dao" />
+        <property name="basePackage" value="com.hnu.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
 

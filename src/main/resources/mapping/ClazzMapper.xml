@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnu.dao.ClazzMapper" >
+
+  <resultMap id="BaseResultMap" type="com.hnu.model.Clazz" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="class_num" property="classNum" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="TINYINT" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="createby" property="createby" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="updateby" property="updateby" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, class_name, class_num, flag, createtime, createby, updatetime, updateby
+  </sql>
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from clazz
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.hnu.model.Clazz" >
+    insert into clazz (id, class_name, class_num,
+      flag, createtime, createby,
+      updatetime, updateby)
+    values (#{id,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR},
+      #{flag,jdbcType=TINYINT}, #{createtime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnu.model.Clazz" >
+    insert into clazz
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="classNum != null" >
+        class_num,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="createby != null" >
+        createby,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="updateby != null" >
+        updateby,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classNum != null" >
+        #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.hnu.model.Clazz" >
+    update clazz
+    set class_name = #{className,jdbcType=VARCHAR},
+      class_num = #{classNum,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=TINYINT},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      createby = #{createby,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      updateby = #{updateby,jdbcType=VARCHAR}
+   	where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByclazzSelective" parameterType="com.hnu.model.Clazz" >
+    update clazz
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.className != null" >
+        class_name = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classNum != null" >
+        class_num = #{record.classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=TINYINT},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null" >
+        createby = #{record.createby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null" >
+        updateby = #{record.updateby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}and flag = 1
+  </update>
+</mapper>

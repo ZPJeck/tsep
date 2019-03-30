@@ -9,7 +9,7 @@
       <version>v1.0.0</version>
       <packaging>war</packaging>
 
-      <name>com.zpjeck.com Maven Webapp</name>
+      <name>com.hnu.com Maven Webapp</name>
       <!-- FIXME change it to the project's website -->
       <url>http://www.zpjeck.com</url>
 
@@ -233,7 +233,7 @@
       </dependencies>
 
       <build>
-        <finalName>com.zpjeck.com</finalName>
+        <finalName>com.hnu.com</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
           <plugins>
             <plugin>

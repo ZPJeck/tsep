@@ -12,7 +12,7 @@
 
 
 
-    <context:component-scan base-package="com.zpjeck" annotation-config="true"/>
+    <context:component-scan base-package="com.hnu" annotation-config="true"/>
     <mvc:annotation-driven/>
 
     <!-- 文件上传  -->
