@@ -1,8 +1,8 @@
 package com.hnu.pojo;
 
-import com.hnu.model.Clazz;
-import com.hnu.model.Student;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @Auther: Zpjeck
@@ -10,7 +10,29 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class StudentClass {
-    private Student student;
-    private Clazz clazz;
+public class StudentClass implements Serializable {
+    private String id;
+
+    private String classId;
+
+    private String name;
+
+    private String number;
+
+    private String password;
+
+    private String phone;
+
+    private String address;
+
+    private String sex;
+
+    private Integer age;
+
+    private String portrait;
+
+    private String className;
+
+    private String classNum;
+
 }

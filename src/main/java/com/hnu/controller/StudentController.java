@@ -1,5 +1,6 @@
 package com.hnu.controller;
 
+import com.hnu.Enum.ResultEnum;
 import com.hnu.model.Student;
 import com.hnu.pojo.StudentClass;
 import com.hnu.util.MD5Encryption;
@@ -10,7 +11,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.provider.MD5;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +26,7 @@ public class StudentController {
     @Autowired
     private StudentServiceImpl studentService;
     @Autowired
-    private HttpSession session;
+    private HttpSession session ;
     /*
      *  学生登录
      */
@@ -56,13 +56,10 @@ public class StudentController {
     @RequestMapping(value = "/userInfo")
     public Result userInfo(){
         Result result = new Result();
-        Student student =(Student) session.getAttribute("student");
-        if (student == null){
-            result.setCode(1);
-            result.setMsg("用户未登录");
-            return result;
+        if (!isLogin()){
+            return ResultUtil.error(1,"用户未登录");
         }
-        StudentClass studentClass = studentService.selectByPrimaryKey(student.getId());
+        StudentClass studentClass = studentService.selectByPrimaryKey(((Student)session.getAttribute("student")).getId());
         if (studentClass == null){
             result.setCode(2);
             result.setMsg("");
@@ -80,7 +77,7 @@ public class StudentController {
     public Result updatePassword(@Param("password") String oldPassword , @Param("newPassword") String newPassword){
         Result result = new Result();
         if (!isLogin()){
-            return ResultUtil.error(1,"用户未登录");
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         Student student = studentService.selectById(((Student)session.getAttribute("student")).getId());
         if (!student.getPassword().equals(MD5Encryption.getMD5String(oldPassword))){
@@ -97,6 +94,7 @@ public class StudentController {
             result.setCode(4);
             return result;
         }
+        session.setAttribute("student",student);
         return ResultUtil.success();
     }
     /*
@@ -105,13 +103,14 @@ public class StudentController {
     @RequestMapping(value = "/updateInfo")
     public Result updateInfo(Student student){
         if (!isLogin()){
-            return ResultUtil.error(1,"用户未登录");
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         student.setId(((Student)session.getAttribute("student")).getId());
         int update = studentService.updateByPrimaryKey(student);
         if (update == 0){
             return ResultUtil.error(1,"修改个人信息失败");
         }
+        session.setAttribute("student",student);
         return ResultUtil.success();
     }
     /*

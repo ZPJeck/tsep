@@ -29,6 +29,18 @@
         <!--<property name="mapperLocations" value="classpath:/WEB-INF/Mappers/*.xml" />-->
         <property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
         <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
+        <!--   分页插件   -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
 

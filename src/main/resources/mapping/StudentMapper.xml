@@ -11,8 +11,14 @@
         from student s ,clazz c
         where s.flag = 1 and c.flag = 1 and s.id = #{id} and c.id = s.class_id
     </select>
+    <select id="selectById" parameterType="java.lang.String" resultType="com.hnu.model.Student">
+        select *
+        from student
+        where flag = 1 and id = #{id}
 
-    <update id="updateByPrimaryKey" parameterType="">
+    </select>
+
+    <update id="updateByPrimaryKey" >
       update student
       <set >
         <if test="classId != null" >

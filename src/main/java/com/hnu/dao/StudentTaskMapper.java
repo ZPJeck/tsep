@@ -27,4 +27,6 @@ public interface StudentTaskMapper {
     int updateByPrimaryKeySelective(StudentTask record);
 
     int updateByPrimaryKey(StudentTask record);
+
+    int save(StudentTask studentTask);
 }

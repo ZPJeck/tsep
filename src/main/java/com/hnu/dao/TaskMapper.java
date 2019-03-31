@@ -2,6 +2,7 @@ package com.hnu.dao;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.hnu.model.Task;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ public interface TaskMapper {
 
     List<Task> selectBytask(Task task);
 
-    Task selectByPrimaryKey(String id);
+
 
     int updateBytaskSelective(@Param("record") Task record, @Param("task") Task task);
 
@@ -27,4 +28,11 @@ public interface TaskMapper {
     int updateByPrimaryKeySelective(Task record);
 
     int updateByPrimaryKey(Task record);
+
+    // 开始
+    Task selectByPrimaryKey(String id);
+
+    List<Task> selectBystudent(String id);
+
+
 }
