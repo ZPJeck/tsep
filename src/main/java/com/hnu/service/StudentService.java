@@ -1,6 +1,7 @@
 package com.hnu.service;
 
 import com.hnu.model.Student;
+import com.hnu.pojo.StudentClass;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface StudentService {
     /*
      *  查找某个学生 根据学生id
      */
-    Student selectByPrimaryKey(String id);
+    StudentClass selectByPrimaryKey(String id);
     /*
      *  更新学生信息
      */
@@ -44,4 +45,6 @@ public interface StudentService {
      *  学生登录
      */
     Student login(Student student);
+
+    Student selectById(String id);
 }

@@ -1,4 +1,4 @@
-package com.hnu.pojo;
+package com.hnu.util;
 
 import lombok.Data;
 

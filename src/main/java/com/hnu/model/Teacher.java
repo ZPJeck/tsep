@@ -36,6 +36,27 @@ public class Teacher implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", portrait='" + portrait + '\'' +
+                ", status='" + status + '\'' +
+                ", flag=" + flag +
+                ", createtime=" + createtime +
+                ", createby='" + createby + '\'' +
+                ", updatetime=" + updatetime +
+                ", updateby='" + updateby + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }

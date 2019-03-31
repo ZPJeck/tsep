@@ -1,7 +1,5 @@
 package com.hnu.util;
 
-import com.hnu.pojo.Result;
-
 /**
  * @Auther: Zpjeck
  * @Date: 2018/11/27 08:48

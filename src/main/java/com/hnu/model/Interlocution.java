@@ -28,6 +28,23 @@ public class Interlocution implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public String toString() {
+        return "Interlocution{" +
+                "id='" + id + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", classId='" + classId + '\'' +
+                ", content='" + content + '\'' +
+                ", reply='" + reply + '\'' +
+                ", type='" + type + '\'' +
+                ", flag=" + flag +
+                ", createtime=" + createtime +
+                ", createby='" + createby + '\'' +
+                ", updatetime=" + updatetime +
+                ", updateby='" + updateby + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }

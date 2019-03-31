@@ -28,6 +28,23 @@ public class StudentTask implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public String toString() {
+        return "StudentTask{" +
+                "id='" + id + '\'' +
+                ", taskId='" + taskId + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", classId='" + classId + '\'' +
+                ", answer='" + answer + '\'' +
+                ", feedback='" + feedback + '\'' +
+                ", flag=" + flag +
+                ", createtime=" + createtime +
+                ", createby='" + createby + '\'' +
+                ", updatetime=" + updatetime +
+                ", updateby='" + updateby + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }

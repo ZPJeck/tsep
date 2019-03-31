@@ -20,6 +20,20 @@ public class Clazz implements Serializable {
 
     private String updateby;
 
+    @Override
+    public String toString() {
+        return "Clazz{" +
+                "id='" + id + '\'' +
+                ", className='" + className + '\'' +
+                ", classNum='" + classNum + '\'' +
+                ", flag=" + flag +
+                ", createtime=" + createtime +
+                ", createby='" + createby + '\'' +
+                ", updatetime=" + updatetime +
+                ", updateby='" + updateby + '\'' +
+                '}';
+    }
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {

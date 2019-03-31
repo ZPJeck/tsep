@@ -2,7 +2,8 @@ package com.hnu.dao;
 
 import com.hnu.model.Student;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
+
+import com.hnu.pojo.StudentClass;
 
 public interface StudentMapper {
     /*
@@ -28,7 +29,7 @@ public interface StudentMapper {
     /*
      *  查找某个学生 根据学生id
      */
-    Student selectByPrimaryKey(String id);
+    StudentClass selectByPrimaryKey(String id);
     /*
      *  更新学生信息
      */
@@ -37,6 +38,8 @@ public interface StudentMapper {
     /*
      *  学生登录
      */
-    Student login(Student student);
+    Student login(String number);
+
+    Student selectById(String id);
 
 }

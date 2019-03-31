@@ -24,6 +24,21 @@ public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", teacherId='" + teacherId + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", flag=" + flag +
+                ", createtime=" + createtime +
+                ", createby='" + createby + '\'' +
+                ", updatetime=" + updatetime +
+                ", updateby='" + updateby + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }
