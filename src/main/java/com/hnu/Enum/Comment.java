@@ -7,25 +7,23 @@ package com.hnu.Enum;
  */
 public enum Comment {
 
-    ADMIN("0","管理员"),
-    MONITOR("1","班长"),
-    CLASSMATE("2","同学"),
+    FAIL(0,"数据库操作失败"),
     ;
 
-    private String code;
+    private Integer code;
 
     private String message;
 
-    Comment(String code, String message) {
+    Comment(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

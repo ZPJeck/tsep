@@ -1,5 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hnu.dao.PlanMapper" >
+    <insert id="insert" parameterType="com.hnu.model.Plan" >
+        insert into plan
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="teacherId != null" >
+                teacher_id,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="flag != null" >
+                flag,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="createby != null" >
+                createby,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+            <if test="updateby != null" >
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="teacherId != null" >
+                #{teacherId},
+            </if>
+            <if test="title != null" >
+                #{title},
+            </if>
+            <if test="content != null" >
+                #{content},
+            </if>
+            <if test="flag != null" >
+                #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null" >
+                #{createby},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateby != null" >
+                #{updateby},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findList" resultType="com.hnu.model.Plan" parameterType="java.lang.String">
+        select *
+        from plan
+        where flag = 1 and teacher_id = #{teacherId}
+
+    </select>
+    
+    <select id="findByStudentId" resultType="com.hnu.model.Plan" parameterType="java.lang.String">
+        select *
+        from plan p ,student s ,teacher_class tc
+        where p.flag = 1 and s.flag = 1 and tc.flag = 1 and s.class_id = tc.class_id and p.teacher_id = tc.teacher_id and s.id = #{id}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.hnu.model.Plan">
+        select * from plan
+        where flag = 1 and id = #{id}
+        ;
+
+    </select>
 
 </mapper>

@@ -10,14 +10,11 @@ public interface PlanMapper {
     int deleteByplan(Plan plan);
 
     int deleteByPrimaryKey(String id);
-
-    int insert(Plan record);
-
     int insertSelective(Plan record);
 
     List<Plan> selectByplan(Plan plan);
 
-    Plan selectByPrimaryKey(String id);
+
 
     int updateByplanSelective(@Param("record") Plan record, @Param("plan") Plan plan);
 
@@ -26,4 +23,14 @@ public interface PlanMapper {
     int updateByPrimaryKeySelective(Plan record);
 
     int updateByPrimaryKey(Plan record);
+
+
+    int insert(Plan plan);
+
+    List<Plan> findList(String teacherId);
+
+    List<Plan> findByStudentId(String studentId);
+
+    Plan selectByPrimaryKey(String id);
+
 }
