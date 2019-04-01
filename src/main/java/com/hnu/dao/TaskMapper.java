@@ -34,5 +34,7 @@ public interface TaskMapper {
 
     List<Task> selectBystudent(String id);
 
+    List<Task> selectByTeacher(String teacherId);
 
+    int save(Task task);
 }

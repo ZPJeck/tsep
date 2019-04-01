@@ -3,5 +3,119 @@
 <mapper namespace="com.hnu.dao.StudentTaskMapper" >
 
 
+    <update id="relayTask" parameterType="com.hnu.model.StudentTask" >
+        update student_task
+        <set >
+            <if test="id != null" >
+                id = #{id},
+            </if>
+            <if test="taskId != null" >
+                task_id = #{taskId},
+            </if>
+            <if test="studentId != null" >
+                student_id = #{studentId},
+            </if>
+            <if test="classId != null" >
+                class_id = #{classId},
+            </if>
+            <if test="answer != null" >
+                answer = #{answer},
+            </if>
+            <if test="feedback != null" >
+                feedback = #{feedback},
+            </if>
+            <if test="flag != null" >
+                flag = #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime},
+            </if>
+            <if test="createby != null" >
+                createby = #{createby},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime},
+            </if>
+            <if test="updateby != null" >
+                updateby = #{updateby},
+            </if>
+        </set>
+        <where>
+            flag = 1 and id = #{id}
+        </where>
+    </update>
 
+    <insert id="save" parameterType="com.hnu.model.StudentTask" >
+        insert into student_task
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="taskId != null" >
+                task_id,
+            </if>
+            <if test="studentId != null" >
+                student_id,
+            </if>
+            <if test="classId != null" >
+                class_id,
+            </if>
+            <if test="answer != null" >
+                answer,
+            </if>
+            <if test="feedback != null" >
+                feedback,
+            </if>
+            <if test="flag != null" >
+                flag,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="createby != null" >
+                createby,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+            <if test="updateby != null" >
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="taskId != null" >
+                #{taskId,jdbcType=VARCHAR},
+            </if>
+            <if test="studentId != null" >
+                #{studentId,jdbcType=VARCHAR},
+            </if>
+            <if test="classId != null" >
+                #{classId,jdbcType=VARCHAR},
+            </if>
+            <if test="answer != null" >
+                #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="feedback != null" >
+                #{feedback,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null" >
+                #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null" >
+                #{createby,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateby != null" >
+                #{updateby,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
 </mapper>

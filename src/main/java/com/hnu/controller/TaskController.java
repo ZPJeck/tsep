@@ -6,6 +6,7 @@ import com.hnu.Enum.ResultEnum;
 import com.hnu.model.Student;
 import com.hnu.model.StudentTask;
 import com.hnu.model.Task;
+import com.hnu.model.Teacher;
 import com.hnu.service.StudentTaskService;
 import com.hnu.service.impl.StudentTaskServiceImpl;
 import com.hnu.service.impl.TaskServiceImpl;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @Auther: Zpjeck
  * @Date: 2019/3/31 14:43
- * @Description:
+ * @Description:  作业
  */
 @RestController
 @RequestMapping(value = "/task")
@@ -38,12 +39,47 @@ public class TaskController {
     private HttpSession session;
 
 
+    /*
+     *  老师发布作业
+     */
+    @RequestMapping(value = "/releaseTask")
+    public Result releaseTask(Task task){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        int save = taskService.save(task);
+        if (save == 0){
+            return ResultUtil.error(-1,"发布作业失败");
+        }
+        return ResultUtil.success();
+    }
 
 
+    /*
+     *  老师批改作业
+     */
+    @RequestMapping(value = "/relayTask")
+    public Result relayTask(StudentTask studentTask){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        int i = taskService.relayTask(studentTask);
+        if (i == 0){
+            return ResultUtil.error(-1,"批改作业失败");
+        }
+        return ResultUtil.success();
+    }
 
+    /*
+     *  老师查看列表
+     */
+    @RequestMapping(value = "/listByTeacher")
+    public Result listByTeacher(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
+                                @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
 
-
-
+        PageInfo<Task> taskPageInfo = taskService.selectBystudent(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
+        return ResultUtil.success(taskPageInfo);
+    }
 
 
     /*

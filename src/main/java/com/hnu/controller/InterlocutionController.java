@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * @Auther: Zpjeck
  * @Date: 2019/4/1 08:59
- * @Description:
+ * @Description:  心得与问答
  */
 @RestController
 @RequestMapping(value = "/wd")

@@ -9,4 +9,5 @@ import com.hnu.model.StudentTask;
  */
 public interface StudentTaskService {
     int save(StudentTask studentTask);
+    int relayTask(StudentTask studentTask);
 }
