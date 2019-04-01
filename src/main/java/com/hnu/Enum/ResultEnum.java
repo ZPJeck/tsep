@@ -9,13 +9,10 @@ package com.hnu.Enum;
 
 public enum  ResultEnum {
 
-    LOGIN_ERROR(0,"用户名或密码错误"),
+    LOGIN_ERROR(-1,"用户名或密码错误"),
     NO_LOGIN(1,"用户未登录"),
-    INCREASE_USER(2,"添加用户失败"),
-    DELETE_USER(3,"删除用户失败"),
-    UPDATE_USER(4,"更新用户失败"),
-    select_one_User(5,""),
-
+    LOGIN_SUCCESS(0,"用户已登录"),
+    USER_DATABASE_FAIL(-2,"操作数据失败")
     ;
 
     private Integer code;
