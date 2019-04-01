@@ -11,13 +11,13 @@ public interface InterlocutionMapper {
 
     int deleteByPrimaryKey(String id);
 
-    int insert(Interlocution record);
+
 
     int insertSelective(Interlocution record);
 
     List<Interlocution> selectByinterlocution(Interlocution interlocution);
 
-    Interlocution selectByPrimaryKey(String id);
+
 
     int updateByinterlocutionSelective(@Param("record") Interlocution record, @Param("interlocution") Interlocution interlocution);
 
@@ -26,4 +26,18 @@ public interface InterlocutionMapper {
     int updateByPrimaryKeySelective(Interlocution record);
 
     int updateByPrimaryKey(Interlocution record);
+
+    // 开始
+
+    int insert(Interlocution interlocution);
+
+    Interlocution selectByPrimaryKey(String id);
+
+    List<Interlocution> list(String studentId);
+
+    List<Interlocution> listByClass(String classId);
+
+    int replyStudent(Interlocution interlocution);
+
+    int deleteById(String id);
 }

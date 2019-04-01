@@ -1,6 +1,141 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hnu.dao.InterlocutionMapper" >
+<mapper namespace="com.hnu.dao.InterlocutionMapper">
 
+
+    <insert id="insert" parameterType="com.hnu.model.Interlocution">
+        insert into interlocution
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="reply != null">
+                reply,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="createby != null">
+                createby,
+            </if>
+            <if test="updatetime != null">
+                updatetime,
+            </if>
+            <if test="updateby != null">
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="studentId != null">
+                #{studentId},
+            </if>
+            <if test="classId != null">
+                #{classId},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="reply != null">
+                #{reply},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=CHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null">
+                #{createby},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateby != null">
+                #{updateby},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
+      select * from interlocution
+      where flag = 1 and id = #{id}
+      ;
+    </select>
+    <select id="list" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
+      select * from interlocution
+      where flag = 1 and student_id = #{studentId}
+      ;
+    </select>
+    <select id="listByClass" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
+      select * from interlocution
+      where flag = 1 and class_id = #{classId}
+      ;
+    </select>
+    <update id="replyStudent" parameterType="com.hnu.model.Interlocution">
+        update interlocution
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="studentId != null">
+                student_id = #{studentId},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="reply != null">
+                reply = #{reply},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="flag != null">
+                flag = #{flag},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="createby != null">
+                createby = #{createby},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="updateby != null">
+                updateby = #{updateby},
+            </if>
+        </set>
+        <where>
+            where falg = 1 and id = #{id}
+        </where>
+    </update>
+    <update id="deleteById" parameterType="java.lang.String">
+        update interlocution
+        set flag = 0
+        where id = #{id}
+    </update>
 
 </mapper>

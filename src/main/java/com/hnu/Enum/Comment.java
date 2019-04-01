@@ -7,7 +7,7 @@ package com.hnu.Enum;
  */
 public enum Comment {
 
-    FAIL(0,"数据库操作失败"),
+    FAIL(0,"传参不能为空"),
     ;
 
     private Integer code;
