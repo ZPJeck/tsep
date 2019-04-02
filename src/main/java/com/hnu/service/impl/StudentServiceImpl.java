@@ -60,6 +60,9 @@ public class StudentServiceImpl implements StudentService {
             return null;
         }
         Student student1 = studentMapper.login(student.getNumber());
+        if (student1 == null){
+            return null;
+        }
         if (MD5Encryption.getMD5String(student.getPassword()).equals(student1.getPassword())){
             return student1;
         }else {

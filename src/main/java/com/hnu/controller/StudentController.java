@@ -10,6 +10,7 @@ import com.hnu.util.ResultUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -30,12 +31,12 @@ public class StudentController {
     /*
      *  学生登录
      */
-    @RequestMapping(value = "login")
-    public Result<Student> login(@Param("number") String number ,String passworld) {
+    @RequestMapping(value = "login",method = RequestMethod.POST)
+    public Result<Student> login(@Param("number") String number ,@Param("password") String password) {
         Result result = new Result();
         Student student = new Student();
         student.setNumber(number);
-        student.setPassword(passworld);
+        student.setPassword(password);
         Student login = studentService.login(student);
         System.out.println(login);
         if (login == null){
