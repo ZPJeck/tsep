@@ -46,7 +46,7 @@
                     success: function (res) {
                         if (res.code == 0) {
                             layer.msg(res.msg, {icon: 1, time: 2000});
-                            location.href = "./index.html";
+                            location.href = "./views/student/index.html";
                         } else if (res.code == 1) {
                             layer.msg(res.msg, {icon: 2, time: 2000});
                             // $("#number").val("");
@@ -54,7 +54,7 @@
                         }
                     },
                     error: function (data) {
-                        layer.msg("登录失败", {icon: 2, time: 20000})
+                        layer.msg("登录失败", {icon: 2, time: 2000})
                     }
 
                 });
@@ -64,6 +64,11 @@
     })
 
 
+</script>
+<script language="JavaScript" type="text/javascript">
+    if(window != top) {
+        top.location.href = location.href;
+    }
 </script>
 
 
