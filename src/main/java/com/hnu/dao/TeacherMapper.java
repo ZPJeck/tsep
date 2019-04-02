@@ -23,7 +23,7 @@ public interface TeacherMapper {
     /*
      *  删除学生
      */
-    int delectByStudentId(String studentId);
+    int delectByStudentId(@Param("id")String studentId);
 
     /*
      *  管理员添加班级
@@ -34,6 +34,17 @@ public interface TeacherMapper {
      *  删除班级
      */
     int deleteByClassId(@Param("id") String classId);
+
+
+    /*
+     *  管理员添加教师
+     */
+    int insertTeacher(Teacher teacher);
+
+    /*
+     *  删除老师
+     */
+    int deleteByTeacherId(@Param("id") String teacherId);
 
     /*
      *  为教师分配班级
@@ -81,13 +92,13 @@ public interface TeacherMapper {
     /*
      *  查询学生信息  根据id
      */
-    Student findByStudent(String studentId);
+    Student findByStudent(@Param("id")String studentId);
 
 
     /*
-     *  查询班级信息  根据id
+     *  查询老师信息  根据id
      */
-    Teacher findByTeacher(String teacherId);
+    Teacher findByTeacher(@Param("id")String teacherId);
 
 
 

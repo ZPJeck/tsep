@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.hnu.Enum.Comment;
 import com.hnu.Enum.ResultEnum;
 import com.hnu.model.Clazz;
+import com.hnu.model.Student;
 import com.hnu.model.Teacher;
 import com.hnu.service.impl.TeacherServiceImpl;
 import com.hnu.util.MD5Encryption;
@@ -141,6 +142,140 @@ public class TeacherController {
         PageInfo<Clazz> clazzPageInfo = teacherService.classList(pageNum, pageSize);
         return ResultUtil.success(clazzPageInfo);
     }
+
+    /*
+     *  查看学生列表
+     */
+    @RequestMapping(value = "/studentList")
+    public Result studentList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
+                              @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+        PageInfo<Student> studentPageInfo = teacherService.studentList(pageNum, pageSize);
+        return ResultUtil.success(studentPageInfo);
+    }
+
+    /*
+     *  添加学生
+     */
+    @RequestMapping(value = "/addStudent")
+    public Result addStudent(Student student){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.insertByStudent(student);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"添加学生失败");
+        }
+        return ResultUtil.success();
+    }
+    /*
+     *  删除学生信息
+     */
+    @RequestMapping(value = "/deleteByStudent")
+    public Result deleteByStudent(String studentId){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.delectByStudentId(studentId);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"添加学生失败");
+        }
+        return ResultUtil.success();
+    }
+    /*
+     *  根据学生id查询  数据
+     */
+    @RequestMapping(value = "/selectByStudentId")
+    public Result selectByStudentId(String studentId){
+
+        Student student = teacherService.findByStudent(studentId);
+        if (student == null){
+            return ResultUtil.error(-1,"出现未知错误，查询失败");
+        }
+        return ResultUtil.success(student);
+    }
+
+    /*
+     *  修改学生信息。
+     */
+    @RequestMapping(value = "/updateStudent")
+    public Result updateStudent(Student student){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.alertStudent(student);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"修改学生失败");
+        }
+        return ResultUtil.success();
+    }
+
+    /*
+     *  查看老师列表
+     */
+    @RequestMapping(value = "/teacherList")
+    public Result teacherList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
+                              @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+        PageInfo<Teacher> teacherPageInfo = teacherService.teacherList(pageNum, pageSize);
+        return ResultUtil.success(teacherPageInfo);
+    }
+
+    /*
+     *  添加老师信息
+     */
+    @RequestMapping(value = "/addTeacher")
+    public Result addTeacher(Teacher teacher){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.insertByTeacher(teacher);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"添加学生失败");
+        }
+        return ResultUtil.success();
+    }
+
+    /*
+     *  删除老师信息
+     */
+    @RequestMapping(value = "/deleteByTeacher")
+    public Result deleteByTeacher(String teacherId){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.delectByTeacherId(teacherId);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"添加学生失败");
+        }
+        return ResultUtil.success();
+    }
+    /*
+     *  查看老师信息
+     */
+    @RequestMapping(value = "/selectByTeacherId")
+    public Result selectByTeacherId(String teacherId){
+
+        Teacher teacher = teacherService.findByTeacher(teacherId);
+        if (teacher == null){
+            return ResultUtil.error(-1,"出现未知错误，查询失败");
+        }
+        return ResultUtil.success(teacher);
+    }
+    /*
+     *  修改老师信息
+     */
+    @RequestMapping(value = "/updateTeacher")
+    public Result updateTeacher(Teacher teacher){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.alterTeacher(teacher);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"修改老师失败");
+        }
+        return ResultUtil.success();
+    }
+
+
 
 
 

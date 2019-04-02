@@ -20,6 +20,10 @@ public interface TeacherService {
     Teacher login(String number);
 
     /*
+     *  添加老师信息
+     */
+    int insertByTeacher(Teacher teacher);
+    /*
      *  添加学生
      */
     int insertByStudent(Student student);
@@ -29,6 +33,10 @@ public interface TeacherService {
      */
     int delectByStudentId(String studentId);
 
+    /*
+     *  删除老·1师
+     */
+    int delectByTeacherId(String teacherId);
     /*
      *  管理员添加班级
      */
@@ -43,6 +51,7 @@ public interface TeacherService {
      *  为教师分配班级
      */
     int allotByTeacherClass(TeacherClass teacherClass);
+
 
     /*
      *  修改教师信息

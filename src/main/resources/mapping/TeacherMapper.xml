@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hnu.dao.TeacherMapper" >
+<mapper namespace="com.hnu.dao.TeacherMapper">
 
     <select id="findByTeacherId" resultType="com.hnu.model.Clazz" parameterType="java.lang.String">
         select c.*
@@ -15,6 +15,353 @@
         ;
     </select>
     <update id="updateInfo" parameterType="com.hnu.model.Teacher">
+        update teacher
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="portrait != null">
+                portrait = #{portrait},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="flag != null">
+                flag = #{flag},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="createby != null">
+                createby = #{createby},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="updateby != null">
+                updateby = #{updateby},
+            </if>
+        </set>
+        <where>
+            flag = 1 and id = #{id}
+        </where>
+    </update>
+
+    <!--   班级管理 -->
+    <insert id="insertClass" parameterType="com.hnu.model.Clazz">
+        insert into clazz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="className != null">
+                class_name,
+            </if>
+            <if test="classNum != null">
+                class_num,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="createby != null">
+                createby,
+            </if>
+            <if test="updatetime != null">
+                updatetime,
+            </if>
+            <if test="updateby != null">
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="className != null">
+                #{className},
+            </if>
+            <if test="classNum != null">
+                #{classNum},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="createby != null">
+                #{createby},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime},
+            </if>
+            <if test="updateby != null">
+                #{updateby},
+            </if>
+        </trim>
+    </insert>
+    <update id="deleteByClassId" parameterType="java.lang.String">
+        update clazz
+        set flag = 0
+        where id = #{id}
+    </update>
+    <select id="findByClassId" parameterType="java.lang.String" resultType="com.hnu.model.Clazz">
+        select * from clazz
+        where flag = 1 and id = #{id};
+    </select>
+    <update id="alterClass" parameterType="com.hnu.model.Clazz">
+        update clazz
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="className != null">
+                class_name = #{className},
+            </if>
+            <if test="classNum != null">
+                class_num = #{classNum},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="createby != null">
+                createby = #{createby},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="updateby != null">
+                updateby = #{updateby},
+            </if>
+        </set>
+        <where>
+            flag = 1 and id = #{id}
+        </where>
+    </update>
+    <select id="classList" resultType="com.hnu.model.Clazz">
+        select * from clazz
+        where flag = 1;
+    </select>
+
+    <!--   学生模块   -->
+    <select id="studentList" resultType="com.hnu.model.Student">
+        select * from student
+        where flag = 1;
+    </select>
+    <insert id="insertByStudent" parameterType="com.hnu.model.Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="portrait != null">
+                portrait,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="createby != null">
+                createby,
+            </if>
+            <if test="updatetime != null">
+                updatetime,
+            </if>
+            <if test="updateby != null">
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="classId != null">
+                #{classId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="portrait != null">
+                #{portrait},
+            </if>
+            <if test="flag != null">
+                #{flag},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="createby != null">
+                #{createby},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime},
+            </if>
+            <if test="updateby != null">
+                #{updateby},
+            </if>
+        </trim>
+    </insert>
+    <update id="delectByStudentId" parameterType="java.lang.String">
+        update student
+        set flag = 0
+        where id = #{id}
+    </update>
+    <select id="findByStudent" parameterType="java.lang.String" resultType="com.hnu.model.Student">
+        select * from student
+        where flag = 1 and id = #{id};
+    </select>
+    <update id="alertStudent" parameterType="com.hnu.model.Student">
+        update student
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="portrait != null">
+                portrait = #{portrait},
+            </if>
+            <if test="flag != null">
+                flag = #{flag},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="createby != null">
+                createby = #{createby},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="updateby != null">
+                updateby = #{updateby},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!--   老师模块   -->
+    <select id="teacherList" resultType="com.hnu.model.Teacher">
+        select * from teacher
+        where flag = 1;
+    </select>
+    <insert id="insertTeacher" parameterType="com.hnu.model.Teacher">
+      insert into teacher (id, name, number,
+      password, phone, address,
+      sex, age, portrait, status,
+      flag, createtime, createby,
+      updatetime, updateby)
+      values (#{id}, #{name}, #{number},
+      #{password}, #{phone}, #{address},
+      #{sex}, #{age}, #{portrait}, #{status},
+      #{flag}, #{createtime}, #{createby},
+      #{updatetime}, #{updateby})
+    </insert>
+    <update id="deleteByTeacherId" parameterType="java.lang.String" >
+        update teacher
+        set flag = 1
+        where id = #{id}
+    </update>
+    <select id="findByTeacher" parameterType="java.lang.String" resultType="com.hnu.model.Teacher">
+      select * from teacher
+      where flag = 1 and id = #{id};
+    </select>
+    <update id="alterTeacher" parameterType="com.hnu.model.Teacher">
         update teacher
         <set >
             <if test="id != null" >
@@ -64,117 +411,8 @@
             </if>
         </set>
         <where>
-            flag = 1 and id = #{id}
+            id = #{id}
         </where>
     </update>
 
-    <insert id="insertClass" parameterType="com.hnu.model.Clazz">
-        insert into clazz
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                id,
-            </if>
-            <if test="className != null" >
-                class_name,
-            </if>
-            <if test="classNum != null" >
-                class_num,
-            </if>
-            <if test="flag != null" >
-                flag,
-            </if>
-            <if test="createtime != null" >
-                createtime,
-            </if>
-            <if test="createby != null" >
-                createby,
-            </if>
-            <if test="updatetime != null" >
-                updatetime,
-            </if>
-            <if test="updateby != null" >
-                updateby,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                #{id},
-            </if>
-            <if test="className != null" >
-                #{className},
-            </if>
-            <if test="classNum != null" >
-                #{classNum},
-            </if>
-            <if test="flag != null" >
-                #{flag,jdbcType=TINYINT},
-            </if>
-            <if test="createtime != null" >
-                #{createtime},
-            </if>
-            <if test="createby != null" >
-                #{createby},
-            </if>
-            <if test="updatetime != null" >
-                #{updatetime},
-            </if>
-            <if test="updateby != null" >
-                #{updateby},
-            </if>
-        </trim>
-    </insert>
-
-    <update id="deleteByClassId" parameterType="java.lang.String">
-        update clazz
-        set flag = 0
-        where id = #{id}
-    </update>
-    <select id="findByClassId" parameterType="java.lang.String" resultType="com.hnu.model.Clazz">
-        select * from clazz
-        where flag = 1 and id = #{id};
-    </select>
-    <update id="alterClass" parameterType="com.hnu.model.Clazz">
-        update clazz
-        <set >
-            <if test="id != null" >
-                id = #{id},
-            </if>
-            <if test="className != null" >
-                class_name = #{className},
-            </if>
-            <if test="classNum != null" >
-                class_num = #{classNum},
-            </if>
-            <if test="flag != null" >
-                flag = #{flag,jdbcType=TINYINT},
-            </if>
-            <if test="createtime != null" >
-                createtime = #{createtime},
-            </if>
-            <if test="createby != null" >
-                createby = #{createby},
-            </if>
-            <if test="updatetime != null" >
-                updatetime = #{updatetime},
-            </if>
-            <if test="updateby != null" >
-                updateby = #{updateby},
-            </if>
-        </set>
-        <where>
-            flag = 1 and id = #{id}
-        </where>
-    </update>
-    <select id="studentList" resultType="com.hnu.model.Student">
-        select * from student
-        where flag = 1;
-    </select>
-    <select id="teacherList" resultType="com.hnu.model.Teacher">
-        select * from teacher
-        where flag = 1;
-    </select>
-    <select id="classList" resultType="com.hnu.model.Clazz">
-        select * from clazz
-        where flag = 1;
-    </select>
 </mapper>

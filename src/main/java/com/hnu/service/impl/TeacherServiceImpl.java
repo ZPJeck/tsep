@@ -8,6 +8,7 @@ import com.hnu.model.Student;
 import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
 import com.hnu.service.TeacherService;
+import com.hnu.util.MD5Encryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Auther: Zpjeck
@@ -37,12 +39,18 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int insertByStudent(Student student) {
-        return 0;
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        student.setId(id);
+        student.setPassword(MD5Encryption.getMD5String("123456"));
+        student.setCreateby(teacher.getId());
+        student.setCreatetime(new Date());
+        return teacherMapper.insertByStudent(student);
     }
 
     @Override
     public int delectByStudentId(String studentId) {
-        return 0;
+        return teacherMapper.delectByStudentId(studentId);
     }
 
     @Override
@@ -65,12 +73,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int alterTeacher(Teacher teacher) {
-        return 0;
+        return teacherMapper.alterTeacher(teacher);
     }
 
     @Override
     public int alertStudent(Student student) {
-        return 0;
+        return teacherMapper.alertStudent(student);
     }
 
     @Override
@@ -106,12 +114,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Student findByStudent(String studentId) {
-        return null;
+        return teacherMapper.findByStudent(studentId);
     }
 
     @Override
     public Teacher findByTeacher(String teacherId) {
-        return null;
+        return teacherMapper.findByTeacher(teacherId);
     }
 
     @Override
@@ -120,5 +128,21 @@ public class TeacherServiceImpl implements TeacherService {
         clazz.setUpdateby(teacher.getId());
         clazz.setUpdatetime(new Date());
         return teacherMapper.alterClass(clazz);
+    }
+
+    @Override
+    public int insertByTeacher(Teacher teacher) {
+        Teacher teacher1 = (Teacher) session.getAttribute("teacher");
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        teacher.setId(id);
+        teacher.setPassword(MD5Encryption.getMD5String("123456"));
+        teacher.setCreateby(teacher1.getId());
+        teacher.setCreatetime(new Date());
+        return teacherMapper.insertTeacher(teacher);
+    }
+
+    @Override
+    public int delectByTeacherId(String teacherId) {
+        return teacherMapper.deleteByTeacherId(teacherId);
     }
 }
