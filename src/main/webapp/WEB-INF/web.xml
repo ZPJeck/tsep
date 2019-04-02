@@ -19,6 +19,12 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
+    <!-- spring配置文件加载 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:config/spring-mybatis.xml</param-value>
+    </context-param>
+
     <!-- SpringMVC核心Servlet -->
     <servlet>
         <servlet-name>spring-mvc</servlet-name>
@@ -36,19 +42,10 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- spring配置文件加载 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:config/spring-mybatis.xml</param-value>
-    </context-param>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/views/error/500.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/views/error/404.jsp</location>
-    </error-page>
 </web-app>
