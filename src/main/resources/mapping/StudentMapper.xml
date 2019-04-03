@@ -66,5 +66,29 @@
       </set>
       where id = #{id} and flag = 1
     </update>
+    <select id="plan" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from student s ,teacher_class tc ,plan p
+        where s.id = #{id} and s.class_id = tc.class_id and tc.teacher_id = p.teacher_id
+        ;
+    </select>
+    <select id="wd" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from student s ,interlocution i
+        where s.id = #{id} and i.student_id = s.id and i.type = 1 and i.flag = 1
+        ;
+    </select>
+    <select id="xd" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from student s ,interlocution i
+        where s.id = #{id} and i.student_id = s.id and i.type = 0 and i.flag = 1
+        ;
+    </select>
+    <select id="task" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from student s ,teacher_class tc ,task t
+        where s.id = #{id} and s.class_id = tc.class_id and tc.teacher_id = t.teacher_id and t.flag = 1
+        ;
+    </select>
 
 </mapper>

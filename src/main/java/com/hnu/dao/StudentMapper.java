@@ -42,4 +42,11 @@ public interface StudentMapper {
 
     Student selectById(String id);
 
+
+
+    int plan(String id);
+    int wd(String id);
+    int xd(String id);
+    int task(String id);
+
 }

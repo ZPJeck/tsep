@@ -23,46 +23,32 @@
                             <div class="layui-carousel x-admin-carousel x-admin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 90px;">
                                 <div carousel-item="">
                                     <ul class="layui-row layui-col-space10 layui-this">
-                                        <li class="layui-col-xs2">
+                                        <li class="layui-col-xs3">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>文章数</h3>
+                                                <h3>老师计划</h3>
                                                 <p>
-                                                    <cite>66</cite></p>
+                                                    <cite id="plan">0</cite></p>
                                             </a>
                                         </li>
-                                        <li class="layui-col-xs2">
+                                        <li class="layui-col-xs3">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>会员数</h3>
+                                                <h3 >学习心得</h3>
                                                 <p>
-                                                    <cite>12</cite></p>
+                                                    <cite id="xd">0</cite></p>
                                             </a>
                                         </li>
-                                        <li class="layui-col-xs2">
+                                        <li class="layui-col-xs3">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>回复数</h3>
+                                                <h3 >预留作业</h3>
                                                 <p>
-                                                    <cite>99</cite></p>
+                                                    <cite id="task">0</cite></p>
                                             </a>
                                         </li>
-                                        <li class="layui-col-xs2">
+                                        <li class="layui-col-xs3">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>商品数</h3>
+                                                <h3>问答解疑</h3>
                                                 <p>
-                                                    <cite>67</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs2">
-                                            <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>文章数</h3>
-                                                <p>
-                                                    <cite>67</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs2">
-                                            <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>文章数</h3>
-                                                <p>
-                                                    <cite>6766</cite></p>
+                                                    <cite id="wd">0</cite></p>
                                             </a>
                                         </li>
                                     </ul>
@@ -74,62 +60,28 @@
             </div>
         </fieldset>
         <fieldset class="layui-elem-field">
-            <legend>系统通知</legend>
-            <div class="layui-field-box">
-                <table class="layui-table" lay-skin="line">
-                    <tbody>
-                        <tr>
-                            <td >
-                                <a class="x-a" href="/" target="_blank">新版x-admin 2.0上线了</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td >
-                                <a class="x-a" href="/" target="_blank">交流qq群:(519492808)</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </fieldset>
-        <fieldset class="layui-elem-field">
             <legend>系统信息</legend>
             <div class="layui-field-box">
                 <table class="layui-table">
                     <tbody>
                         <tr>
-                            <th>xxx版本</th>
-                            <td>1.0.180420</td></tr>
+                            <th>系统版本</th>
+                            <td>v1.0</td></tr>
                         <tr>
                             <th>服务器地址</th>
-                            <td>x.xuebingsi.com</td></tr>
+                            <td>www.zpjeck.top</td></tr>
                         <tr>
                             <th>操作系统</th>
-                            <td>WINNT</td></tr>
+                            <td>ubuntu</td></tr>
                         <tr>
                             <th>运行环境</th>
-                            <td>Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9</td></tr>
-                        <tr>
-                            <th>PHP版本</th>
-                            <td>5.6.27</td></tr>
-                        <tr>
-                            <th>PHP运行方式</th>
-                            <td>cgi-fcgi</td></tr>
+                            <td>Ubantu 16.04</td></tr>
                         <tr>
                             <th>MYSQL版本</th>
                             <td>5.5.53</td></tr>
                         <tr>
-                            <th>ThinkPHP</th>
-                            <td>5.0.18</td></tr>
-                        <tr>
-                            <th>上传附件限制</th>
-                            <td>2M</td></tr>
-                        <tr>
-                            <th>执行时间限制</th>
-                            <td>30s</td></tr>
-                        <tr>
-                            <th>剩余空间</th>
-                            <td>86015.2M</td></tr>
+                            <th>实现功能</th>
+                            <td>师生交流</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -141,12 +93,12 @@
                     <tbody>
                         <tr>
                             <th>版权所有</th>
-                            <td>xuebingsi(xuebingsi)
-                                <a href="http://x.xuebingsi.com/" class='x-a' target="_blank">访问官网</a></td>
+                            <td>lvwenchang(lvwenchang)
+                                <a href="http://www.zpjeck.top" class='x-a' target="_blank">访问官网</a></td>
                         </tr>
                         <tr>
                             <th>开发者</th>
-                            <td>马志斌(113664000@qq.com)</td></tr>
+                            <td>吕文昌(1357353635@qq.com)</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -159,6 +111,7 @@
             var layer = layui.layer;
             var table = layui.table;
             var $ = layui.$;
+            // 请求用户信息
             $.ajax({
                 url: "/student/userInfo",
                 method: 'post',
@@ -174,21 +127,37 @@
                     }
                 }
             });
+            setInterval(function () {
+                nowtime=new Date();
+                year=nowtime.getFullYear();
+                month=nowtime.getMonth()+1;
+                date=nowtime.getDate();
+                $("#time").html(year+"年"+month+"月"+date+" "+nowtime.toLocaleTimeString());
+            },1000);
+            // 数据统计
+            $(function () {
+                $.ajax({
+                    url: "/student/count",
+                    method: 'post',
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.code == 0) {
+                            $("#plan").html(res.data.plan);
+                            $("#xd").html(res.data.xd);
+                            $("#wd").html(res.data.wd);
+                            $("#task").html(res.data.task);
+                        } else if (res.code == 1) {
+                            layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
+                                    location.href = "/login"
+                                }});
+                        }
+                    }
+                });
+            });
 
-            window.onload = function() {
-                setInterval(function() {
-                    getTime();
-                }, 1000);
-            }
 
-            function FormatDate(strTime) {
-                var date = new Date(strTime);
-                return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-            }
 
-            function getTime() {
-                $("#time").html(FormatDate(Date()));
-            }
+
         });
     </script>
     </body>

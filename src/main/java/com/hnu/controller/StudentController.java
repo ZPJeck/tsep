@@ -7,13 +7,17 @@ import com.hnu.util.MD5Encryption;
 import com.hnu.util.Result;
 import com.hnu.service.impl.StudentServiceImpl;
 import com.hnu.util.ResultUtil;
+import javafx.geometry.Pos;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther: Zpjeck
@@ -74,7 +78,7 @@ public class StudentController {
     /*
      *  学生修改密码
      */
-    @RequestMapping(value = "/updatePassword")
+    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
     public Result updatePassword(@Param("password") String oldPassword , @Param("newPassword") String newPassword){
         Result result = new Result();
         if (!isLogin()){
@@ -101,7 +105,7 @@ public class StudentController {
     /*
      *  更新学生  信息  （实现自我更新）
      */
-    @RequestMapping(value = "/updateInfo")
+    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
     public Result updateInfo(Student student){
         if (!isLogin()){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
@@ -122,6 +126,30 @@ public class StudentController {
         session.removeAttribute("student");
         return ResultUtil.success();
     }
+
+    /*
+     *  统计个数
+     */
+    @RequestMapping(value = "/count",method = RequestMethod.POST)
+    public Result count(){
+        if (!isLogin()){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        Map<String,Object> map = new HashMap<>();
+        Student student = (Student) session.getAttribute("student");
+        int plan = studentService.plan(student.getId());
+        int xd = studentService.xd(student.getId());
+        int wd = studentService.wd(student.getId());
+        int task = studentService.task(student.getId());
+        map.put("plan",plan);
+        map.put("xd",xd);
+        map.put("wd",wd);
+        map.put("task",task);
+        return ResultUtil.success(map);
+    }
+
+
+
     /*
      *  校验用户是否登录
      */

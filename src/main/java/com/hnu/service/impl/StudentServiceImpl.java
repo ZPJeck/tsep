@@ -74,4 +74,25 @@ public class StudentServiceImpl implements StudentService {
     public Student selectById(String id) {
         return studentMapper.selectById(id);
     }
+
+
+    @Override
+    public int plan(String id) {
+        return studentMapper.plan(id);
+    }
+
+    @Override
+    public int wd(String id) {
+        return studentMapper.wd(id);
+    }
+
+    @Override
+    public int xd(String id) {
+        return studentMapper.xd(id);
+    }
+
+    @Override
+    public int task(String id) {
+        return studentMapper.task(id);
+    }
 }
