@@ -44,7 +44,7 @@ public interface TeacherMapper {
     /*
      *  删除老师
      */
-    int deleteByTeacherId(@Param("id") String teacherId);
+    int deleteByTeacherId(@Param("id") String id);
 
     /*
      *  为教师分配班级

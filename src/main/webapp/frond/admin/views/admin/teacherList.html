@@ -83,7 +83,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/teacher/studentList'
+            ,url:'/teacher/teacherList'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -97,7 +97,7 @@
                 ,{field:'name',  title: '姓名'}
                 ,{field:'sex',  title: '性别'}
                 ,{field:'phone',  title: '电话'}
-                ,{field:'classId',  title: '班级名称'}
+                ,{field:'status',  title: '权限'}
                 ,{field:'createtime', title: '创建时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
@@ -112,7 +112,7 @@
                 layer.open({
                     type: 2
                     ,title: ''
-                    ,content: 'studentDetail.html'
+                    ,content: 'teacherDetail.html'
                     ,area: ['650px', '550px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
@@ -135,7 +135,7 @@
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     $.ajax({
-                        url: "/teacher/deleteByStudent",
+                        url: "/teacher/deleteByTeacher",
                         method: 'post',
                         dataType: 'JSON',
                         data: {
@@ -172,7 +172,7 @@
                 layer.open({
                     type: 2
                     ,title: '添加用户'
-                    ,content: 'studentAdd.html'
+                    ,content: 'teacherAdd.html'
                     ,maxmin: true
                     ,area: ['500px', '450px']
                     ,btn: ['确定', '取消']
@@ -186,7 +186,7 @@
                             var field = data.field; //获取提交的字段
                             console.log(field);
                             $.ajax({
-                                url: "/teacher/addStudent",
+                                url: "/teacher/addTeacher",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
@@ -208,7 +208,7 @@
                                     }
                                 },
                                 error: function (data) {
-                                    layer.msg("修改失败", {icon: 2, time: 2000})
+                                    layer.msg("添加失败", {icon: 2, time: 2000})
                                 }
 
                             });

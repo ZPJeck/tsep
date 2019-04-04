@@ -344,17 +344,17 @@
       insert into teacher (id, name, number,
       password, phone, address,
       sex, age, portrait, status,
-      flag, createtime, createby,
+       createtime, createby,
       updatetime, updateby)
       values (#{id}, #{name}, #{number},
       #{password}, #{phone}, #{address},
       #{sex}, #{age}, #{portrait}, #{status},
-      #{flag}, #{createtime}, #{createby},
+       #{createtime}, #{createby},
       #{updatetime}, #{updateby})
     </insert>
     <update id="deleteByTeacherId" parameterType="java.lang.String" >
         update teacher
-        set flag = 1
+        set flag = 0
         where id = #{id}
     </update>
     <select id="findByTeacher" parameterType="java.lang.String" resultType="com.hnu.model.Teacher">

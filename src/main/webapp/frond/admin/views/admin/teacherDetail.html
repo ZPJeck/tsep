@@ -18,7 +18,7 @@
 <script id="demo" type="text/html">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label">学号</label>
+            <label class="layui-form-label">工号</label>
             <div class="layui-input-block">
                 <input type="text" name="number" value="{{d.number}}" readonly  autocomplete="off" class="layui-input">
             </div>
@@ -29,12 +29,13 @@
                 <input type="text" name="name" value="{{d.name}}"   autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="{{d.sex}}" readonly  autocomplete="off" class="layui-input">
-            </div>
-        </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">性别</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="radio" id="man" name="sex" value="1" title="男" checked>-->
+                <!--<input type="radio" id="wman" name="sex" value="0" title="女">-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">电话</label>
             <div class="layui-input-block">
@@ -42,15 +43,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">班级</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="{{d.classId}}" readonly  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.creattime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -87,6 +82,7 @@
             }
 
 
+
             format = format || 'yyyy-MM-dd HH:mm:ss';
 
             return format.replace(/yyyy/g, ymd[0])
@@ -107,7 +103,7 @@
         };
 
         $.ajax({
-            url: "/teacher/selectByStudentId",
+            url: "/teacher/selectByTeacherId",
             method: 'post',
             data: {
                 id:id
@@ -120,6 +116,14 @@
                     laytpl(getTpl).render(res.data, function(html){
                         view.innerHTML = html;
                     });
+                    if(res.data.sex == 1){
+                        $("#man").prop('checked',true);
+                        $("#wman").prop('checked',false);
+
+                    }else if(res.data.sex == 0){
+                        $("#wman").prop('checked',true);
+                        $("#man").prop('checked',false);
+                    }
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/login"

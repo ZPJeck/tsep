@@ -109,10 +109,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PageInfo<Teacher> teacherList(Integer  pageNum,Integer  pageSize) {
+    public Result<Teacher> teacherList(Integer  pageNum,Integer  pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Teacher> teachers = teacherMapper.teacherList();
-        return new PageInfo<>(teachers);
+        for (Teacher t : teachers){
+            if(t.getSex().equals("1")){
+                t.setSex("男");
+            }else {
+                t.setSex("女");
+            }
+            if (t.getStatus().equals("0")){
+                t.setStatus("管理员");
+            }else {
+                t.setStatus("教师");
+            }
+        }
+        return ResultUtil.success(teachers,teachers.size());
     }
 
     @Override
@@ -147,7 +159,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int insertByTeacher(Teacher teacher) {
-        Teacher teacher1 = (Teacher) session.getAttribute("teacher");
+        Teacher teacher1 = (Teacher) session.getAttribute("admin");
         String id = UUID.randomUUID().toString().replaceAll("-","");
         teacher.setId(id);
         teacher.setPassword(MD5Encryption.getMD5String("123456"));

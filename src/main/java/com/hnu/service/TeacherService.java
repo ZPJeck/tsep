@@ -80,7 +80,7 @@ public interface TeacherService {
     /*
      *  查询教师信息
      */
-    PageInfo<Teacher> teacherList(Integer  pageNum,Integer  pageSize);
+    Result<Teacher> teacherList(Integer  pageNum,Integer  pageSize);
     /*
      *  查询所有班级
      */
