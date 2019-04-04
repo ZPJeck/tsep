@@ -31,20 +31,23 @@
     <!--<xblock>-->
         <!--<span class="x-right" style="line-height:40px">共有数据：88 条</span>-->
     <!--</xblock>-->
+    <div style="padding-bottom: 10px;">
+        <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+    </div>
     <table class="layui-hide" id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
 
     <input type="hidden" value="" id="id">
 </div>
 
 <script type="text/html" id="barDemo" >
-    <!--<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>-->
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table','laytpl'], function(){
+    layui.use(['table','form','laytpl'], function(){
         var table = layui.table;
         var laytpl = layui.laytpl;
-
+        var form = layui.form;
         layui.laytpl.toDateString = function(d, format){
             var date = new Date(d || new Date())
                 ,ymd = [
@@ -80,7 +83,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/teacher/'
+            ,url:'/teacher/clazzList'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -90,11 +93,8 @@
             }
             ,cols: [[
                 {type:'numbers',  title: '序号'}
-                ,{field:'number',  title: '学号'}
-                ,{field:'name',  title: '姓名'}
-                ,{field:'sex',  title: '性别'}
-                ,{field:'phone',  title: '电话'}
-                ,{field:'classId',  title: '班级名称'}
+                ,{field:'classNum',  title: '班级编号'}
+                ,{field:'className',  title: '班级名称'}
                 ,{field:'createtime', title: '创建时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
@@ -105,11 +105,12 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 $("#id").val(data.id);
+                console.log(data.id)
                 layer.open({
                     type: 2
-                    ,title: ''
-                    ,content: 'xw-detail.html'
-                    ,area: ['700px', '550px']
+                    ,title: '班级详情'
+                    ,content: 'classDetail.html'
+                    ,area: ['650px', '550px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
@@ -120,6 +121,31 @@
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
 
+                            $.ajax({
+                                url: "/teacher/updateClass",
+                                method: 'post',
+                                dataType: 'JSON',
+                                data: field,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        layer.close(index);
+                                        layer.msg("修改成功",{
+                                            time: 500
+                                        },function () {
+                                            location.reload();
+                                        });
+                                    } else if (res.code == 1) {
+                                        layer.msg(res.msg, {icon: 2, time: 2000});
+                                        location.href = "/login"
+                                    }else if(res.code == -1){
+                                        layer.msg(res.msg);
+                                    }
+                                },
+                                error: function (data) {
+                                    layer.msg("删除失败", {icon: 2, time: 2000})
+                                }
+
+                            });
                             table.reload('LAY-user-front-submit'); //数据刷新
                             layer.close(index); //关闭弹层
                         });
@@ -131,7 +157,7 @@
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     $.ajax({
-                        url: "/teacher/deleteByStudent",
+                        url: "/teacher/deleteClass",
                         method: 'post',
                         dataType: 'JSON',
                         data: {
@@ -162,6 +188,65 @@
             }
         });
 
+
+        var active = {
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加用户'
+                    ,content: 'classAdd.html'
+                    ,maxmin: true
+                    ,area: ['500px', '450px']
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index, layero){
+                        var iframeWindow = window['layui-layer-iframe'+ index]
+                            ,submitID = 'LAY-user-front-submit'
+                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+                        //监听提交
+                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                            var field = data.field; //获取提交的字段
+                            console.log(field);
+                            $.ajax({
+                                url: "/teacher/addClass",
+                                method: 'post',
+                                dataType: 'JSON',
+                                data: field,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        layer.close(index);
+                                        layer.msg("添加成功",{
+                                            time: 500
+                                        },function () {
+                                            location.reload();
+                                        });
+
+
+                                    } else if (res.code == 1) {
+                                        layer.msg(res.msg, {icon: 2, time: 2000});
+                                        location.href = "/login"
+                                    }else if(res.code == -1){
+                                        layer.msg(res.msg);
+                                    }
+                                },
+                                error: function (data) {
+                                    layer.msg("添加失败", {icon: 2, time: 2000})
+                                }
+
+                            });
+                            layer.close(index); //关闭弹层
+                        });
+
+                        submit.trigger('click');
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
     });
 </script>
 

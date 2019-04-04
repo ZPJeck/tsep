@@ -108,7 +108,7 @@
                 #{classNum},
             </if>
             <if test="flag != null">
-                #{flag,jdbcType=TINYINT},
+                #{flag},
             </if>
             <if test="createtime != null">
                 #{createtime},

@@ -111,7 +111,7 @@
                 console.log(data.id)
                 layer.open({
                     type: 2
-                    ,title: ''
+                    ,title: '教师详情'
                     ,content: 'teacherDetail.html'
                     ,area: ['650px', '550px']
                     ,btn: ['确定', '取消']
@@ -123,7 +123,32 @@
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
+                            console.log(field)
+                            $.ajax({
+                                url: "/teacher/updateTeacher",
+                                method: 'post',
+                                dataType: 'JSON',
+                                data: field,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        layer.close(index);
+                                        layer.msg("修改成功",{
+                                            time: 500
+                                        },function () {
+                                            location.reload();
+                                        });
+                                    } else if (res.code == 1) {
+                                        layer.msg(res.msg, {icon: 2, time: 2000});
+                                        location.href = "/login"
+                                    }else if(res.code == -1){
+                                        layer.msg(res.msg);
+                                    }
+                                },
+                                error: function (data) {
+                                    layer.msg("删除失败", {icon: 2, time: 2000})
+                                }
 
+                            });
                             table.reload('LAY-user-front-submit'); //数据刷新
                             layer.close(index); //关闭弹层
                         });

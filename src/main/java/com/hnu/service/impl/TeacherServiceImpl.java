@@ -62,6 +62,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int insertClass(Clazz clazz) {
         Teacher teacher = (Teacher)session.getAttribute("admin");
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        clazz.setId(id);
         clazz.setCreateby(teacher.getId());
         clazz.setCreatetime(new Date());
         return teacherMapper.insertClass(clazz);
@@ -128,10 +130,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PageInfo<Clazz> classList(Integer  pageNum,Integer  pageSize) {
+    public Result<Clazz> classList(Integer  pageNum,Integer  pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Clazz> clazzes = teacherMapper.classList();
-        return new PageInfo<>(clazzes);
+        return ResultUtil.success(clazzes,clazzes.size());
     }
 
     @Override

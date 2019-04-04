@@ -20,7 +20,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">工号</label>
             <div class="layui-input-block">
-                <input type="text" name="number" value="{{d.number}}" readonly  autocomplete="off" class="layui-input">
+                <input type="text" name="number" id="number" value="{{d.number}}" readonly  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,8 +51,13 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">地址</label>
             <div class="layui-input-block">
-                <textarea name="address"   readonly class="layui-textarea">{{d.address}}</textarea>
+                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
             </div>
+        </div>
+        <input type="hidden" name="id" value="{{ d.id }}" readonly  autocomplete="off" class="layui-input">
+
+        <div class="layui-form-item layui-hide">
+            <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
         </div>
     </form>
 </script>
@@ -136,7 +141,13 @@
             }
 
         });
-
+        var  test = function () {
+            var data = {
+                number:$("#number").val()
+            }
+            alert(data)
+            return data;
+        }
 
 
 

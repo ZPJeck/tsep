@@ -112,7 +112,7 @@ public class TeacherController {
     /*
      *  添加班级
      */
-    @RequestMapping(value = "/addClass")
+    @RequestMapping(value = "/addClass",method = RequestMethod.POST)
     public Result addClass(Clazz clazz){
         if (!isLogin("admin")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
@@ -128,11 +128,11 @@ public class TeacherController {
      *  删除班级
      */
     @RequestMapping(value = "/deleteClass")
-    public Result deleteClass(String classId){
+    public Result deleteClass(String id){
         if (!isLogin("admin")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
         }
-        int i = teacherService.deleteByClassId(classId);
+        int i = teacherService.deleteByClassId(id);
         if (i == 0){
             return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除班级失败");
         }
@@ -143,14 +143,14 @@ public class TeacherController {
      *  查看班级信息
      */
     @RequestMapping(value = "/findByClassId")
-    public Result findByClassId(String classId){
-        Clazz clazz = teacherService.findByClassId(classId);
+    public Result findByClassId(String id){
+        Clazz clazz = teacherService.findByClassId(id);
         return ResultUtil.success(clazz);
     }
     /*
      *  修改班级信息
      */
-    @RequestMapping(value = "/updateClass")
+    @RequestMapping(value = "/updateClass",method = RequestMethod.POST)
     public Result updateClass(Clazz clazz){
         if (!isLogin("admin")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
@@ -168,8 +168,8 @@ public class TeacherController {
     @RequestMapping(value = "/clazzList")
     public Result clazzList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
                             @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
-        PageInfo<Clazz> clazzPageInfo = teacherService.classList(pageNum, pageSize);
-        return ResultUtil.success(clazzPageInfo);
+        Result<Clazz> clazzPageInfo = teacherService.classList(pageNum, pageSize);
+        return clazzPageInfo;
     }
 
     /*

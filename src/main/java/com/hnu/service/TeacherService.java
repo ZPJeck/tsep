@@ -84,7 +84,7 @@ public interface TeacherService {
     /*
      *  查询所有班级
      */
-    PageInfo<Clazz> classList(Integer  pageNum,Integer  pageSize);
+    Result<Clazz> classList(Integer  pageNum,Integer  pageSize);
 
 
     /*

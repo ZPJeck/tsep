@@ -18,47 +18,24 @@
 <script id="demo" type="text/html">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label">学号</label>
+            <label class="layui-form-label">班级编号</label>
             <div class="layui-input-block">
-                <input type="text" name="number" value="{{d.number}}" readonly  autocomplete="off" class="layui-input">
+                <input type="text" name="classNum" readonly value="{{d.classNum}}"   autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">名字</label>
+            <label class="layui-form-label">班级名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" value="{{d.name}}"   autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
-                <input type="text" name="sex" value="{{d.sex}}" readonly  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">电话</label>
-            <div class="layui-input-block">
-                <input type="text" name="phone" value="{{d.phone}}"   autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">班级</label>
-            <div class="layui-input-block">
-                <input type="text" name="" value="{{d.classId}}" readonly  autocomplete="off" class="layui-input">
+                <input type="text" name="className" value="{{d.className}}"   autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.creattime)}}" readonly placeholder="时间" autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">地址</label>
-            <div class="layui-input-block">
-                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
-            </div>
-        </div>
+
         <input type="hidden" name="id" value="{{ d.id }}" readonly  autocomplete="off" class="layui-input">
 
         <div class="layui-form-item layui-hide">
@@ -112,7 +89,7 @@
         };
 
         $.ajax({
-            url: "/teacher/selectByStudentId",
+            url: "/teacher/findByClassId",
             method: 'post',
             data: {
                 id:id
