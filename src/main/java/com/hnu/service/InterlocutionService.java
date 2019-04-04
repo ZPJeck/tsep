@@ -2,6 +2,7 @@ package com.hnu.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hnu.model.Interlocution;
+import com.hnu.util.Result;
 
 /**
  * @Auther: Zpjeck
@@ -23,7 +24,7 @@ public interface InterlocutionService {
     /*
      *  显示分页列表
      */
-    PageInfo<Interlocution> list(Integer  pageNum,Integer  pageSize,String studentId);
+    Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId);
 
     /*
      *  老师根据班级显示分页列表

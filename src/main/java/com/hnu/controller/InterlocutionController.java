@@ -81,11 +81,11 @@ public class InterlocutionController {
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         Student student =(Student) session.getAttribute("student");
-        PageInfo<Interlocution> list = interlocutionService.list(pageNum, pageSize, student.getId());
+        Result<Interlocution> list = interlocutionService.list(pageNum, pageSize, student.getId());
         if (list == null){
             return ResultUtil.error(-2,"查询信息为空");
         }
-        return ResultUtil.success(list);
+        return list;
     }
 
     /*
@@ -100,11 +100,11 @@ public class InterlocutionController {
         Teacher teacher =(Teacher) session.getAttribute("teacher");
 
 
-        PageInfo<Interlocution> list = interlocutionService.list(pageNum, pageSize, teacher.getId());
+        Result<Interlocution> list = interlocutionService.list(pageNum, pageSize, teacher.getId());
         if (list == null){
             return ResultUtil.error(-2,"查询信息为空");
         }
-        return ResultUtil.success(list);
+        return list;
     }
 
     /*

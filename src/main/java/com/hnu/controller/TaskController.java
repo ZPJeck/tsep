@@ -15,6 +15,7 @@ import com.hnu.util.ResultUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,20 +78,30 @@ public class TaskController {
     public Result listByTeacher(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
 
-        PageInfo<Task> taskPageInfo = taskService.selectBystudent(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
+        PageInfo<Task> taskPageInfo = taskService.selectByTeacher(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
         return ResultUtil.success(taskPageInfo);
     }
 
 
     /*
-     *  查看作业列表(学生)
+     *  查看作业列表(学生)完成
      */
     @RequestMapping(value = "/listByStudent")
     public Result listByStudent(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
 
-        PageInfo<Task> taskPageInfo = taskService.selectBystudent(pageNum, pageSize, ((Student) session.getAttribute("student")).getId());
-        return ResultUtil.success(taskPageInfo);
+        Result<Task> result = taskService.selectBystudent(pageNum, pageSize, ((Student) session.getAttribute("student")).getId());
+        return result;
+    }
+    /*
+     *  查看作业列表(学生)
+     */
+    @RequestMapping(value = "/listByStudentUnfinish")
+    public Result listByStudentUnfinish(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
+                                @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+
+        Result<Task> result = taskService.listByStudentUnfinish(pageNum, pageSize, ((Student) session.getAttribute("student")).getId());
+        return result;
     }
     /*
      *  学生查看作业  根据  学生 作业id
@@ -108,6 +119,17 @@ public class TaskController {
             return vo;
         }
         return ResultUtil.success(task);
+    }
+
+    /*
+     *  根据id查看作业内荣
+     */
+    @RequestMapping(value = "/findStudentByTaskId",method = RequestMethod.POST)
+    public Result findStudentByTaskId(String taskId){
+        if (!isLogin("student")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        return taskService.findStudentByTaskId(taskId);
     }
 
     /*

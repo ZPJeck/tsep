@@ -8,6 +8,8 @@ import com.hnu.dao.TeacherClassMapper;
 import com.hnu.model.Clazz;
 import com.hnu.model.Interlocution;
 import com.hnu.service.InterlocutionService;
+import com.hnu.util.Result;
+import com.hnu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +44,11 @@ public class InterlocutionServiceImpl implements InterlocutionService {
     }
 
     @Override
-    public PageInfo<Interlocution> list(Integer  pageNum,Integer  pageSize,String studentId) {
-        PageHelper.startPage(pageNum,pageSize);
+    public Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId) {
+        PageHelper.startPage(pageNum,pageSize,true);
         List<Interlocution> list = interlocutionMapper.list(studentId);
-        return new PageInfo<>(list);
+
+        return ResultUtil.success(list,list.size());
     }
 
     @Override

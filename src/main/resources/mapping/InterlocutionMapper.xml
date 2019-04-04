@@ -82,9 +82,9 @@
       ;
     </select>
     <select id="list" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
-      select * from interlocution
+      select *
+      from interlocution
       where flag = 1 and student_id = #{studentId}
-      ;
     </select>
     <select id="listByClass" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
       select * from interlocution

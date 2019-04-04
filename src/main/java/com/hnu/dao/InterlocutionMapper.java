@@ -33,7 +33,7 @@ public interface InterlocutionMapper {
 
     Interlocution selectByPrimaryKey(String id);
 
-    List<Interlocution> list(String studentId);
+    List<Interlocution> list(@Param("studentId") String studentId);
 
     List<Interlocution> listByClass(String classId);
 

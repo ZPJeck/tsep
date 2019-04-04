@@ -1,5 +1,6 @@
 package com.hnu.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hnu.dao.StudentTaskMapper;
@@ -7,7 +8,11 @@ import com.hnu.dao.TaskMapper;
 import com.hnu.model.StudentTask;
 import com.hnu.model.Task;
 import com.hnu.model.Teacher;
+import com.hnu.pojo.TaskStudentPojo;
 import com.hnu.service.TaskService;
+import com.hnu.service.TeacherService;
+import com.hnu.util.Result;
+import com.hnu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,9 @@ public class TaskServiceImpl implements TaskService {
     private StudentTaskMapper studentTaskMapper;
 
     @Autowired
+    private TeacherService teacherService;
+
+    @Autowired
     private HttpSession session;
 
 
@@ -40,11 +48,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public PageInfo<Task> selectBystudent(Integer pageNum, Integer pageSize,String id) {
-        PageHelper.startPage(pageNum, pageSize);
+    public Result<Task> selectBystudent(Integer pageNum, Integer pageSize, String id) {
+        Page page = PageHelper.startPage(pageNum, pageSize,true);
         // 查询数据
         List<Task> list = taskMapper.selectBystudent(id);
-        return new PageInfo<>(list);
+        for (Task task : list){
+            Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
+            task.setCreateby(teacher.getName());
+        }
+
+        return ResultUtil.success(list,list.size());
     }
 
     @Override
@@ -69,5 +82,32 @@ public class TaskServiceImpl implements TaskService {
         studentTask.setUpdatetime(new Date());
         studentTask.setUpdateby(teacher.getId());
         return studentTaskMapper.relayTask(studentTask);
+    }
+
+    @Override
+    public Result<TaskStudentPojo> findStudentByTaskId(String taskId) {
+        TaskStudentPojo taskStudentPojo = taskMapper.findStudentByTaskId(taskId);
+        if (taskStudentPojo == null){
+            return ResultUtil.error(-1,"查询失败");
+        }
+        return ResultUtil.success(taskStudentPojo);
+    }
+
+    @Override
+    public Result<Task> listByStudentUnfinish(Integer pageNum, Integer pageSize, String id) {
+        // 判断 是否完成作业
+        List<StudentTask> studentTasks = taskMapper.isExitStudentTask(id);
+        // TODO 去重
+        List<Task> list = taskMapper.selectBystudent(id);
+        for (Task task : list){
+            for (StudentTask studentTask :studentTasks){
+                if (task.getId().equals(studentTask.getTaskId())){
+
+                    break;
+                }
+            }
+        }
+
+        return null;
     }
 }

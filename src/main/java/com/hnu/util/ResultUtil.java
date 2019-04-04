@@ -17,6 +17,14 @@ public class ResultUtil {
         result.setData(object);
         return result;
     }
+    public static Result success(Object object,int count){
+        Result result = new Result();
+        result.setCode(0);
+        result.setCount(count);
+        result.setMsg("成功");
+        result.setData(object);
+        return result;
+    }
     public static Result success() {
         return success(null);
     }

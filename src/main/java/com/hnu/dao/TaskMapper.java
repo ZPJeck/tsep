@@ -3,7 +3,9 @@ package com.hnu.dao;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.hnu.model.StudentTask;
 import com.hnu.model.Task;
+import com.hnu.pojo.TaskStudentPojo;
 import org.apache.ibatis.annotations.Param;
 
 public interface TaskMapper {
@@ -37,4 +39,7 @@ public interface TaskMapper {
     List<Task> selectByTeacher(String teacherId);
 
     int save(Task task);
+
+    TaskStudentPojo findStudentByTaskId(@Param("id") String taskId);
+    List<StudentTask> isExitStudentTask(String id);
 }
