@@ -13,10 +13,13 @@ import com.hnu.util.Result;
 import com.hnu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther: Zpjeck
@@ -33,7 +36,7 @@ public class TeacherController {
     @Autowired
     private HttpSession session;
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     public Result login(String number ,String password,String status){
         Teacher teacher = teacherService.login(number);
         password = MD5Encryption.getMD5String(password);
@@ -60,13 +63,39 @@ public class TeacherController {
     /*
      *  查看个人信息
      */
-    @RequestMapping(value = "/userInfo")
+    @RequestMapping(value = "/userInfo",method = RequestMethod.POST)
     public Result userInfo(){
         Teacher teacher = (Teacher) session.getAttribute("admin");
         if (teacher == null){
             teacher = (Teacher) session.getAttribute("teacher");
         }
+        if (teacher == null){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
         return ResultUtil.success(teacher);
+    }
+
+    /*
+     *  数据统计
+     */
+    @RequestMapping(value = "/countNum",method = RequestMethod.POST)
+    public Result countNum(){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        Map<String,Object> map = new HashMap<>();
+        Student student = (Student) session.getAttribute("student");
+        int teacherNum = teacherService.teacherNum();
+        int studentNum = teacherService.studentNum();
+        int classNum = teacherService.classNum();
+
+
+        map.put("teacherNum",teacherNum);
+        map.put("studentNum",studentNum);
+        map.put("classNum",classNum);
+
+        return ResultUtil.success(map);
+
     }
     /*
      *  修改个人信息
@@ -149,14 +178,14 @@ public class TeacherController {
     @RequestMapping(value = "/studentList")
     public Result studentList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
                               @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
-        PageInfo<Student> studentPageInfo = teacherService.studentList(pageNum, pageSize);
-        return ResultUtil.success(studentPageInfo);
+        Result<Student> studentResult = teacherService.studentList(pageNum, pageSize);
+        return studentResult;
     }
 
     /*
      *  添加学生
      */
-    @RequestMapping(value = "/addStudent")
+    @RequestMapping(value = "/addStudent",method = RequestMethod.POST)
     public Result addStudent(Student student){
         if (!isLogin("admin")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
@@ -170,24 +199,24 @@ public class TeacherController {
     /*
      *  删除学生信息
      */
-    @RequestMapping(value = "/deleteByStudent")
-    public Result deleteByStudent(String studentId){
+    @RequestMapping(value = "/deleteByStudent",method = RequestMethod.POST)
+    public Result deleteByStudent(String id){
         if (!isLogin("admin")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
         }
-        int i = teacherService.delectByStudentId(studentId);
+        int i = teacherService.delectByStudentId(id);
         if (i == 0){
-            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"添加学生失败");
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除学生失败");
         }
         return ResultUtil.success();
     }
     /*
      *  根据学生id查询  数据
      */
-    @RequestMapping(value = "/selectByStudentId")
-    public Result selectByStudentId(String studentId){
+    @RequestMapping(value = "/selectByStudentId",method = RequestMethod.POST)
+    public Result selectByStudentId(String id){
 
-        Student student = teacherService.findByStudent(studentId);
+        Student student = teacherService.findByStudent(id);
         if (student == null){
             return ResultUtil.error(-1,"出现未知错误，查询失败");
         }

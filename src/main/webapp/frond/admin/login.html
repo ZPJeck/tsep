@@ -36,18 +36,22 @@
             var form = layui.form;
             form.on('submit(login)', function () {
                 $.ajax({
-                    url: "http://localhost:8888/student/login",
+                    url: "/teacher/login",
                     method: 'post',
                     data: {
                         number: $("#number").val(),
-                        password: $("#password").val()
+                        password: $("#password").val(),
+                        status: 0
                     },
                     dataType: 'JSON',
                     success: function (res) {
                         if (res.code == 0) {
                             layer.msg(res.msg, {icon: 1, time: 2000});
-                            location.href = "./views/student/index.html";
+                            location.href = "./views/admin/index.html";
                         } else if (res.code == 1) {
+                            layer.msg(res.msg, {icon: 2, time: 2000});
+                            $("#password").val("");
+                        }else if (res.code == 2) {
                             layer.msg(res.msg, {icon: 2, time: 2000});
                             // $("#number").val("");
                             $("#password").val("");

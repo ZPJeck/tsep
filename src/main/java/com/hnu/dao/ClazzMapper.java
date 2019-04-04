@@ -19,11 +19,4 @@ public interface ClazzMapper {
 
     Clazz selectByPrimaryKey(String id);
 
-    int updateByclazzSelective(@Param("record") Clazz record);
-
-    int updateByclazz(@Param("record") Clazz record, @Param("clazz") Clazz clazz);
-
-    int updateByPrimaryKeySelective(Clazz record);
-
-    int updateByPrimaryKey(Clazz record);
 }

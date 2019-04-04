@@ -5,6 +5,7 @@ import com.hnu.model.Clazz;
 import com.hnu.model.Student;
 import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
+import com.hnu.util.Result;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -75,7 +76,7 @@ public interface TeacherService {
     /*
      *  查询学生信息
      */
-    PageInfo<Student> studentList(Integer  pageNum,Integer  pageSize);
+    Result<Student> studentList(Integer  pageNum,Integer  pageSize);
     /*
      *  查询教师信息
      */
@@ -101,5 +102,15 @@ public interface TeacherService {
      *  查询班级信息  根据id
      */
     Teacher findByTeacher(String teacherId);
+
+
+    /*
+     *  查询老师个数
+     */
+    int teacherNum();
+
+    int studentNum();
+
+    int classNum();
 
 }

@@ -167,13 +167,13 @@
     </update>
     <select id="classList" resultType="com.hnu.model.Clazz">
         select * from clazz
-        where flag = 1;
+        where flag = 1
     </select>
 
     <!--   学生模块   -->
     <select id="studentList" resultType="com.hnu.model.Student">
         select * from student
-        where flag = 1;
+        where flag = #{flag}
     </select>
     <insert id="insertByStudent" parameterType="com.hnu.model.Student">
         insert into student
@@ -338,7 +338,7 @@
     <!--   老师模块   -->
     <select id="teacherList" resultType="com.hnu.model.Teacher">
         select * from teacher
-        where flag = 1;
+        where flag = 1
     </select>
     <insert id="insertTeacher" parameterType="com.hnu.model.Teacher">
       insert into teacher (id, name, number,
@@ -414,5 +414,25 @@
             id = #{id}
         </where>
     </update>
+
+    <select id="teacherNum" resultType="java.lang.Integer">
+        select count(*)
+        from teacher
+        where flag = 1 and status = 1
+    </select>
+
+    <select id="studentNum" resultType="java.lang.Integer">
+        select count(*)
+        from student
+        where flag = 1
+    </select>
+
+    <select id="classNum" resultType="java.lang.Integer">
+        select count(*)
+        from clazz
+        where flag = 1
+    </select>
+
+
 
 </mapper>

@@ -1,7 +1,9 @@
 package com.hnu.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hnu.dao.ClazzMapper;
 import com.hnu.dao.TeacherMapper;
 import com.hnu.model.Clazz;
 import com.hnu.model.Student;
@@ -9,9 +11,10 @@ import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
 import com.hnu.service.TeacherService;
 import com.hnu.util.MD5Encryption;
+import com.hnu.util.Result;
+import com.hnu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -32,6 +35,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private ClazzMapper clazzMapper;
+
     @Override
     public Teacher login(String number) {
         return teacherMapper.login(number);
@@ -39,7 +45,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int insertByStudent(Student student) {
-        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        Teacher teacher = (Teacher) session.getAttribute("admin");
         String id = UUID.randomUUID().toString().replaceAll("-","");
         student.setId(id);
         student.setPassword(MD5Encryption.getMD5String("123456"));
@@ -87,10 +93,19 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PageInfo<Student> studentList(Integer  pageNum,Integer  pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Student> students = teacherMapper.studentList();
-        return new PageInfo<>(students);
+    public Result<Student> studentList(Integer  pageNum,Integer  pageSize) {
+        Page page = PageHelper.startPage(pageNum,pageSize);
+        List<Student> studentList = teacherMapper.studentList("1");
+        for (Student student : studentList){
+            if (student.getSex().equals("0")){
+                student.setSex("女");
+            }else {
+                student.setSex("男");
+            }
+            Clazz clazz = clazzMapper.selectByPrimaryKey(student.getClassId());
+            student.setClassId(clazz.getClassName());
+        }
+        return ResultUtil.success(studentList,studentList.size());
     }
 
     @Override
@@ -144,5 +159,21 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int delectByTeacherId(String teacherId) {
         return teacherMapper.deleteByTeacherId(teacherId);
+    }
+
+
+    @Override
+    public int teacherNum() {
+        return teacherMapper.teacherNum();
+    }
+
+    @Override
+    public int studentNum() {
+        return teacherMapper.studentNum();
+    }
+
+    @Override
+    public int classNum() {
+        return teacherMapper.classNum();
     }
 }
