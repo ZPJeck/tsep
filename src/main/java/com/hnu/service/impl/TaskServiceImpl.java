@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,17 +48,25 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
+    // 查询学生已完成列表
     @Override
     public Result<Task> selectBystudent(Integer pageNum, Integer pageSize, String id) {
         Page page = PageHelper.startPage(pageNum, pageSize,true);
         // 查询数据
         List<Task> list = taskMapper.selectBystudent(id);
+        List<Task> taskList = new ArrayList<>();
+
         for (Task task : list){
             Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
             task.setCreateby(teacher.getName());
+            List<StudentTask> exitStudentTask = taskMapper.isExitStudentTask(id, task.getId());
+            System.out.println(exitStudentTask);
+            if (exitStudentTask != null && exitStudentTask.size() != 0){
+                taskList.add(task);
+            }
         }
 
-        return ResultUtil.success(list,list.size());
+        return ResultUtil.success(taskList,taskList.size());
     }
 
     @Override
@@ -93,21 +102,24 @@ public class TaskServiceImpl implements TaskService {
         return ResultUtil.success(taskStudentPojo);
     }
 
+    // 查询未完成列表
     @Override
     public Result<Task> listByStudentUnfinish(Integer pageNum, Integer pageSize, String id) {
-        // 判断 是否完成作业
-        List<StudentTask> studentTasks = taskMapper.isExitStudentTask(id);
-        // TODO 去重
+        Page page = PageHelper.startPage(pageNum, pageSize,true);
+        // 查询数据
         List<Task> list = taskMapper.selectBystudent(id);
-        for (Task task : list){
-            for (StudentTask studentTask :studentTasks){
-                if (task.getId().equals(studentTask.getTaskId())){
+        List<Task> taskList = new ArrayList<>();
 
-                    break;
-                }
+        for (Task task : list){
+            Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
+            task.setCreateby(teacher.getName());
+            List<StudentTask> exitStudentTask = taskMapper.isExitStudentTask(id, task.getId());
+            System.out.println(exitStudentTask);
+            if (exitStudentTask.size() == 0){
+                taskList.add(task);
             }
         }
 
-        return null;
+        return ResultUtil.success(taskList,taskList.size());
     }
 }

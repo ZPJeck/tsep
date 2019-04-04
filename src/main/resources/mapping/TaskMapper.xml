@@ -87,10 +87,11 @@
     </select>
 
     <select id="isExitStudentTask" parameterType="java.lang.String" resultType="com.hnu.model.StudentTask"   >
-         select st.*
+        select st.*
         from task t,student s,teacher_class tc,student_task st
-        where t.flag = 1 and s.flag = 1 and tc.flag = 1 and tc.class_id = s.class_id and t.teacher_id = tc.teacher_id and s.id = #{id}
-          and st.task_id = t.id
+        where t.flag = 1 and s.flag = 1 and tc.flag = 1 and tc.class_id = s.class_id
+          and t.teacher_id = tc.teacher_id and s.id = #{studenId}
+          and st.task_id = t.id and t.id = #{taskId}
 
     </select>
 

@@ -84,37 +84,37 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
-                #{id,jdbcType=VARCHAR},
+                #{id},
             </if>
             <if test="taskId != null" >
-                #{taskId,jdbcType=VARCHAR},
+                #{taskId},
             </if>
             <if test="studentId != null" >
-                #{studentId,jdbcType=VARCHAR},
+                #{studentId},
             </if>
             <if test="classId != null" >
-                #{classId,jdbcType=VARCHAR},
+                #{classId},
             </if>
             <if test="answer != null" >
-                #{answer,jdbcType=VARCHAR},
+                #{answer},
             </if>
             <if test="feedback != null" >
-                #{feedback,jdbcType=VARCHAR},
+                #{feedback},
             </if>
             <if test="flag != null" >
-                #{flag,jdbcType=TINYINT},
+                #{flag},
             </if>
             <if test="createtime != null" >
-                #{createtime,jdbcType=TIMESTAMP},
+                #{createtime},
             </if>
             <if test="createby != null" >
-                #{createby,jdbcType=VARCHAR},
+                #{createby},
             </if>
             <if test="updatetime != null" >
-                #{updatetime,jdbcType=TIMESTAMP},
+                #{updatetimeP},
             </if>
             <if test="updateby != null" >
-                #{updateby,jdbcType=VARCHAR},
+                #{updateby},
             </if>
         </trim>
     </insert>

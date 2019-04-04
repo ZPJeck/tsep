@@ -94,7 +94,7 @@ public class TaskController {
         return result;
     }
     /*
-     *  查看作业列表(学生)
+     *  查看作业列表(学生)  未完成
      */
     @RequestMapping(value = "/listByStudentUnfinish")
     public Result listByStudentUnfinish(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
@@ -135,7 +135,7 @@ public class TaskController {
     /*
      *  学生保存作业
      */
-
+    @RequestMapping(value = "/saveTask",method = RequestMethod.POST)
     public Result saveTask(StudentTask studentTask){
         Result vo = new Result();
         if (!isLogin("student")){

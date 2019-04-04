@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Auther: Zpjeck
@@ -30,6 +31,10 @@ public class StudentTaskServiceImpl implements StudentTaskService {
             return 0;
         }
         Student student = (Student) session.getAttribute("student");
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        studentTask.setId(id);
+        studentTask.setClassId(student.getClassId());
+        studentTask.setStudentId(student.getId());
         studentTask.setCreateby(student.getId());
         studentTask.setCreatetime(new Date());
         return studentTaskMapper.save(studentTask);

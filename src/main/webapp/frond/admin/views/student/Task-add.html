@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../lib/layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div id="view"></div>
+    </div>
+</div>
+</body>
+<script id="demo" type="text/html">
+    <form class="layui-form" action="">
+        <input type="hidden" value="{{d.id}}" name="taskId">
+        <div class="layui-form-item">
+            <label class="layui-form-label">作业题目</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="{{d.title}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">完成时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.updatetime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">作业要求</label>
+            <div class="layui-input-block">
+                <textarea name="" placeholder="请输入内容"  readonly class="layui-textarea">{{d.content}}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">作业内容</label>
+            <div class="layui-input-block">
+                <textarea name="answer" placeholder="请输入内容" lay-verify="required" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-hide">
+            <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
+        </div>
+    </form>
+</script>
+
+<script>
+    layui.use(['laytpl','jquery','layer','form'], function(){
+        var laytpl = layui.laytpl;
+        var $ = layui.$;
+        var layer = layui.layer
+        var form = layui.form
+        var id = $(window.parent.document).find("#id").val();
+
+        layui.laytpl.toDateString = function(d, format){
+            var date = new Date(d || new Date())
+                ,ymd = [
+                this.digit(date.getFullYear(), 4)
+                ,this.digit(date.getMonth() + 1)
+                ,this.digit(date.getDate())
+            ]
+                ,hms = [
+                this.digit(date.getHours())
+                ,this.digit(date.getMinutes())
+                ,this.digit(date.getSeconds())
+            ];
+
+            format = format || 'yyyy-MM-dd HH:mm:ss';
+
+            return format.replace(/yyyy/g, ymd[0])
+                .replace(/MM/g, ymd[1])
+                .replace(/dd/g, ymd[2])
+                .replace(/HH/g, hms[0])
+                .replace(/mm/g, hms[1])
+                .replace(/ss/g, hms[2]);
+        };
+
+//数字前置补零
+        layui.laytpl.digit = function(num, length, end){
+            var str = '';
+            num = String(num);
+            length = length || 2;
+            for(var i = num.length; i < length; i++){
+                str += '0';
+            }
+            return num < Math.pow(10, length) ? str + (num|0) : num;
+        };
+
+        $.ajax({
+            url: "/task/selectById",
+            method: 'post',
+            data: {
+                "id":id
+            },
+            dataType: 'JSON',
+            success: function (res) {
+                if (res.code == 0) {
+                    var getTpl = demo.innerHTML
+                        ,view = document.getElementById('view');
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+                } else if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 2, time: 2000});
+                    location.href = "/login"
+                }else if(res.code == -1){
+                    layer.msg(res.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("修改失败", {icon: 2, time: 2000})
+            }
+
+        });
+
+
+    });
+</script>
+</html>

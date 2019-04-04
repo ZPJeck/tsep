@@ -41,5 +41,5 @@ public interface TaskMapper {
     int save(Task task);
 
     TaskStudentPojo findStudentByTaskId(@Param("id") String taskId);
-    List<StudentTask> isExitStudentTask(String id);
+    List<StudentTask> isExitStudentTask(@Param("studenId") String id,@Param("taskId") String taskId);
 }
