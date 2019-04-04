@@ -24,12 +24,12 @@ public interface InterlocutionService {
     /*
      *  显示分页列表
      */
-    Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId);
+    Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId,String type);
 
     /*
      *  老师根据班级显示分页列表
      */
-    PageInfo<Interlocution> listByClass(Integer  pageNum,Integer  pageSize,String teacherId);
+    Result<Interlocution> listByClass(Integer  pageNum,Integer  pageSize,String teacherId);
 
     /*
      *  老师回复学生，反馈

@@ -3,6 +3,7 @@ package com.hnu.service;
 import com.github.pagehelper.PageInfo;
 import com.hnu.model.Plan;
 import com.hnu.model.Task;
+import com.hnu.util.Result;
 
 /**
  * @Auther: Zpjeck
@@ -18,7 +19,7 @@ public interface PlanService {
 
     PageInfo<Plan> findList(Integer pageNum, Integer pageSize, String teacherId);
 
-    PageInfo<Plan> findByStudentId(Integer pageNum, Integer pageSize, String studentId);
+    Result<Plan> findByStudentId(Integer pageNum, Integer pageSize, String studentId);
 
     Plan findById(String id);
 

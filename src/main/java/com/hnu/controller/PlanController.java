@@ -82,11 +82,11 @@ public class PlanController {
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         Student student = (Student) session.getAttribute("student");
-        PageInfo<Plan> planPageInfo = planService.findByStudentId(pageNum,pageSize,student.getId());
+        Result<Plan> planPageInfo = planService.findByStudentId(pageNum,pageSize,student.getId());
         if (planPageInfo == null){
             ResultUtil.error(-1,"还没有发布计划！");
         }
-        return ResultUtil.success(planPageInfo);
+        return planPageInfo;
     }
 
     /*
@@ -96,6 +96,8 @@ public class PlanController {
     public Result findById(String id){
         if ((isLogin("student")) || (isLogin("teacher"))){
             Plan plan = planService.findById(id);
+
+            System.out.println(id);
             if (plan == null){
                 return ResultUtil.error(-1,"查询为空，出现未知错误");
             }

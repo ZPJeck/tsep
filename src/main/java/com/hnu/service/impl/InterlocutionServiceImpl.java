@@ -7,6 +7,7 @@ import com.hnu.dao.InterlocutionMapper;
 import com.hnu.dao.TeacherClassMapper;
 import com.hnu.model.Clazz;
 import com.hnu.model.Interlocution;
+import com.hnu.model.Teacher;
 import com.hnu.service.InterlocutionService;
 import com.hnu.util.Result;
 import com.hnu.util.ResultUtil;
@@ -29,6 +30,9 @@ public class InterlocutionServiceImpl implements InterlocutionService {
     @Autowired
     private TeacherClassMapper teacherClassMapper;
 
+    @Autowired
+    private TeacherServiceImpl teacherService;
+
     @Override
     public int add(Interlocution interlocution) {
         if ("".equals(interlocution.getId()) ){
@@ -44,20 +48,31 @@ public class InterlocutionServiceImpl implements InterlocutionService {
     }
 
     @Override
-    public Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId) {
+    public Result<Interlocution> list(Integer  pageNum, Integer  pageSize, String studentId,String type) {
         PageHelper.startPage(pageNum,pageSize,true);
-        List<Interlocution> list = interlocutionMapper.list(studentId);
-
+        List<Interlocution> list = interlocutionMapper.list(studentId,type);
+        for (Interlocution interlocution : list){
+            if (interlocution.getReply() != null){
+                Teacher teacher = teacherService.findByTeacher(interlocution.getUpdateby());
+                interlocution.setUpdateby(teacher.getName());
+            }
+            if (type.equals("0")){
+                interlocution.setType("心得体会");
+            }else {
+                interlocution.setType("问答解疑");
+            }
+            System.out.println(interlocution);
+        }
         return ResultUtil.success(list,list.size());
     }
 
     @Override
-    public PageInfo<Interlocution> listByClass(Integer  pageNum,Integer  pageSize,String teacherId) {
+    public Result<Interlocution> listByClass(Integer  pageNum,Integer  pageSize,String teacherId) {
         Clazz clazz = teacherClassMapper.findByTeacherId(teacherId);
         String classId = clazz.getId();
         PageHelper.startPage(pageNum,pageSize);
         List<Interlocution> list = interlocutionMapper.listByClass(classId);
-        return new PageInfo<>(list);
+        return ResultUtil.success(list,list.size());
     }
 
     @Override

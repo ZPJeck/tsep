@@ -84,7 +84,7 @@
     <select id="list" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
       select *
       from interlocution
-      where flag = 1 and student_id = #{studentId}
+      where flag = 1 and student_id = #{student_id} and type = #{type}
     </select>
     <select id="listByClass" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
       select * from interlocution

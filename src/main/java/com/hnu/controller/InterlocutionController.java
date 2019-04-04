@@ -12,6 +12,7 @@ import com.hnu.util.ResultUtil;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,12 +77,13 @@ public class InterlocutionController {
      */
     @RequestMapping(value = "/list")
     public Result list(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                       @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+                       @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize,
+                       @RequestParam(value = "type",defaultValue = "0")String type){
         if (!isLogin("student")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         Student student =(Student) session.getAttribute("student");
-        Result<Interlocution> list = interlocutionService.list(pageNum, pageSize, student.getId());
+        Result<Interlocution> list = interlocutionService.list(pageNum, pageSize, student.getId(),type);
         if (list == null){
             return ResultUtil.error(-2,"查询信息为空");
         }
@@ -100,7 +102,7 @@ public class InterlocutionController {
         Teacher teacher =(Teacher) session.getAttribute("teacher");
 
 
-        Result<Interlocution> list = interlocutionService.list(pageNum, pageSize, teacher.getId());
+        Result<Interlocution> list = interlocutionService.listByClass(pageNum, pageSize, teacher.getId());
         if (list == null){
             return ResultUtil.error(-2,"查询信息为空");
         }
@@ -125,7 +127,7 @@ public class InterlocutionController {
     /*
      *  学生删除信息
      */
-    @RequestMapping(value = "/deleteById")
+    @RequestMapping(value = "/deleteById" ,method = RequestMethod.POST)
     public Result deleteById(String id){
         if (!isLogin("student")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
