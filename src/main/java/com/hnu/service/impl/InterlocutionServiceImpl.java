@@ -44,7 +44,23 @@ public class InterlocutionServiceImpl implements InterlocutionService {
 
     @Override
     public Interlocution findById(String id) {
-        return interlocutionMapper.selectByPrimaryKey(id);
+        Interlocution interlocution = interlocutionMapper.selectByPrimaryKey(id);
+        try{
+            Teacher teacher = teacherService.findByTeacher(interlocution.getUpdateby());
+            interlocution.setUpdateby(teacher.getName());
+        }catch (Exception e){
+            return null;
+        }
+
+
+        if (interlocution.getType().equals("0")){
+            interlocution.setType("心得体会");
+        }else {
+            interlocution.setType("问答解疑");
+        }
+
+
+        return interlocution;
     }
 
     @Override
@@ -61,7 +77,6 @@ public class InterlocutionServiceImpl implements InterlocutionService {
             }else {
                 interlocution.setType("问答解疑");
             }
-            System.out.println(interlocution);
         }
         return ResultUtil.success(list,list.size());
     }

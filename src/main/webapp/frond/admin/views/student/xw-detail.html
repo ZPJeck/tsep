@@ -15,43 +15,44 @@
 </body>
 <script id="demo" type="text/html">
     <form class="layui-form" action="">
-        <input type="hidden" value="{{d.id}}" name="taskId">
         <div class="layui-form-item">
-            <label class="layui-form-label">作业题目</label>
+            <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{d.title}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{d.type}}" readonly  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">完成时间</label>
+            <label class="layui-form-label">回复人</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="{{d.updateby}}" readonly  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复时间</label>
             <div class="layui-input-block">
                 <input type="text" name="" value="{{ layui.laytpl.toDateString(d.updatetime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">作业要求</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label">问答/体会</label>
             <div class="layui-input-block">
-                <textarea name="" placeholder="请输入内容"  readonly class="layui-textarea">{{d.content}}</textarea>
+                <textarea name="desc"   readonly class="layui-textarea">{{d.content}}</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">作业内容</label>
+            <label class="layui-form-label">回复内容</label>
             <div class="layui-input-block">
-                <textarea name="answer" placeholder="请输入内容" lay-verify="required" class="layui-textarea"></textarea>
+                <textarea name="desc"   readonly class="layui-textarea">{{d.reply}}</textarea>
             </div>
-        </div>
-        <div class="layui-form-item layui-hide">
-            <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
         </div>
     </form>
 </script>
 
 <script>
-    layui.use(['laytpl','jquery','layer','form'], function(){
+    layui.use(['laytpl','jquery','layer'], function(){
         var laytpl = layui.laytpl;
         var $ = layui.$;
         var layer = layui.layer
-        var form = layui.form
         var id = $(window.parent.document).find("#id").val();
 
         layui.laytpl.toDateString = function(d, format){
@@ -92,7 +93,7 @@
         };
 
         $.ajax({
-            url: "/task/selectById",
+            url: "/wd/findById",
             method: 'post',
             data: {
                 "id":id
@@ -108,15 +109,17 @@
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/login"
-                }else if(res.code == -1){
+                }else if(res.code == -2){
                     layer.msg(res.msg);
                 }
             },
             error: function (data) {
-                layer.msg("修改失败", {icon: 2, time: 2000})
+                layer.msg("查看失败", {icon: 2, time: 2000})
             }
 
         });
+
+
 
 
     });

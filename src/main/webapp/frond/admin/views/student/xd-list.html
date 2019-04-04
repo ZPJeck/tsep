@@ -30,9 +30,7 @@
             </div>
 
             <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
-            <script type="text/html" id="table-useradmin-webuser">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-            </script>
+            <input type="hidden" value="" id="id">
         </div>
     </div>
 </div>
@@ -97,7 +95,7 @@
             }
             ,cols: [[
                 {type:'numbers',  title: '序号'}
-                ,{field:'content',  title: '题目'}
+                ,{field:'content',  title: '心得内容'}
                 ,{field:'type',  title: '类型'}
                 ,{field:'updateby',  title: '回复人'}
                 ,{field:'createtime', title: '发布时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
@@ -114,7 +112,7 @@
                 layer.open({
                     type: 2
                     ,title: ''
-                    ,content: 'xd-add.html'
+                    ,content: 'xw-detail.html'
                     ,area: ['700px', '550px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
@@ -126,8 +124,6 @@
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
 
-                            //提交 Ajax 成功后，静态更新表格中的数据
-                            //$.ajax({});
                             table.reload('LAY-user-front-submit'); //数据刷新
                             layer.close(index); //关闭弹层
                         });

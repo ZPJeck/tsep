@@ -56,17 +56,22 @@
         var id = $(window.parent.document).find("#id").val();
 
         layui.laytpl.toDateString = function(d, format){
-            var date = new Date(d || new Date())
-                ,ymd = [
-                this.digit(date.getFullYear(), 4)
-                ,this.digit(date.getMonth() + 1)
-                ,this.digit(date.getDate())
-            ]
-                ,hms = [
-                this.digit(date.getHours())
-                ,this.digit(date.getMinutes())
-                ,this.digit(date.getSeconds())
-            ];
+            if (d != null){
+                var date = new Date(d || new Date())
+                    ,ymd = [
+                    this.digit(date.getFullYear(), 4)
+                    ,this.digit(date.getMonth() + 1)
+                    ,this.digit(date.getDate())
+                ]
+                    ,hms = [
+                    this.digit(date.getHours())
+                    ,this.digit(date.getMinutes())
+                    ,this.digit(date.getSeconds())
+                ];
+            }else {
+                return "";
+            }
+
 
             format = format || 'yyyy-MM-dd HH:mm:ss';
 
@@ -77,8 +82,6 @@
                 .replace(/mm/g, hms[1])
                 .replace(/ss/g, hms[2]);
         };
-
-//数字前置补零
         layui.laytpl.digit = function(num, length, end){
             var str = '';
             num = String(num);
