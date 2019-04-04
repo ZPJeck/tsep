@@ -146,7 +146,7 @@
                 class_num = #{classNum},
             </if>
             <if test="flag != null">
-                flag = #{flag,jdbcType=TINYINT},
+                flag = #{flag},
             </if>
             <if test="createtime != null">
                 createtime = #{createtime},
@@ -433,6 +433,67 @@
         where flag = 1
     </select>
 
+    <insert id="allotByTeacherClass" parameterType="com.hnu.model.TeacherClass">
+        insert into teacher_class
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="teacherId != null" >
+                teacher_id,
+            </if>
+            <if test="classId != null" >
+                class_id,
+            </if>
+            <if test="flag != null" >
+                flag,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="createby != null" >
+                createby,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+            <if test="updateby != null" >
+                updateby,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="teacherId != null" >
+                #{teacherId},
+            </if>
+            <if test="classId != null" >
+                #{classId},
+            </if>
+            <if test="flag != null" >
+                #{flag},
+            </if>
+            <if test="createtime != null" >
+                #{createtime},
+            </if>
+            <if test="createby != null" >
+                #{createby},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime},
+            </if>
+            <if test="updateby != null" >
+                #{updateby},
+            </if>
+        </trim>
 
+    </insert>
+
+    <select id="isExitTeacherClass" parameterType="java.lang.String" resultType="com.hnu.model.TeacherClass">
+        select *
+        from teacher_class
+        where flag = 1 and class_id = #{classId}
+    </select>
 
 </mapper>

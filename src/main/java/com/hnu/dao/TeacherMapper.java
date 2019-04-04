@@ -110,4 +110,7 @@ public interface TeacherMapper {
     int studentNum();
 
     int classNum();
+
+
+    List<TeacherClass> isExitTeacherClass(@Param("classId") String classId);
 }

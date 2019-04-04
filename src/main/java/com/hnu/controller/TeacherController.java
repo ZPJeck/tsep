@@ -7,6 +7,7 @@ import com.hnu.Enum.ResultEnum;
 import com.hnu.model.Clazz;
 import com.hnu.model.Student;
 import com.hnu.model.Teacher;
+import com.hnu.model.TeacherClass;
 import com.hnu.service.impl.TeacherServiceImpl;
 import com.hnu.util.MD5Encryption;
 import com.hnu.util.Result;
@@ -172,6 +173,13 @@ public class TeacherController {
         return clazzPageInfo;
     }
 
+    @RequestMapping(value = "/clazzList2")
+    public Result clazzList2(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
+                            @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+        Result<Clazz> clazzPageInfo = teacherService.classList2(pageNum, pageSize);
+        return clazzPageInfo;
+    }
+
     /*
      *  查看学生列表
      */
@@ -305,8 +313,17 @@ public class TeacherController {
     }
 
 
-
-
+    @RequestMapping(value = "/allotByTeacherClass" , method = RequestMethod.POST)
+    public Result allotByTeacherClass(TeacherClass teacherClass){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        int i = teacherService.allotByTeacherClass(teacherClass);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"修改老师失败");
+        }
+        return ResultUtil.success();
+    }
 
 
 

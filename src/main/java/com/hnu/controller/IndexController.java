@@ -27,6 +27,12 @@ public class IndexController {
         return "redirect:/frond/admin/login.html";
     }
 
+    @RequestMapping(value = "/studentLogin")
+    public String login2(){
+
+        return "redirect:/frond/admin/views/student/login.html";
+    }
+
     @RequestMapping(value = "/logout")
     public String logout(){
         session.removeAttribute("student");

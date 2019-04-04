@@ -75,7 +75,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/teacher/clazzList'
+            ,url:'/teacher/clazzList2'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -101,7 +101,7 @@
                 layer.open({
                     type: 2
                     ,title: '分配老师'
-                    ,content: 'classDetail.html'
+                    ,content: 'teacherClassDetail.html'
                     ,area: ['650px', '550px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
@@ -112,7 +112,31 @@
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
+                            $.ajax({
+                                url: "/teacher/allotByTeacherClass",
+                                method: 'post',
+                                dataType: 'JSON',
+                                data: field,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        layer.close(index);
+                                        layer.msg("分配成功",{
+                                            time: 500
+                                        },function () {
+                                            location.reload();
+                                        });
+                                    } else if (res.code == 1) {
+                                        layer.msg(res.msg, {icon: 2, time: 2000});
+                                        location.href = "/login"
+                                    }else if(res.code == -1){
+                                        layer.msg(res.msg);
+                                    }
+                                },
+                                error: function (data) {
+                                    layer.msg("删除失败", {icon: 2, time: 2000})
+                                }
 
+                            });
                             table.reload('LAY-user-front-submit'); //数据刷新
                             layer.close(index); //关闭弹层
                         });

@@ -134,7 +134,7 @@
                     form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                            location.href = "/login"
+                            location.href = "/studentLogin"
                         }});
                 }
             }
@@ -170,7 +170,7 @@
 
                             } else if (res.code == 1) {
                                 layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                                        location.href = "/login"
+                                        location.href = "/studentLogin"
                                     }});
                             }
                         }

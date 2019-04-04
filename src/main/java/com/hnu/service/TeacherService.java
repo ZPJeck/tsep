@@ -6,6 +6,7 @@ import com.hnu.model.Student;
 import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
 import com.hnu.util.Result;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -86,6 +87,7 @@ public interface TeacherService {
      */
     Result<Clazz> classList(Integer  pageNum,Integer  pageSize);
 
+    Result<Clazz> classList2(Integer  pageNum,Integer  pageSize);
 
     /*
      *  查询班级信息  根据id

@@ -122,7 +122,7 @@
                         $("#student").html(res.data.name)
                     } else if (res.code == 1) {
                         layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                                location.href = "/login"
+                                location.href = "/studentLogin"
                             }});
                     }
                 }
@@ -148,7 +148,7 @@
                             $("#task").html(res.data.task);
                         } else if (res.code == 1) {
                             layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                                    location.href = "/login"
+                                    location.href = "/studentLogin"
                                 }});
                         }
                     }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -76,7 +77,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int allotByTeacherClass(TeacherClass teacherClass) {
-        return 0;
+        Teacher teacher1 = (Teacher) session.getAttribute("admin");
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        teacherClass.setId(id);
+        teacherClass.setCreateby(teacher1.getId());
+        teacherClass.setCreatetime(new Date());
+        return teacherMapper.allotByTeacherClass(teacherClass);
     }
 
     @Override
@@ -135,6 +141,21 @@ public class TeacherServiceImpl implements TeacherService {
         List<Clazz> clazzes = teacherMapper.classList();
         return ResultUtil.success(clazzes,clazzes.size());
     }
+
+    @Override
+    public Result<Clazz> classList2(Integer  pageNum,Integer  pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Clazz> clazzes = teacherMapper.classList();
+        List<Clazz> clazzList = new ArrayList<>();
+        for (Clazz clazz :clazzes){
+            List<TeacherClass> exitTeacherClass = teacherMapper.isExitTeacherClass(clazz.getId());
+            if (exitTeacherClass.size() == 0){
+                clazzList.add(clazz);
+            }
+        }
+        return ResultUtil.success(clazzList,clazzList.size());
+    }
+
 
     @Override
     public Clazz findByClassId(String classId) {
