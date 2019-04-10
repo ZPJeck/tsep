@@ -92,7 +92,7 @@
         };
 
         $.ajax({
-            url: "/task/selectById",
+            url: "/tsep/task/selectById",
             method: 'post',
             data: {
                 "id":id
@@ -107,7 +107,7 @@
                     });
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
-                    location.href = "/studentLogin"
+                    location.href = "/tsep/studentLogin"
                 }else if(res.code == -1){
                     layer.msg(res.msg);
                 }

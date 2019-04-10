@@ -95,7 +95,7 @@
 
 
         $.ajax({
-            url: "/plan/findById",
+            url: "/tsep/plan/findById",
             method: 'post',
             data:{
                 id:id
@@ -111,7 +111,7 @@
                 } else if (res.code == 1) {
                     layer.msg(res.msg + "，请重新登录！", {
                         icon: 2, time: 2000, end: function () {
-                            location.href = "/studentLogin"
+                            location.href = "/tsep/studentLogin"
                         }
                     });
                 }

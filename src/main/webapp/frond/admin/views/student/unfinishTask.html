@@ -79,7 +79,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/task/listByStudentUnfinish'
+            ,url:'/tsep/task/listByStudentUnfinish'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -136,7 +136,7 @@
 
                                     } else if (res.code == 1) {
                                         layer.msg(res.msg, {icon: 2, time: 2000});
-                                        location.href = "/studentLogin"
+                                        location.href = "/tsep/studentLogin"
                                     }else if(res.code == -2){
                                         layer.close(index);
                                         layer.msg(res.msg);

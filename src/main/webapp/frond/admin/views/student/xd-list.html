@@ -85,7 +85,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/wd/list?type='+'0'
+            ,url:'/tsep/wd/list?type='+'0'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -136,7 +136,7 @@
                     obj.del();
                     console.log(data)
                     $.ajax({
-                        url: "/wd/deleteById?id="+data.id,
+                        url: "/tsep/wd/deleteById?id="+data.id,
                         method: 'post',
                         dataType: 'JSON',
                         success: function (res) {
@@ -149,7 +149,7 @@
                                 });
                             } else if (res.code == 1) {
                                 layer.msg(res.msg, {icon: 2, time: 2000});
-                                location.href = "/studentLogin"
+                                location.href = "/tsep/studentLogin"
                             }else if(res.code == -1){
                                 layer.msg(res.msg);
                             }
@@ -186,7 +186,7 @@
                             //提交 Ajax 成功后，静态更新表格中的数据
                             //$.ajax({});
                             $.ajax({
-                                url: "/wd/add",
+                                url: "/tsep/wd/add",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
@@ -202,7 +202,7 @@
 
                                     } else if (res.code == 1) {
                                         layer.msg(res.msg, {icon: 2, time: 2000});
-                                        location.href = "/studentLogin"
+                                        location.href = "/tsep/studentLogin"
                                     }else if(res.code == -1){
                                         layer.msg(res.msg);
                                     }

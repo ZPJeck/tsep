@@ -110,7 +110,7 @@
         var form = layui.form;
         var $ = layui.$;
         $.ajax({
-            url: "/student/userInfo",
+            url: "/tsep/student/userInfo",
             method: 'post',
             dataType: 'JSON',
             success: function (res) {
@@ -134,7 +134,7 @@
                     form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                            location.href = "/studentLogin"
+                            location.href = "/tsep/studentLogin"
                         }});
                 }
             }
@@ -156,7 +156,7 @@
         form.on('submit(setmyinfo)', function(data){
             layer.msg(JSON.stringify(data.field));
             $.ajax({
-                        url: "/student/updateInfo",
+                        url: "/tsep/student/updateInfo",
                         method: 'post',
                         dataType: 'JSON',
                         data: data.field,
@@ -170,7 +170,7 @@
 
                             } else if (res.code == 1) {
                                 layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                                        location.href = "/studentLogin"
+                                        location.href = "/tsep/studentLogin"
                                     }});
                             }
                         }
