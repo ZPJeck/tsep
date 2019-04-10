@@ -116,4 +116,9 @@ public interface TeacherService {
 
     int classNum();
 
+    /*
+     *  根据教师id 查询个人信息
+     */
+    Teacher findById(String id);
+
 }

@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hnu.dao.TeacherMapper">
 
+
+    <select id="findById" parameterType="java.lang.String" resultType="com.hnu.model.Teacher">
+        select *
+        from teacher
+        where id = #{id} and flag = 1
+    </select>
+
     <select id="findByTeacherId" resultType="com.hnu.model.Clazz" parameterType="java.lang.String">
         select c.*
         from teacher_class t ,clazz c

@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../lib/layui/style/admin.css" media="all">
 </head>
+
+<style>
+    .not:hover {
+        cursor: not-allowed;
+        color: #d2d2d2;
+    }
+    .not {
+        color: #d2d2d2;
+    }
+</style>
 <body>
 
 <div class="layui-fluid">
@@ -28,7 +38,7 @@
                             <label class="layui-form-label">用户名</label>
                             <span style="color: red; height: 38px; line-height: 38px;">*</span>
                             <div class="layui-input-inline">
-                                <input type="text" name="number" id="number" value="" readonly class="layui-input">
+                                <input type="text"  disabled id="number" value="" readonly class="layui-input not">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -41,8 +51,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">性别</label>
                             <div class="layui-input-inline">
-                                <input type="radio" name="sex" value="1" title="男" id="man">
-                                <input type="radio" name="sex" value="0" title="女" id="wman" checked>
+                                <input type="radio" name="sex" value="1" title="男" id="man" checked>
+                                <input type="radio" name="sex" value="0" title="女" id="wman" >
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -53,20 +63,13 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">班级名称</label>
+                            <label class="layui-form-label">职能</label>
                             <span style="color: red; height: 38px; line-height: 38px;">*</span>
                             <div class="layui-input-inline">
-                                <input type="text" name="className" id="className" value="" readonly  autocomplete="off"  class="layui-input">
+                                <input type="text"  disabled id="status" value="" readonly  autocomplete="off"  class="layui-input not">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">班级编号</label>
-                            <span style="color:red; height: 38px; line-height: 38px;">*</span>
-                            <div class="layui-input-inline">
-                                <input type="text" name="classNum" id="classNum" value="" lay-verify="nickname" readonly autocomplete="off"
-                                       placeholder="班级编号" class="layui-input">
-                            </div>
-                        </div>
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机</label>
                             <div class="layui-input-inline">
@@ -90,9 +93,10 @@
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn" id="submit" lay-submit lay-filter="setmyinfo">确认修改</button>
-                                <button type="reset" id="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                <button type="button" id="reset" class="layui-btn layui-btn-primary">重新填写</button>
                             </div>
                         </div>
+                        <input id="id" name="id" value="" hidden />
                     </form>
 
                 </div>
@@ -110,7 +114,7 @@
         var form = layui.form;
         var $ = layui.$;
         $.ajax({
-            url: "/tsep/student/userInfo",
+            url: "/tsep/teacher/userInfo",
             method: 'post',
             dataType: 'JSON',
             success: function (res) {
@@ -118,10 +122,10 @@
                     $("#number").val(res.data.number)
                     $("#name").val(res.data.name);
                     $("#age").val(res.data.age);
-                    $("#className").val(res.data.className);
-                    $("#classNum").val(res.data.classNum);
                     $("#phone").val(res.data.phone);
                     $("#address").val(res.data.address);
+                    $("#status").val(res.data.status);
+                    $("#id").val(res.data.id);
                     if(res.data.sex == 1){
                         $("#man").prop('checked',true);
                         $("#wman").prop('checked',false);
@@ -133,7 +137,7 @@
                     form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                            location.href = "/tsep/studentLogin"
+                            location.href = "/tsep/login"
                         }});
                 }
             }
@@ -144,18 +148,10 @@
             $("#phone").val("");
             $("#address").val("");
         });
-        // $("#submit").on("click",function () {
-        //     var name = $("#name").val();
-        //     var age =  $("#age").val();
-        //     var phone = $("#phone").val();
-        //     var address = $("#address").val();
-        //
-        // })
 
         form.on('submit(setmyinfo)', function(data){
-            layer.msg(JSON.stringify(data.field));
             $.ajax({
-                url: "/tsep/student/updateInfo",
+                url: "/tsep/teacher/updateInfo",
                 method: 'post',
                 dataType: 'JSON',
                 data: data.field,
@@ -163,13 +159,12 @@
                     if (res.code == 0) {
                         layer.msg("修改成功",{icon:1,time:2000,end:function () {
                                 x_admin_close();
-                                // location.href = "./index.html";
                         }})
 
                     } else if (res.code == 1) {
                         layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
-                                location.href = "/tsep/studentLogin"
-                            }});
+                                location.href = "/tsep/login"
+                        }});
                     }
                 }
             });

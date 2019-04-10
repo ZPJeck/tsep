@@ -13,6 +13,7 @@ import com.hnu.util.DateUtil;
 import com.hnu.util.MD5Encryption;
 import com.hnu.util.Result;
 import com.hnu.util.ResultUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,6 +60,36 @@ public class TeacherController {
     }
 
     /*
+     *  更改密码
+     */
+
+    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
+    public Result updatePassword( String oldPassword ,  String newPassword){
+        Result result = new Result();
+
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        if (teacher == null){
+            teacher = (Teacher) session.getAttribute("admin");
+        }
+
+        if (!teacher.getPassword().equals(MD5Encryption.getMD5String(oldPassword))){
+            result.setCode(2);
+            result.setMsg("原密码不正确");
+            return result;
+        }
+        // 保存密码
+        newPassword = MD5Encryption.getMD5String(newPassword);
+        teacher.setPassword(newPassword);
+        int update = teacherService.updateInfo(teacher);
+        if (update == 0){
+            result.setMsg("出现未知错误，密码修改失败");
+            result.setCode(4);
+            return result;
+        }
+        return ResultUtil.success();
+    }
+
+    /*
      *  用户注销
      */
     @RequestMapping(value = "/logout")
@@ -78,6 +109,11 @@ public class TeacherController {
         }
         if (teacher == null){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        if (teacher.getStatus().equals("1")){
+            teacher.setStatus("管理员");
+        }else {
+            teacher.setStatus("教师");
         }
         return ResultUtil.success(teacher);
     }
@@ -109,10 +145,20 @@ public class TeacherController {
      */
     @RequestMapping(value = "/updateInfo")
     public Result updateInfo(Teacher teacher){
+
         int i = teacherService.updateInfo(teacher);
         if (i == 0){
             return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"修改信息失败");
         }
+        teacher = teacherService.findById(teacher.getId());
+        Teacher t1 = (Teacher) session.getAttribute("admin");
+        if (t1 == null){
+            session.setAttribute("teacher",teacher);
+        }else {
+            session.setAttribute("admin",teacher);
+        }
+
+
         return ResultUtil.success();
     }
 

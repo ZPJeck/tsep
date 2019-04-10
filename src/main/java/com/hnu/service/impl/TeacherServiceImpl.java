@@ -243,4 +243,9 @@ public class TeacherServiceImpl implements TeacherService {
         List<Teacher> teacherList = teacherMapper.list();
         return ResultUtil.success(teacherList);
     }
+
+    @Override
+    public Teacher findById(String id) {
+        return teacherMapper.findById(id);
+    }
 }
