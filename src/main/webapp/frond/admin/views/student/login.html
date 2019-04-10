@@ -17,7 +17,7 @@
 <body class="login-bg">
 
 <div class="login layui-anim layui-anim-up">
-    <div class="message">学生端师生交流系统登录</div>
+    <div class="message">学生端登录</div>
     <div id="darkbannerwrap"></div>
 
     <form method="post" class="layui-form">
@@ -28,12 +28,54 @@
         <input value="登录" lay-type="button" lay-submit lay-filter="login" style="width:100%;" type="submit">
         <hr class="hr20">
     </form>
+    <div class="">
+        <label style="color: red;font-size: large" id="false"></label>
+    </div>
 </div>
 
 <script>
     $(function () {
-        layui.use('form', function () {
+        layui.use(['table','laytpl'], function () {
             var form = layui.form;
+            var laytpl = layui.laytpl;
+
+            layui.laytpl.toDateString = function(d, format){
+                if (d != null){
+                    var date = new Date(d || new Date())
+                        ,ymd = [
+                        this.digit(date.getFullYear(), 4)
+                        ,this.digit(date.getMonth() + 1)
+                        ,this.digit(date.getDate())
+                    ]
+                        ,hms = [
+                        this.digit(date.getHours())
+                        ,this.digit(date.getMinutes())
+                        ,this.digit(date.getSeconds())
+                    ];
+                }else {
+                    return "未知";
+                }
+
+
+                format = format || 'yyyy-MM-dd HH:mm:ss';
+
+                return format.replace(/yyyy/g, ymd[0])
+                    .replace(/MM/g, ymd[1])
+                    .replace(/dd/g, ymd[2])
+                    .replace(/HH/g, hms[0])
+                    .replace(/mm/g, hms[1])
+                    .replace(/ss/g, hms[2]);
+            };
+
+            layui.laytpl.digit = function(num, length, end){
+                var str = '';
+                num = String(num);
+                length = length || 2;
+                for(var i = num.length; i < length; i++){
+                    str += '0';
+                }
+                return num < Math.pow(10, length) ? str + (num|0) : num;
+            };
             form.on('submit(login)', function () {
                 $.ajax({
                     url: "/tsep/student/login",
@@ -55,6 +97,8 @@
                             layer.msg(res.msg, {icon: 2, time: 2000});
                             // $("#number").val("");
                             $("#password").val("");
+                        }else if (res.code == 3){
+                            $("#false").text("*系统正在维护中，完成时间："+layui.laytpl.toDateString(res.data.updatetime,"yyyy-MM-dd"))
                         }
                     },
                     error: function (data) {

@@ -9,6 +9,7 @@ import com.hnu.model.Student;
 import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
 import com.hnu.service.impl.TeacherServiceImpl;
+import com.hnu.util.DateUtil;
 import com.hnu.util.MD5Encryption;
 import com.hnu.util.Result;
 import com.hnu.util.ResultUtil;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -249,6 +252,30 @@ public class TeacherController {
         return ResultUtil.success();
     }
 
+    @RequestMapping(value = "/startStudent",method = RequestMethod.POST)
+    public Result startStudent(String id,String updateby){
+        if (!isLogin("admin")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        Teacher teacher = (Teacher ) session.getAttribute("admin");
+        Student student = new Student();
+        student.setId(id);
+        if (updateby.equals("1")){
+            updateby = "0";
+        }else {
+            updateby = "1";
+        }
+        student.setUpdateby(updateby);
+        student.setUpdatetime(DateUtil.date());
+        int i = teacherService.alertStudent(student);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"修改学生失败");
+        }
+        return ResultUtil.success();
+    }
+
+
+
     /*
      *  查看老师列表
      */
@@ -257,6 +284,14 @@ public class TeacherController {
                               @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
         Result<Teacher> teacherPageInfo = teacherService.teacherList(pageNum, pageSize);
         return teacherPageInfo;
+    }
+
+    /*
+     *  查看老师列表
+     */
+    @RequestMapping(value = "list",method = RequestMethod.POST)
+    public Result list(){
+        return teacherService.list();
     }
 
     /*

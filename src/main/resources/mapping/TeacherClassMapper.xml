@@ -2,5 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hnu.dao.TeacherClassMapper" >
 
+    <select id="findByClassId" parameterType="java.lang.String" resultType="com.hnu.model.Teacher">
+        select t.*
+        from teacher t ,teacher_class tc
+        where t.flag = 1 and tc.flag = 1 and t.id = tc.teacher_id and tc.class_id = #{classId}
+    </select>
 
 </mapper>

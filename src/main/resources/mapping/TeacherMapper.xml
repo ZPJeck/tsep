@@ -496,4 +496,10 @@
         where flag = 1 and class_id = #{classId}
     </select>
 
+    <select id="list" resultType="com.hnu.model.Teacher">
+        select *
+        from teacher
+        where flag = 1
+    </select>
+
 </mapper>

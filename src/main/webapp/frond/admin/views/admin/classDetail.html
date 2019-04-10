@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <script type="text/javascript" src="../../lib/layui/layui.js" charset="utf-8"></script>
 </head>
+<style>
+    .not:hover {
+        cursor: not-allowed;
+        color: #d2d2d2;
+    }
+    .not {
+        color: #d2d2d2;
+    }
+</style>
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
@@ -20,7 +29,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">班级编号</label>
             <div class="layui-input-block">
-                <input type="text" name="classNum" readonly value="{{d.classNum}}"   autocomplete="off" class="layui-input">
+                <input type="text" name="classNum" readonly disabled value="{{d.classNum}}"   autocomplete="off" class="layui-input not">
+
             </div>
         </div>
         <div class="layui-form-item">
@@ -30,9 +40,19 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">指导老师</label>
+            <div class="layui-input-block">
+                {{# if(d.createby == 'no'){ }}
+                <input type="text" name="" value="未分配指导老师" readonly disabled style="color: red;cursor: not-allowed"  autocomplete="off" class="layui-input">
+                {{#  } else { }}
+                <input type="text" name="" value="{{d.createby}}" readonly disabled  autocomplete="off" class="layui-input not">
+                {{# } }}
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly disabled placeholder="请输入标题" autocomplete="off" class="layui-input not">
             </div>
         </div>
 

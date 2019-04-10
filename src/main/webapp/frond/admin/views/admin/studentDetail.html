@@ -14,13 +14,22 @@
         </div>
     </div>
 </div>
+<style>
+    .not:hover {
+        cursor: not-allowed;
+        color: #d2d2d2;
+    }
+    .not {
+        color: #d2d2d2;
+    }
+</style>
 </body>
 <script id="demo" type="text/html">
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">学号</label>
             <div class="layui-input-block">
-                <input type="text" name="number" value="{{d.number}}" readonly  autocomplete="off" class="layui-input">
+                <input type="text" name="number" value="{{d.number}}" disabled readonly  autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,8 +40,17 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
+            <!--<div class="layui-input-block">-->
+                <!--<input type="text" name="sex" value="{{d.sex}}" readonly  autocomplete="off" class="layui-input">-->
+            <!--</div>-->
             <div class="layui-input-block">
-                <input type="text" name="sex" value="{{d.sex}}" readonly  autocomplete="off" class="layui-input">
+                {{# if(d.sex == '1'){ }}
+                <input type="radio" name="sex" value="1" title="男" checked>
+                <input type="radio" name="sex" value="0" title="女">
+                {{#  } else { }}
+                <input type="radio" name="sex" value="1" title="男" >
+                <input type="radio" name="sex" value="0" title="女" checked>
+                {{# } }}
             </div>
         </div>
         <div class="layui-form-item">
@@ -44,13 +62,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">班级</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{d.classId}}" readonly  autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{d.classId}}" disabled readonly  autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.creattime)}}" readonly placeholder="时间" autocomplete="off" class="layui-input">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" disabled readonly placeholder="时间" autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -125,6 +143,7 @@
                     laytpl(getTpl).render(res.data, function(html){
                         view.innerHTML = html;
                     });
+                    form.render()
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/tsep/login"

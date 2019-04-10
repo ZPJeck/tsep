@@ -14,31 +14,43 @@
         </div>
     </div>
 </div>
+<style>
+    .not:hover {
+        cursor: not-allowed;
+        color: #d2d2d2;
+    }
+    .not {
+        color: #d2d2d2;
+    }
+</style>
 </body>
 <script id="demo" type="text/html">
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">班级编号</label>
             <div class="layui-input-block">
-                <input type="text" name="classNum" readonly value="{{d.classNum}}"   autocomplete="off" class="layui-input">
+                <input type="text" name="classNum" disabled readonly value="{{d.classNum}}"   autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">班级名称</label>
             <div class="layui-input-block">
-                <input type="text" name="className" readonly value="{{d.className}}"   autocomplete="off" class="layui-input">
+                <input type="text" name="className" disabled readonly value="{{d.className}}"   autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" name="" disabled value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">老师id</label>
-            <div class="layui-input-block">
-                <input type="text" name="teacherId"  value="{{}}"   autocomplete="off" class="layui-input">
+            <label class="layui-form-label">老师</label>
+                <!--&lt;!&ndash;<input type="text" name="teacherId"  value="{{}}"  lay-verify="required" autocomplete="off" class="layui-input">&ndash;&gt;-->
+            <div class="layui-input-block" >
+                <select name="teacherId" id="aa" lay-verify="required">
+                    <option value="">请选择</option>
+                </select>
             </div>
         </div>
 
@@ -108,6 +120,7 @@
                     laytpl(getTpl).render(res.data, function(html){
                         view.innerHTML = html;
                     });
+                    form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/tsep/login"
@@ -121,7 +134,29 @@
 
         });
 
+        $.ajax({
+            url: "/tsep/teacher/list",
+            method: 'post',
+            dataType: 'JSON',
+            success: function (res) {
+                if (res.code == 0) {
+                    var data = res.data
+                    for (var i = 0; i < data.length ; i++){
+                        $("#aa").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+                    }
+                    form.render();
+                } else if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 2, time: 2000});
+                    location.href = "/tsep/login"
+                }else if(res.code == -2){
+                    layer.msg(res.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("查看失败", {icon: 2, time: 2000})
+            }
 
+        });
 
 
     });

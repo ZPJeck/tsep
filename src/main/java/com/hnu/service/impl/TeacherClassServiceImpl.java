@@ -2,6 +2,7 @@ package com.hnu.service.impl;
 
 import com.hnu.dao.TeacherClassMapper;
 import com.hnu.model.Clazz;
+import com.hnu.model.Teacher;
 import com.hnu.model.TeacherClass;
 import com.hnu.service.TeacherClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     @Autowired
     private TeacherClassMapper teacherClassMapper;
 
+
+    @Override
+    public Teacher findByClassId(String classId) {
+        return teacherClassMapper.findByClassId(classId);
+    }
 
     @Override
     public Clazz findByTeacherId(String teacherId) {

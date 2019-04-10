@@ -113,4 +113,6 @@ public interface TeacherMapper {
 
 
     List<TeacherClass> isExitTeacherClass(@Param("classId") String classId);
+
+    List<Teacher> list();
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hnu.dao.ClazzMapper;
+import com.hnu.dao.TeacherClassMapper;
 import com.hnu.dao.TeacherMapper;
 import com.hnu.model.Clazz;
 import com.hnu.model.Student;
@@ -38,6 +39,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private ClazzMapper clazzMapper;
+
+    @Autowired
+    private TeacherClassMapper teacherClassMapper;
 
     @Override
     public Teacher login(String number) {
@@ -139,6 +143,15 @@ public class TeacherServiceImpl implements TeacherService {
     public Result<Clazz> classList(Integer  pageNum,Integer  pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Clazz> clazzes = teacherMapper.classList();
+        for (Clazz clazz : clazzes){
+            Teacher teacher = teacherClassMapper.findByClassId(clazz.getId());
+            if (teacher != null){
+                clazz.setCreateby(teacher.getName());
+            }else {
+                clazz.setCreateby("<p style='color:red'>未分配指导老师</p>");
+            }
+
+        }
         return ResultUtil.success(clazzes,clazzes.size());
     }
 
@@ -159,12 +172,24 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Clazz findByClassId(String classId) {
-        return teacherMapper.findByClassId(classId);
+
+        Clazz clazz = teacherMapper.findByClassId(classId);
+        Teacher teacher = teacherClassMapper.findByClassId(clazz.getId());
+        if (teacher != null){
+            clazz.setCreateby(teacher.getName());
+        }else {
+            clazz.setCreateby("no");
+        }
+        return clazz;
     }
 
     @Override
     public Student findByStudent(String studentId) {
-        return teacherMapper.findByStudent(studentId);
+        Student student = teacherMapper.findByStudent(studentId);
+        // 根据班级id选择班级
+        Clazz clazz = teacherMapper.findByClassId(student.getClassId());
+        student.setClassId(clazz.getClassName());
+        return student;
     }
 
     @Override
@@ -210,5 +235,12 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int classNum() {
         return teacherMapper.classNum();
+    }
+
+    @Override
+    public Result<Teacher> list() {
+
+        List<Teacher> teacherList = teacherMapper.list();
+        return ResultUtil.success(teacherList);
     }
 }

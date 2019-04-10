@@ -105,6 +105,7 @@ public interface TeacherService {
      */
     Teacher findByTeacher(String teacherId);
 
+    Result<Teacher> list();
 
     /*
      *  查询老师个数

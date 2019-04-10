@@ -40,8 +40,11 @@
 </div>
 
 <script type="text/html" id="barDemo" >
-    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="updateby" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭" lay-filter="sexDemo" {{ d.updateby == 1 ? 'checked' : '' }}>
 </script>
 <script>
     layui.use(['table','form','laytpl'], function(){
@@ -99,9 +102,47 @@
                 ,{field:'phone',  title: '电话'}
                 ,{field:'classId',  title: '班级名称'}
                 ,{field:'createtime', title: '创建时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
+                ,{field:'updateby',  title: '维护状态', templet: '#switchTpl', unresize: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
             ,page: true
+        });
+        form.on('switch(sexDemo)', function(obj){
+            console.log(obj.value)
+            console.log(obj.elem.checked)
+            var updateby = 1;
+            if (obj.elem.checked) {
+                updateby = 0;
+            }
+
+            $.ajax({
+                url: "/tsep/teacher/startStudent",
+                method: 'post',
+                dataType: 'JSON',
+                data: {
+                    id:obj.value,
+                    updateby:updateby
+                },
+                success: function (res) {
+                    if (res.code == 0) {
+                        layer.msg({
+                            time: 5000
+                        },function () {
+                            location.reload();
+                        });
+                    } else if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 2, time: 2000});
+                        location.href = "/tsep/login"
+                    }else if(res.code == -1){
+                        layer.msg(res.msg);
+                    }
+                },
+                error: function (data) {
+                    layer.msg("状态修改失败", {icon: 2, time: 2000})
+                }
+
+            });
+            layer.tips(  (obj.elem.checked == true ? "开启维护":"关闭维护"), obj.othis);
         });
 
         table.on('tool(LAY-user-manage)', function(obj){
@@ -131,7 +172,6 @@
                                 data: field,
                                 success: function (res) {
                                     if (res.code == 0) {
-                                        layer.close(index);
                                         layer.msg("修改成功",{
                                             time: 500
                                         },function () {
