@@ -106,7 +106,7 @@
             var $ = layui.$;
             // 请求用户信息
             $.ajax({
-                url: "/teacher/userInfo",
+                url: "/tsep/teacher/userInfo",
                 method: 'post',
                 dataType: 'JSON',
                 success: function (res) {
@@ -130,7 +130,7 @@
             // 数据统计
             $(function () {
                 $.ajax({
-                    url: "/teacher/countNum",
+                    url: "/tsep/teacher/countNum",
                     method: 'post',
                     dataType: 'JSON',
                     success: function (res) {

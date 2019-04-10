@@ -75,7 +75,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/teacher/clazzList2'
+            ,url:'/tsep/teacher/clazzList2'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -113,7 +113,7 @@
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
                             $.ajax({
-                                url: "/teacher/allotByTeacherClass",
+                                url: "/tsep/teacher/allotByTeacherClass",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,

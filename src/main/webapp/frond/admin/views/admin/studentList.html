@@ -83,7 +83,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/teacher/studentList'
+            ,url:'/tsep/teacher/studentList'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -125,7 +125,7 @@
                             var field = data.field; //获取提交的字段
 
                             $.ajax({
-                                url: "/teacher/updateStudent",
+                                url: "/tsep/teacher/updateStudent",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
@@ -160,7 +160,7 @@
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     $.ajax({
-                        url: "/teacher/deleteByStudent",
+                        url: "/tsep/teacher/deleteByStudent",
                         method: 'post',
                         dataType: 'JSON',
                         data: {
@@ -211,7 +211,7 @@
                             var field = data.field; //获取提交的字段
                             console.log(field);
                             $.ajax({
-                                url: "/teacher/addStudent",
+                                url: "/tsep/teacher/addStudent",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
