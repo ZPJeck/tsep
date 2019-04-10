@@ -23,11 +23,13 @@ public class IndexController {
 
     @RequestMapping(value = "/login")
     public String login(){
-
+        if (session.getAttribute("admin") != null){
+            return "redirect:/frond/admin/views/admin/index.html";
+        }
         return "redirect:/frond/admin/login.html";
     }
 
-    @RequestMapping(value = "/studentLogin")
+    @RequestMapping(value = {"/studentLogin","/"})
     public String login2(){
 
         return "redirect:/frond/admin/views/student/login.html";
@@ -38,6 +40,24 @@ public class IndexController {
         session.removeAttribute("student");
         session.removeAttribute("teacher");
         session.removeAttribute("admin");
-        return "redirect:/frond/admin/login.html";
+        return "forward:/studentLogin";
     }
+    /*
+     *  返回错误页面500
+     */
+    @RequestMapping(value = "/five")
+    public String five(){
+
+        return "redirect:/frond/admin/error.html";
+    }
+    /*
+     *  返回错误页面404
+     */
+    @RequestMapping(value = "/four0four")
+    public String four0four(){
+
+        return "redirect:/frond/admin/404.html";
+    }
+
+
 }

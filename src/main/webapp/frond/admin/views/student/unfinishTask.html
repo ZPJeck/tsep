@@ -117,10 +117,9 @@
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
                             console.log(field);
-                            //提交 Ajax 成功后，静态更新表格中的数据
-                            //$.ajax({});
+                            alert(0)
                             $.ajax({
-                                url: "/task/saveTask",
+                                url: "/tsep/task/saveTask",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
@@ -132,7 +131,6 @@
                                         },function () {
                                             location.reload();
                                         });
-
 
                                     } else if (res.code == 1) {
                                         layer.msg(res.msg, {icon: 2, time: 2000});

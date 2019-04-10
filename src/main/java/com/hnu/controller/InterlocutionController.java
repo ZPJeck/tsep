@@ -67,7 +67,7 @@ public class InterlocutionController {
         }
         Interlocution byId = interlocutionService.findById(id);
         if (byId == null ){
-            return ResultUtil.error(-2,"查询信息失败");
+            return ResultUtil.error(-2,"老师未回复");
         }
         return ResultUtil.success(byId);
     }

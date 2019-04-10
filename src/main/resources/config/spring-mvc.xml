@@ -27,7 +27,7 @@
 
     <!-- 配置jsp文件的前后缀 “／”代表的是项目设定的Resource目录 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/frond/admin"/>
+        <property name="prefix" value="/WEB-INF"/>
         <property name="suffix" value=".html" />
     </bean>
 

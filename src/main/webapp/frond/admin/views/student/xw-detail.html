@@ -54,6 +54,8 @@
         var $ = layui.$;
         var layer = layui.layer
         var id = $(window.parent.document).find("#id").val();
+        var index = parent.layer.getFrameIndex(window.name);
+
 
         layui.laytpl.toDateString = function(d, format){
             if (d != null){
@@ -110,7 +112,12 @@
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/tsep/studentLogin"
                 }else if(res.code == -2){
-                    layer.msg(res.msg);
+                    layer.msg(res.msg,{
+                        time:500
+                    },function () {
+                        parent.layer.close(index);
+                    })
+
                 }
             },
             error: function (data) {

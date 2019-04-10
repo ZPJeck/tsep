@@ -45,6 +45,7 @@
         var table = layui.table;
         var laytpl = layui.laytpl;
 
+
         layui.laytpl.toDateString = function(d, format){
             if (d != null){
                 var date = new Date(d || new Date())
@@ -109,27 +110,12 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 $("#id").val(data.id);
-                layer.open({
+                var index = layer.open({
                     type: 2
-                    ,title: ''
+                    ,title: '详情'
                     ,content: 'xw-detail.html'
                     ,area: ['700px', '550px']
                     ,btn: ['确定', '取消']
-                    ,yes: function(index, layero){
-                        var iframeWindow = window['layui-layer-iframe'+ index]
-                            ,submitID = 'LAY-user-front-submit'
-                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
-                        //监听提交
-                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                            var field = data.field; //获取提交的字段
-
-                            table.reload('LAY-user-front-submit'); //数据刷新
-                            layer.close(index); //关闭弹层
-                        });
-
-                        submit.trigger('click');
-                    }
                 });
             }else if (obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
