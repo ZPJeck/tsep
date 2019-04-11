@@ -31,9 +31,19 @@ public class IndexController {
 
     @RequestMapping(value = {"/studentLogin","/"})
     public String login2(){
-
+        if (session.getAttribute("student") != null){
+            return "redirect:/frond/admin/views/student/index.html";
+        }
         return "redirect:/frond/admin/views/student/login.html";
     }
+    @RequestMapping(value = "/tLogin")
+    public String login3(){
+        if (session.getAttribute("teacher") != null){
+            return "redirect:/frond/admin/views/teacher/index.html";
+        }
+        return "redirect:/frond/admin/views/teacher/login.html";
+    }
+
 
     @RequestMapping(value = "/logout")
     public String logout(){

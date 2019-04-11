@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.0</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="../../css/font.css">
+        <link rel="stylesheet" href="../../css/xadmin.css">
+    </head>
+    <body>
+    <div class="x-body layui-anim layui-anim-up">
+        <blockquote class="layui-elem-quote">欢迎：
+            <span class="x-red" id="admin">test</span> 管理员！当前时间:<span id="time"></span></blockquote>
+        <fieldset class="layui-elem-field">
+            <legend>数据统计</legend>
+            <div class="layui-field-box">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <div class="layui-carousel x-admin-carousel x-admin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 90px;">
+                                <div carousel-item="">
+                                    <ul class="layui-row layui-col-space10 layui-this">
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3>所带班级</h3>
+                                                <p>
+                                                    <cite id="classNum">0</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3 >学生人数</h3>
+                                                <p>
+                                                    <cite id="studentNum">0</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3 >布置作业</h3>
+                                                <p>
+                                                    <cite id="taskNum">0</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3 >学业计划</h3>
+                                                <p>
+                                                    <cite id="plan">0</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3 >心得体会</h3>
+                                                <p>
+                                                    <cite id="xd">0</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs2">
+                                            <a href="javascript:;" class="x-admin-backlog-body">
+                                                <h3 >疑难问题</h3>
+                                                <p>
+                                                    <cite id="wd">0</cite></p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+            <legend>系统信息</legend>
+            <div class="layui-field-box">
+                <table class="layui-table">
+                    <tbody>
+                        <tr>
+                            <th>系统版本</th>
+                            <td>v1.0</td></tr>
+                        <tr>
+                            <th>服务器地址</th>
+                            <td>www.zpjeck.top</td></tr>
+                        <tr>
+                            <th>操作系统</th>
+                            <td>ubuntu</td></tr>
+                        <tr>
+                            <th>运行环境</th>
+                            <td>Ubantu 16.04</td></tr>
+                        <tr>
+                            <th>MYSQL版本</th>
+                            <td>5.5.53</td></tr>
+                        <tr>
+                            <th>实现功能</th>
+                            <td>师生交流</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+            <legend>开发团队</legend>
+            <div class="layui-field-box">
+                <table class="layui-table">
+                    <tbody>
+                        <tr>
+                            <th>版权所有</th>
+                            <td>lvwenchang(lvwenchang)
+                                <a href="http://www.zpjeck.top" class='x-a' target="_blank">访问官网</a></td>
+                        </tr>
+                        <tr>
+                            <th>开发者</th>
+                            <td>吕文昌(1357353635@qq.com)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote>
+    </div>
+    <script src="../../lib/layui/layui.js"></script>
+    <script>
+        layui.use(['table', 'layer'], function(){
+            var layer = layui.layer;
+            var table = layui.table;
+            var $ = layui.$;
+            // 请求用户信息
+            $.ajax({
+                url: "/tsep/teacher/userInfo",
+                method: 'post',
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.code == 0) {
+                        console.log(res.data.name)
+                        $("#admin").html(res.data.name)
+                    } else if (res.code == 1) {
+                        layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
+                                location.href = "/tsep/tLogin"
+                            }});
+                    }
+                }
+            });
+            setInterval(function () {
+                nowtime=new Date();
+                year=nowtime.getFullYear();
+                month=nowtime.getMonth()+1;
+                date=nowtime.getDate();
+                $("#time").html(year+"年"+month+"月"+date+" "+nowtime.toLocaleTimeString());
+            },1000);
+            // 数据统计
+            $(function () {
+                /*$.ajax({
+                    url: "/tsep/teacher/countNum",
+                    method: 'post',
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.code == 0) {
+                            $("#teacherNum").html(res.data.teacherNum);
+                            $("#studentNum").html(res.data.studentNum);
+                            $("#classNum").html(res.data.classNum);
+                        } else if (res.code == 1) {
+                            layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
+                                    location.href = "/tsep/login"
+                            }});
+                        }
+                    }
+                });*/
+            });
+
+
+
+
+        });
+    </script>
+    </body>
+</html>

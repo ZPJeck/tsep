@@ -51,6 +51,9 @@ public class TeacherController {
         if (!password.equals(teacher.getPassword())){
             return ResultUtil.error(2,"用户名或密码错误");
         }
+        if ( !status.equals(teacher.getStatus())){
+            return ResultUtil.error(3,"权限不足，请重新登录");
+        }
         if (status.equals("0")){
             session.setAttribute("admin",teacher);
         }else {
@@ -79,8 +82,10 @@ public class TeacherController {
         }
         // 保存密码
         newPassword = MD5Encryption.getMD5String(newPassword);
-        teacher.setPassword(newPassword);
-        int update = teacherService.updateInfo(teacher);
+        Teacher t = new Teacher();
+        t.setId(teacher.getId());
+        t.setPassword(newPassword);
+        int update = teacherService.updateInfo(t);
         if (update == 0){
             result.setMsg("出现未知错误，密码修改失败");
             result.setCode(4);
@@ -110,7 +115,7 @@ public class TeacherController {
         if (teacher == null){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
         }
-        if (teacher.getStatus().equals("1")){
+        if (teacher.getStatus().equals("0")){
             teacher.setStatus("管理员");
         }else {
             teacher.setStatus("教师");
