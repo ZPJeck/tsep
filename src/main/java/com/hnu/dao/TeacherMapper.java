@@ -117,4 +117,12 @@ public interface TeacherMapper {
     List<Teacher> list();
 
     Teacher findById(@Param("id") String id);
+
+    int classNumByTeacher(@Param("id") String id);
+    int stuNumByTeacher(@Param("id") String id);
+    int taskByTeacher(@Param("id") String id);
+    int planNum(@Param("id") String id);
+    int xdNum(@Param("id") String id);
+    int wdNum(@Param("id") String id);
+
 }

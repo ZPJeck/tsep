@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Auther: Zpjeck
@@ -247,5 +244,33 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher findById(String id) {
         return teacherMapper.findById(id);
+    }
+
+    @Override
+    public Result countByTeacher() {
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        String id = teacher.getId();
+        // 所带班级个数
+        int classNum = teacherMapper.classNumByTeacher(id);
+        // 学生人数
+        int stuNum = teacherMapper.stuNumByTeacher(id);
+        // 布置作业个数
+        int taskNum = teacherMapper.taskByTeacher(id);
+        // 学业计划
+        int plan = teacherMapper.planNum(id);
+        // 心得体会
+        int xd = teacherMapper.xdNum(id);
+        // 疑难问题
+        int wd = teacherMapper.wdNum(id);
+        teacher.setPassword("");
+        Map<String ,String> map = new HashMap<>();
+        map.put("classNum",String.valueOf(classNum));
+        map.put("stuNum",String.valueOf(stuNum));
+        map.put("plan",String.valueOf(plan));
+        map.put("taskNum",String.valueOf(taskNum));
+        map.put("xd",String.valueOf(xd));
+        map.put("wd",String.valueOf(wd));
+        map.put("name",teacher.getName());
+        return ResultUtil.success(map);
     }
 }

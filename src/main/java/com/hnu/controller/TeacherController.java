@@ -415,6 +415,16 @@ public class TeacherController {
     }
 
 
+    /*
+     *  教师端展示首页面   数据统计
+     */
+    @RequestMapping(value = "/countByTeacher",method = RequestMethod.POST)
+    public Result countByTeacher(){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),ResultEnum.LOGIN_SUCCESS.getMessage());
+        }
+        return teacherService.countByTeacher();
+    }
 
 
 

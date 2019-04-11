@@ -121,4 +121,9 @@ public interface TeacherService {
      */
     Teacher findById(String id);
 
+    /*
+     *  教师端数据统计
+     */
+    Result countByTeacher();
+
 }

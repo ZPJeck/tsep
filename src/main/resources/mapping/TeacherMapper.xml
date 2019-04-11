@@ -509,4 +509,51 @@
         where flag = 1
     </select>
 
+
+
+    <!--  教师端sql语句  -->
+    <select id="classNumByTeacher" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from teacher_class
+        where flag = 1 and teacher_id = #{id}
+    </select>
+
+    <select id="stuNumByTeacher" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from student st,teacher_class tc
+        where st.flag = 1 and tc.flag = 1 and st.class_id = tc.class_id and tc.teacher_id = #{id}
+    </select>
+
+    <select id="taskByTeacher" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from task
+        where flag = 1 and teacher_id = #{id}
+
+    </select>
+
+    <select id="planNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from plan
+        where flag = 1 and teacher_id = #{id}
+    </select>
+
+    <select id="xdNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from interlocution it , teacher_class tc
+        where it.flag = 1 and tc.flag = 1 and it.class_id = tc.class_id and tc.teacher_id = #{id} and it.type = 0
+
+    </select>
+
+    <select id="wdNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from interlocution it , teacher_class tc
+        where it.flag = 1 and tc.flag = 1 and it.class_id = tc.class_id and tc.teacher_id = #{id} and it.type = 1
+    </select>
+
+
+
+
+
+
+
 </mapper>

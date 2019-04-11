@@ -13,7 +13,7 @@
     <body>
     <div class="x-body layui-anim layui-anim-up">
         <blockquote class="layui-elem-quote">欢迎：
-            <span class="x-red" id="admin">test</span> 管理员！当前时间:<span id="time"></span></blockquote>
+            <span class="x-red" id="teacher"></span> 老师！当前时间:<span id="time"></span></blockquote>
         <fieldset class="layui-elem-field">
             <legend>数据统计</legend>
             <div class="layui-field-box">
@@ -127,13 +127,20 @@
             var $ = layui.$;
             // 请求用户信息
             $.ajax({
-                url: "/tsep/teacher/userInfo",
+                url: "/tsep/teacher/countByTeacher",
                 method: 'post',
                 dataType: 'JSON',
                 success: function (res) {
                     if (res.code == 0) {
                         console.log(res.data.name)
-                        $("#admin").html(res.data.name)
+                        $("#classNum").html(res.data.classNum)
+                        $("#studentNum").html(res.data.stuNum)
+                        $("#task").html(res.data.taskNum)
+                        $("#plan").html(res.data.plan)
+                        $("#xd").html(res.data.xd)
+                        $("#wd").html(res.data.wd)
+                        $("#teacher").html(res.data.name)
+
                     } else if (res.code == 1) {
                         layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
                                 location.href = "/tsep/tLogin"
