@@ -3,6 +3,8 @@ package com.hnu.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hnu.Enum.Comment;
+import com.hnu.Enum.ResultEnum;
 import com.hnu.dao.StudentTaskMapper;
 import com.hnu.dao.TaskMapper;
 import com.hnu.model.StudentTask;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Auther: Zpjeck
@@ -70,11 +73,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public PageInfo<Task> selectByTeacher(Integer pageNum, Integer pageSize,String teacherId) {
-        PageHelper.startPage(pageNum, pageSize);
+    public Result<Task> selectByTeacher(Integer pageNum, Integer pageSize,String teacherId) {
+        Page page = PageHelper.startPage(pageNum, pageSize,true);
         // 查询数据
         List<Task> list = taskMapper.selectBystudent(teacherId);
-        return new PageInfo<>(list);
+        for (Task task : list) {
+            Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
+            task.setCreateby(teacher.getName());
+        }
+        return ResultUtil.success(list,list.size());
     }
 
     @Override
@@ -82,6 +89,9 @@ public class TaskServiceImpl implements TaskService {
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         task.setCreateby(teacher.getId());
         task.setCreatetime(new Date());
+        task.setTeacherId(teacher.getId());
+        String id = UUID.randomUUID().toString().replaceAll("-","");
+        task.setId(id);
         return taskMapper.save(task);
     }
 
@@ -121,5 +131,24 @@ public class TaskServiceImpl implements TaskService {
         }
 
         return ResultUtil.success(taskList,taskList.size());
+    }
+
+
+    @Override
+    public Result deleteTask(String id) {
+        int i = taskMapper.deleteTask(id);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除失败");
+        }
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Result updateTask(Task task) {
+        int i = taskMapper.updateTask(task);
+        if (i == 0){
+            return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除失败");
+        }
+        return ResultUtil.success();
     }
 }

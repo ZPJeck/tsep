@@ -55,6 +55,27 @@ public class TaskController {
         return ResultUtil.success();
     }
 
+    /*
+     *  老师删除作业
+     */
+    @RequestMapping(value = "/deleteTask",method = RequestMethod.POST)
+    public Result deleteTask(String id){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        return taskService.deleteTask(id);
+    }
+
+    /*
+     *  修改作业
+     */
+    @RequestMapping(value = "/updateTask",method = RequestMethod.POST)
+    public Result updateTask(Task task){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        return taskService.updateTask(task);
+    }
 
     /*
      *  老师批改作业
@@ -78,8 +99,8 @@ public class TaskController {
     public Result listByTeacher(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
                                 @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
 
-        PageInfo<Task> taskPageInfo = taskService.selectByTeacher(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
-        return ResultUtil.success(taskPageInfo);
+        Result<Task> result = taskService.selectByTeacher(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
+        return result;
     }
 
 
@@ -109,9 +130,7 @@ public class TaskController {
     @RequestMapping(value = "/selectById")
     public Result selectById(@Param("id") String id){
         Result vo = new Result();
-        if (!isLogin("student")){
-            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
-        }
+
         Task task = taskService.selectById(id);
         if (task == null){
             vo.setCode(2);

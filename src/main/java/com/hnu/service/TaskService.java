@@ -20,7 +20,7 @@ public interface TaskService {
 
     Result<Task> selectBystudent(Integer pageNum, Integer pageSize, String id);
 
-    PageInfo<Task> selectByTeacher(Integer pageNum, Integer pageSize,String teacherId);
+    Result<Task> selectByTeacher(Integer pageNum, Integer pageSize,String teacherId);
 
     int save(Task task);
 
@@ -30,4 +30,7 @@ public interface TaskService {
 
     Result<Task>  listByStudentUnfinish(Integer pageNum, Integer pageSize,String id);
 
+    Result deleteTask(String id);
+
+    Result updateTask(Task task);
 }

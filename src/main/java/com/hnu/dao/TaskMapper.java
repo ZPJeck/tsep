@@ -13,7 +13,7 @@ public interface TaskMapper {
 
     int deleteBytask(Task task);
 
-    int deleteByPrimaryKey(String id);
+
 
     int insert(Task record);
 
@@ -42,4 +42,8 @@ public interface TaskMapper {
 
     TaskStudentPojo findStudentByTaskId(@Param("id") String taskId);
     List<StudentTask> isExitStudentTask(@Param("studenId") String id,@Param("taskId") String taskId);
+
+    int deleteTask(String id);
+
+    int updateTask(Task task);
 }
