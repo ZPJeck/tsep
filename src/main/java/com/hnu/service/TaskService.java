@@ -33,4 +33,6 @@ public interface TaskService {
     Result deleteTask(String id);
 
     Result updateTask(Task task);
+
+    Result<StudentTask> studentTaskList(Integer pageNum, Integer pageSize,String classId,String taskId);
 }

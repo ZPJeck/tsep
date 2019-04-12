@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../lib/layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" pad15>
+            <div id="view"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .not:hover {
+        cursor: not-allowed;
+        color: #d2d2d2;
+    }
+    .not {
+        color: #d2d2d2;
+    }
+</style>
+</body>
+<script id="demo" type="text/html">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">学生姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="number" value="{{d.number}}" disabled readonly  autocomplete="off" class="layui-input not">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">作业题目</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" value="{{d.name}}"   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">作业要求</label>
+            <div class="layui-input-block">
+                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">学生答案</label>
+            <div class="layui-input-block">
+                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">回复</label>
+            <div class="layui-input-block">
+                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+            </div>
+        </div>
+        <div class="layui-card">
+            <label class="layui-form-label">评分</label>
+            <div class="layui-card-body">
+                <div id="test-rate-dome6"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">完成时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" disabled readonly placeholder="时间" autocomplete="off" class="layui-input not">
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{{ d.id }}" readonly  autocomplete="off" class="layui-input">
+
+        <div class="layui-form-item layui-hide">
+            <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
+        </div>
+    </form>
+</script>
+
+<script>
+    layui.use(['rate','laytpl','jquery','form','layer'], function(){
+        var laytpl = layui.laytpl;
+        var $ = layui.$;
+        var layer = layui.layer;
+        var form = layui.form;
+        var rate = layui.rate;
+        var id = $(window.parent.document).find("#id").val();
+        layui.laytpl.toDateString = function(d, format){
+            if (d != null){
+                var date = new Date(d || new Date())
+                    ,ymd = [
+                    this.digit(date.getFullYear(), 4)
+                    ,this.digit(date.getMonth() + 1)
+                    ,this.digit(date.getDate())
+                ]
+                    ,hms = [
+                    this.digit(date.getHours())
+                    ,this.digit(date.getMinutes())
+                    ,this.digit(date.getSeconds())
+                ];
+            }else {
+                return "";
+            }
+
+
+            format = format || 'yyyy-MM-dd HH:mm:ss';
+
+            return format.replace(/yyyy/g, ymd[0])
+                .replace(/MM/g, ymd[1])
+                .replace(/dd/g, ymd[2])
+                .replace(/HH/g, hms[0])
+                .replace(/mm/g, hms[1])
+                .replace(/ss/g, hms[2]);
+        };
+        layui.laytpl.digit = function(num, length, end){
+            var str = '';
+            num = String(num);
+            length = length || 2;
+            for(var i = num.length; i < length; i++){
+                str += '0';
+            }
+            return num < Math.pow(10, length) ? str + (num|0) : num;
+        };
+
+
+        $.ajax({
+            url: "/tsep/teacher/selectByStudentId",
+            method: 'post',
+            data: {
+                id:id
+            },
+            dataType: 'JSON',
+            success: function (res) {
+                if (res.code == 0) {
+                    var getTpl = demo.innerHTML
+                        ,view = document.getElementById('view');
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+                    form.render()
+                } else if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 2, time: 2000});
+                    location.href = "/tsep/login"
+                }else if(res.code == -2){
+                    layer.msg(res.msg);
+                }
+            },
+            error: function (data) {
+                layer.msg("查看失败", {icon: 2, time: 2000})
+            }
+
+        });
+
+        rate.render({
+            elem: '#test-rate-dome6'
+            ,value: 1.5
+            ,half: true
+            ,text: true
+            ,setText: function(value){
+                this.span.text(value);
+            }
+        });
+
+
+    });
+</script>
+</html>

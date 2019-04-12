@@ -12,6 +12,8 @@ import java.util.Date;
 @Data
 public class TaskStudentPojo {
 
+    private String id;
+
     private String title;
 
     private String content;

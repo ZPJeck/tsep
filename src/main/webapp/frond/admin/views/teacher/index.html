@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li>
-                            <a _href="unfinishTask.html">
+                            <a _href="correcting-list.html">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>批改作业</cite>
                             </a>
@@ -175,7 +175,7 @@
             dataType: 'JSON',
             success: function (res) {
                 if (res.code == 0) {
-                    $("#teacher").append(res.data.name)
+                    $("#teacher").append('<img src="http://t.cn/RCzsdCq" class="layui-nav-img">'+res.data.name)
                     form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>批改作业页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="x-nav">
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+           href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+
+
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">批改作业</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="test-table-page" lay-filter="test-table-page"></table>
+                        <input type="hidden" value="" id="id">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="barDemo" >
+        <a class="layui-btn layui-btn-xs" lay-event="detail">评分</a>
+    </script>
+    <script>
+        layui.use(['table','laytpl'], function(){
+            var table = layui.table;
+            var laytpl = layui.laytpl;
+
+            layui.laytpl.toDateString = function(d, format){
+                var date = new Date(d || new Date())
+                    ,ymd = [
+                    this.digit(date.getFullYear(), 4)
+                    ,this.digit(date.getMonth() + 1)
+                    ,this.digit(date.getDate())
+                ]
+                    ,hms = [
+                    this.digit(date.getHours())
+                    ,this.digit(date.getMinutes())
+                    ,this.digit(date.getSeconds())
+                ];
+
+                format = format || 'yyyy-MM-dd HH:mm:ss';
+
+                return format.replace(/yyyy/g, ymd[0])
+                    .replace(/MM/g, ymd[1])
+                    .replace(/dd/g, ymd[2])
+                    .replace(/HH/g, hms[0])
+                    .replace(/mm/g, hms[1])
+                    .replace(/ss/g, hms[2]);
+            };
+
+    //数字前置补零
+            layui.laytpl.digit = function(num, length, end){
+                var str = '';
+                num = String(num);
+                length = length || 2;
+                for(var i = num.length; i < length; i++){
+                    str += '0';
+                }
+                return num < Math.pow(10, length) ? str + (num|0) : num;
+            };
+
+            table.render({
+                elem: '#test-table-page'
+                ,url:'/tsep/task/studentTaskList'
+                ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,groups: 1 //只显示 1 个连续页码
+                    ,first: false //不显示首页
+                    ,last: false //不显示尾页
+                }
+                ,cols: [[
+                    {type:'numbers',  title: '序号'}
+                    ,{field:'taskId',  title: '作业题目'}
+                    ,{field:'studentId',  title: '学生姓名'}
+                    ,{field:'classId',  title: '班级名称'}
+                    ,{field:'updatetime', title: '完成时间',templet: '<div>{{ layui.laytpl.toDateString(d.updatetime) }}</div>'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+                ]]
+                ,page: true
+            });
+
+
+            table.on('tool(test-table-page)', function(obj){
+                var data = obj.data;
+                console.log(data)
+                if(obj.event === 'detail'){
+                    $("#id").val(data.id);
+                    layer.open({
+                        type: 2
+                        ,title: '批改作业'
+                        ,content: 'correctDetail.html'
+                        ,area: ['650px', '550px']
+                        ,btn: ['确定', '取消']
+                        ,yes: function(index, layero){
+                            var iframeWindow = window['layui-layer-iframe'+ index]
+                                ,submitID = 'LAY-user-front-submit'
+                                ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+                            //监听提交
+                            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                                var field = data.field; //获取提交的字段
+
+                                $.ajax({
+                                    url: "/tsep/task/relayTask",
+                                    method: 'post',
+                                    dataType: 'JSON',
+                                    data: field,
+                                    success: function (res) {
+                                        if (res.code == 0) {
+                                            layer.close(index);
+                                            layer.msg("批改成功",{
+                                                time: 500
+                                            },function () {
+                                                location.reload();
+                                            });
+                                        } else if (res.code == 1) {
+                                            layer.msg(res.msg, {icon: 2, time: 2000});
+                                            location.href = "/tsep/tLogin"
+                                        }else if(res.code == -1){
+                                            layer.msg(res.msg);
+                                        }
+                                    },
+                                    error: function (data) {
+                                        layer.msg("批改失败", {icon: 2, time: 2000})
+                                    }
+
+                                });
+                                table.reload('LAY-user-front-submit'); //数据刷新
+                                layer.close(index); //关闭弹层
+                            });
+
+                            submit.trigger('click');
+                        }
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+
+
+</body>
+
+</html>

@@ -136,5 +136,18 @@
         </where>
     </update>
 
+    <select id="studentTaskList" parameterType="java.lang.String" resultType="com.hnu.model.StudentTask">
+        select st.*
+        from student_task st , teacher_class tc
+        where tc.flag = 1 and st.flag = 1 and tc.teacher_id = #{teacherId} and tc.class_id = st.class_id
+    </select>
+
+    <select id="studentTaskList2" parameterType="java.lang.String" resultType="com.hnu.model.StudentTask">
+        select st.*
+        from student_task st , teacher_class tc
+        where tc.flag = 1 and st.flag = 1 and tc.teacher_id = #{teacherId} and
+         tc.class_id = st.class_id and st.class_id = #{classId} and st.task_id = #{taskId}
+
+    </select>
 
 </mapper>

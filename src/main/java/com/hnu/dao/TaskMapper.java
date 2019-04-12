@@ -46,4 +46,15 @@ public interface TaskMapper {
     int deleteTask(String id);
 
     int updateTask(Task task);
+
+    /*
+     *  默认查询为所有数据
+     */
+    List<StudentTask> studentTaskList(@Param("teacherId") String teacherId);
+
+    /*
+     *  按照班级查询
+     */
+    List<StudentTask> studentTaskList2(@Param("teacherId") String teacherId,@Param("classId") String classId,@Param("taskId") String taskId);
+
 }

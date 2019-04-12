@@ -78,6 +78,20 @@ public class TaskController {
     }
 
     /*
+     *  老师根据教师id  展示所有  学生完成的作业
+     */
+    @RequestMapping(value = "/studentTaskList")
+    public Result studentTaskList(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                                  @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize,
+                                  String classId,String taskId){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        return taskService.studentTaskList(pageNum,pageSize,classId,taskId);
+    }
+
+
+    /*
      *  老师批改作业
      */
     @RequestMapping(value = "/relayTask")

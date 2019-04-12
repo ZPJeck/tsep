@@ -7,10 +7,13 @@ import com.hnu.Enum.Comment;
 import com.hnu.Enum.ResultEnum;
 import com.hnu.dao.StudentTaskMapper;
 import com.hnu.dao.TaskMapper;
+import com.hnu.model.Student;
 import com.hnu.model.StudentTask;
 import com.hnu.model.Task;
 import com.hnu.model.Teacher;
+import com.hnu.pojo.StudentClass;
 import com.hnu.pojo.TaskStudentPojo;
+import com.hnu.service.StudentService;
 import com.hnu.service.TaskService;
 import com.hnu.service.TeacherService;
 import com.hnu.util.Result;
@@ -40,6 +43,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private HttpSession session;
@@ -150,5 +156,29 @@ public class TaskServiceImpl implements TaskService {
             return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除失败");
         }
         return ResultUtil.success();
+    }
+
+    @Override
+    public Result studentTaskList(Integer pageNum, Integer pageSize,String classId,String taskId) {
+        Page page = PageHelper.startPage(pageNum, pageSize,true);
+
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        List<StudentTask> studentTaskList = new ArrayList<>();
+        if (classId == null){
+            studentTaskList = taskMapper.studentTaskList(teacher.getId());
+        }else{
+            studentTaskList = taskMapper.studentTaskList2(teacher.getId(),classId,taskId);
+        }
+        for (StudentTask studentTask : studentTaskList){
+            if (studentTask != null){
+                StudentClass studentClass = studentService.selectByPrimaryKey(studentTask.getStudentId());
+                studentTask.setStudentId(studentClass.getName());
+                studentTask.setClassId(studentClass.getClassName());
+            }
+            Task task = taskMapper.selectByPrimaryKey(studentTask.getTaskId());
+            studentTask.setTaskId(task.getTitle());
+
+        }
+        return ResultUtil.success(studentTaskList,studentTaskList.size());
     }
 }
