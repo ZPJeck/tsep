@@ -56,6 +56,17 @@ public class TaskController {
     }
 
     /*
+     *  根据student_task id查询
+     */
+    @RequestMapping(value = "/findById",method = RequestMethod.POST)
+    public Result findById(String id){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        return taskService.findById(id);
+    }
+
+    /*
      *  老师删除作业
      */
     @RequestMapping(value = "/deleteTask",method = RequestMethod.POST)

@@ -107,7 +107,6 @@
 
             table.on('tool(test-table-page)', function(obj){
                 var data = obj.data;
-                console.log(data)
                 if(obj.event === 'detail'){
                     $("#id").val(data.id);
                     layer.open({

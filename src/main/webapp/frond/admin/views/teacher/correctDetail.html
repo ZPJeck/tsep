@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../lib/layui/style/admin.css" media="all">
     <script type="text/javascript" src="../../lib/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
@@ -12,6 +16,13 @@
         <div class="layui-card-body" pad15>
             <div id="view"></div>
         </div>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-header">自定义内容</div>
+    <div class="layui-card-body">
+        <div id="test-rate-dome5"></div>
+        <div><div id="test-rate-dome2"></div></div>
     </div>
 </div>
 <style>
@@ -29,43 +40,43 @@
         <div class="layui-form-item">
             <label class="layui-form-label">学生姓名</label>
             <div class="layui-input-block">
-                <input type="text" name="number" value="{{d.number}}" disabled readonly  autocomplete="off" class="layui-input not">
+                <input type="text"  value="{{d.studentId}}" disabled readonly  autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">作业题目</label>
             <div class="layui-input-block">
-                <input type="text" name="name" value="{{d.name}}"   autocomplete="off" class="layui-input">
+                <input type="text"  value="{{d.taskId}}" disabled readonly  autocomplete="off" class="layui-input not">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">作业要求</label>
             <div class="layui-input-block">
-                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+                <textarea  disabled readonly   class="layui-textarea not">{{d.createby}}</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">学生答案</label>
             <div class="layui-input-block">
-                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+                <textarea  disabled readonly   class="layui-textarea not">{{d.answer}}</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">回复</label>
             <div class="layui-input-block">
-                <textarea name="address"    class="layui-textarea">{{d.address}}</textarea>
+                <textarea name="feedback"    class="layui-textarea">{{d.feedback}}</textarea>
             </div>
         </div>
-        <div class="layui-card">
+        <div class="layui-form-item layui-card">
             <label class="layui-form-label">评分</label>
             <div class="layui-card-body">
-                <div id="test-rate-dome6"></div>
+                <div><div id="test-rate-dome6"></div></div>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">完成时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.createtime)}}" disabled readonly placeholder="时间" autocomplete="off" class="layui-input not">
+                <input type="text"  value="{{ layui.laytpl.toDateString(d.updatetime)}}" disabled readonly placeholder="时间" autocomplete="off" class="layui-input not">
             </div>
         </div>
         <input type="hidden" name="id" value="{{ d.id }}" readonly  autocomplete="off" class="layui-input">
@@ -123,7 +134,7 @@
 
 
         $.ajax({
-            url: "/tsep/teacher/selectByStudentId",
+            url: "/tsep/task/findById",
             method: 'post',
             data: {
                 id:id
@@ -139,7 +150,7 @@
                     form.render()
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
-                    location.href = "/tsep/login"
+                    location.href = "/tsep/tLogin"
                 }else if(res.code == -2){
                     layer.msg(res.msg);
                 }
@@ -151,14 +162,14 @@
         });
 
         rate.render({
-            elem: '#test-rate-dome6'
+            elem: '#test-rate-dome2'
             ,value: 1.5
             ,half: true
             ,text: true
             ,setText: function(value){
                 this.span.text(value);
             }
-        });
+        })
 
 
     });

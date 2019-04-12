@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hnu.dao.TaskMapper">
 
+    <select id="findById" resultType="com.hnu.model.StudentTask" parameterType="java.lang.String">
+        select *
+        from student_task
+        where flag = 1 and id = #{id}
+    </select>
+
     <select id="selectByPrimaryKey" resultType="com.hnu.model.Task" parameterType="java.lang.String">
         select *
         from task

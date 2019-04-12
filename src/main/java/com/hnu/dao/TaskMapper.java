@@ -57,4 +57,5 @@ public interface TaskMapper {
      */
     List<StudentTask> studentTaskList2(@Param("teacherId") String teacherId,@Param("classId") String classId,@Param("taskId") String taskId);
 
+    StudentTask findById(String id);
 }

@@ -181,4 +181,19 @@ public class TaskServiceImpl implements TaskService {
         }
         return ResultUtil.success(studentTaskList,studentTaskList.size());
     }
+
+    @Override
+    public Result<StudentTask> findById(String id) {
+        StudentTask studentTask = taskMapper.findById(id);
+
+        if (studentTask != null){
+            StudentClass studentClass = studentService.selectByPrimaryKey(studentTask.getStudentId());
+            studentTask.setStudentId(studentClass.getName());
+            studentTask.setClassId(studentClass.getClassName());
+            Task task = taskMapper.selectByPrimaryKey(studentTask.getTaskId());
+            studentTask.setTaskId(task.getTitle());
+            studentTask.setCreateby(task.getContent());
+        }
+        return ResultUtil.success(studentTask);
+    }
 }
