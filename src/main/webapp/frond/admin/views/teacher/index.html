@@ -175,7 +175,7 @@
             dataType: 'JSON',
             success: function (res) {
                 if (res.code == 0) {
-                    $("#teacherName").append(res.data.name)
+                    $("#teacher").append(res.data.name)
                     form.render();
                 } else if (res.code == 1) {
                     layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
