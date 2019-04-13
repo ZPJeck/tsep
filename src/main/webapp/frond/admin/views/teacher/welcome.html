@@ -132,10 +132,10 @@
                 dataType: 'JSON',
                 success: function (res) {
                     if (res.code == 0) {
-                        console.log(res.data.name)
+                        console.log(res.data.taskNum)
                         $("#classNum").html(res.data.classNum)
                         $("#studentNum").html(res.data.stuNum)
-                        $("#task").html(res.data.taskNum)
+                        $("#taskNum").html(res.data.taskNum)
                         $("#plan").html(res.data.plan)
                         $("#xd").html(res.data.xd)
                         $("#wd").html(res.data.wd)

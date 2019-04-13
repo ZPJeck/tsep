@@ -31,7 +31,7 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public int insertPlan(Plan plan) {
-        if (!"".equals(plan.getId())){
+        if ("".equals(plan.getId())){
             return Comment.FAIL.getCode();
         }
         return planMapper.insert(plan);
@@ -42,7 +42,10 @@ public class PlanServiceImpl implements PlanService {
 
         PageHelper.startPage(pageNum,pageSize);
         List<Plan> list = planMapper.findList(teacherId);
-
+        for (Plan plan : list){
+            Teacher byTeacher = teacherService.findByTeacher(plan.getTeacherId());
+            plan.setCreateby(byTeacher.getName());
+        }
         PageInfo<Plan> pageInfo = new PageInfo<Plan>(list);
         long total = pageInfo.getTotal();
         int size = (int) total;

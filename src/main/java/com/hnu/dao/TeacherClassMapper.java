@@ -8,6 +8,6 @@ import com.hnu.model.TeacherClass;
 import org.apache.ibatis.annotations.Param;
 
 public interface TeacherClassMapper {
-    Clazz findByTeacherId(String teacherId);
+    List<Clazz> findByTeacherId(String teacherId);
     Teacher findByClassId(String classId);
 }

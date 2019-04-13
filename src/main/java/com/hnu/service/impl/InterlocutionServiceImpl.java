@@ -83,8 +83,8 @@ public class InterlocutionServiceImpl implements InterlocutionService {
 
     @Override
     public Result<Interlocution> listByClass(Integer  pageNum,Integer  pageSize,String teacherId) {
-        Clazz clazz = teacherClassMapper.findByTeacherId(teacherId);
-        String classId = clazz.getId();
+        List<Clazz> clazz = teacherClassMapper.findByTeacherId(teacherId);
+        String classId = clazz.get(0).getId();
         PageHelper.startPage(pageNum,pageSize);
         List<Interlocution> list = interlocutionMapper.listByClass(classId);
         return ResultUtil.success(list,list.size());

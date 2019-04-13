@@ -8,6 +8,8 @@ import com.hnu.service.TeacherClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Auther: Zpjeck
  * @Date: 2019/4/1 12:07
@@ -26,7 +28,7 @@ public class TeacherClassServiceImpl implements TeacherClassService {
     }
 
     @Override
-    public Clazz findByTeacherId(String teacherId) {
+    public List<Clazz> findByTeacherId(String teacherId) {
         return teacherClassMapper.findByTeacherId(teacherId);
     }
 }

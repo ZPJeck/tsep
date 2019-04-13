@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>已作业页面</title>
+    <title>心得列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -21,18 +21,19 @@
 </head>
 
 <body>
-<div class="layui-fluid">
-    <div class="layui-card">
+<div class="x-nav" style="padding-bottom: 5px;margin:20px 0;margin-top: -3px">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i>
+    </a>
+</div>
 
-        <div class="layui-card-body">
-            <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
-            </div>
-
-            <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
-            <input type="hidden" value="" id="id">
-        </div>
-    </div>
+<div class="layui-card" >
+    <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+    <script type="text/html" id="table-useradmin-webuser">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    </script>
+    <input type="hidden" value="" id="id">
 </div>
 
 
@@ -86,7 +87,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/tsep/wd/list?type='+'0'
+            ,url:'/tsep/wd/listByClass'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页

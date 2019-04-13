@@ -39,8 +39,8 @@
         </script>
         <input type="hidden" value="" id="id">
     </div>
-    </div>
 </div>
+
 
 
 <script type="text/html" id="barDemo" >
@@ -117,7 +117,7 @@
                 $("#id").val(data.id);
                 layer.open({
                     type: 2
-                    ,title: ''
+                    ,title: '计划详情'
                     ,content: 'planDetail.html'
                     ,area: ['700px', '550px']
                     ,btn: [ '取消']
@@ -142,6 +142,62 @@
 
             }
         });
+
+
+        var active = {
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加计划'
+                    ,content: 'planAdd.html'
+                    ,maxmin: true
+                    ,area: ['500px', '450px']
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index, layero){
+                        var iframeWindow = window['layui-layer-iframe'+ index]
+                            ,submitID = 'LAY-user-front-submit'
+                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+                        //监听提交
+                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                            var field = data.field; //获取提交的字段
+                            console.log(field);
+                            $.ajax({
+                                url: "/tsep/plan/releasePlan",
+                                method: 'post',
+                                dataType: 'JSON',
+                                data: field,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        layer.close(index);
+                                        layer.msg("添加成功",{
+                                            time: 500
+                                        },function () {
+                                            location.reload();
+                                        });
+
+
+                                    } else if (res.code == 1) {
+                                        layer.msg(res.msg, {icon: 2, time: 2000});
+                                        location.href = "/tsep/login"
+                                    }else if(res.code == -1){
+                                        layer.msg(res.msg);
+                                    }
+                                },
+                                error: function (data) {
+                                    layer.msg("添加失败", {icon: 2, time: 2000})
+                                }
+
+                            });
+                            layer.close(index); //关闭弹层
+                        });
+
+                        submit.trigger('click');
+                    }
+                });
+            }
+        };
+
         $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

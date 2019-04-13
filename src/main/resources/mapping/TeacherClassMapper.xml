@@ -8,4 +8,5 @@
         where t.flag = 1 and tc.flag = 1 and t.id = tc.teacher_id and tc.class_id = #{classId}
     </select>
 
+
 </mapper>

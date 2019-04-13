@@ -50,7 +50,7 @@ public class PlanController {
         plan.setCreatetime(new Date());
         int result = planService.insertPlan(plan);
         if (result == 0){
-            return ResultUtil.error(-1,"计划失败");
+            return ResultUtil.error(-1,"添加计划失败");
         }
         return ResultUtil.success();
     }
