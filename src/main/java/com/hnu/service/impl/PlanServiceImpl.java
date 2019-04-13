@@ -38,10 +38,15 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PageInfo<Plan> findList(Integer pageNum, Integer pageSize, String teacherId) {
+    public Result<Plan> findList(Integer pageNum, Integer pageSize, String teacherId) {
+
         PageHelper.startPage(pageNum,pageSize);
         List<Plan> list = planMapper.findList(teacherId);
-        return new PageInfo<>(list);
+
+        PageInfo<Plan> pageInfo = new PageInfo<Plan>(list);
+        long total = pageInfo.getTotal();
+        int size = (int) total;
+        return ResultUtil.success(list,size);
     }
 
     @Override

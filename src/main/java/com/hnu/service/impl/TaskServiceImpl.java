@@ -87,7 +87,11 @@ public class TaskServiceImpl implements TaskService {
             Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
             task.setCreateby(teacher.getName());
         }
-        return ResultUtil.success(list,list.size());
+        PageInfo<Task> pageInfo = new PageInfo<Task>(list);
+        long total = pageInfo.getTotal();
+        int size = (int) total;
+
+        return ResultUtil.success(list,size);
     }
 
     @Override

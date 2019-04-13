@@ -15,6 +15,9 @@
             <if test="studentId != null" >
                 student_id = #{studentId},
             </if>
+            <if test="score != null" >
+                score = #{score},
+            </if>
             <if test="classId != null" >
                 class_id = #{classId},
             </if>

@@ -121,8 +121,8 @@ public class TaskController {
      *  老师查看列表
      */
     @RequestMapping(value = "/listByTeacher")
-    public Result listByTeacher(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                                @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+    public Result listByTeacher(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                                @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize){
 
         Result<Task> result = taskService.selectByTeacher(pageNum, pageSize, ((Teacher) session.getAttribute("teacher")).getId());
         return result;

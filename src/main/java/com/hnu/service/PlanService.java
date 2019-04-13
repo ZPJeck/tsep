@@ -17,7 +17,7 @@ public interface PlanService {
      */
     int insertPlan(Plan plan);
 
-    PageInfo<Plan> findList(Integer pageNum, Integer pageSize, String teacherId);
+    Result<Plan> findList(Integer pageNum, Integer pageSize, String teacherId);
 
     Result<Plan> findByStudentId(Integer pageNum, Integer pageSize, String studentId);
 

@@ -22,15 +22,23 @@
 
 <body>
 <div class="layui-fluid">
+
+    <div class="x-nav">
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+           href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div style="padding-bottom: 10px;">
+        <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+    </div>
+
     <div class="layui-card">
-
-
-            <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
-            <script type="text/html" id="table-useradmin-webuser">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-            </script>
-            <input type="hidden" value="" id="id">
-        </div>
+        <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+        <script type="text/html" id="table-useradmin-webuser">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        </script>
+        <input type="hidden" value="" id="id">
+    </div>
     </div>
 </div>
 
@@ -83,7 +91,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/tsep/plan/studentList'
+            ,url:'/tsep/plan/teacherList'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -91,6 +99,8 @@
                 ,first: false //不显示首页
                 ,last: false //不显示尾页
             }
+            ,height:460
+            ,even:true
             ,cols: [[
                 {type:'numbers',  title: '序号'}
                 ,{field:'title',  title: '题目'}

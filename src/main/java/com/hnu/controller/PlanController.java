@@ -59,18 +59,18 @@ public class PlanController {
      *  老师查看自己发布的计划
      */
     @RequestMapping(value = "/teacherList")
-    public Result teacherList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                                @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+    public Result teacherList(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                                @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize){
         Result vo = new Result();
         if (!isLogin("teacher")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
         Teacher teacher = (Teacher) session.getAttribute("teacher");
-        PageInfo<Plan> planPageInfo = planService.findList(pageNum, pageSize, teacher.getId());
+        Result<Plan> planPageInfo = planService.findList(pageNum, pageSize, teacher.getId());
         if (planPageInfo == null){
             ResultUtil.error(-1,"还没有发布计划！");
         }
-        return ResultUtil.success(planPageInfo);
+        return planPageInfo;
     }
     /*
      *  学生查询计划列表
