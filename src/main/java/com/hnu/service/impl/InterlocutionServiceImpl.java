@@ -107,7 +107,10 @@ public class InterlocutionServiceImpl implements InterlocutionService {
                 interlocution.setType("问答解疑");
             }
         }
-        return ResultUtil.success(list,list.size());
+        PageInfo<Interlocution> list1 = new PageInfo<Interlocution>(list);
+        int total = (int) list1.getTotal();
+
+        return ResultUtil.success(list,total);
     }
 
     @Override
@@ -120,8 +123,10 @@ public class InterlocutionServiceImpl implements InterlocutionService {
             PageHelper.startPage(pageNum,pageSize);
              list = interlocutionMapper.listByClass(classId);
         }
+        PageInfo<Interlocution> list1 = new PageInfo<Interlocution>(list);
+        int total = (int) list1.getTotal();
 
-        return ResultUtil.success(list,list.size());
+        return ResultUtil.success(list,total);
     }
 
     @Override

@@ -51,7 +51,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">回复内容</label>
             <div class="layui-input-block">
-                <textarea name="reply" required placeholder="请输入回复内容"  class="layui-textarea">{{d.reply==null ? '':d.reply}}</textarea>
+                <textarea name="reply" lay-verify="required" placeholder="请输入回复内容"  class="layui-textarea">{{d.reply==null ? '':d.reply}}</textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -77,21 +77,13 @@
         var id = $(window.parent.document).find("#id").val();
         var index = parent.layer.getFrameIndex(window.name);
         form.verify({
-            title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
-                }
-            }
-            ,pass: [
-                /^[\S]{6,12}$/
-                ,'密码必须6到12位，且不能出现空格'
-            ]
-            ,content: function(value){
+
+            content: function(value){
                 layedit.sync(editIndex);
             }
             ,score: [
                 /^([0-2])$/
-                ,'分值只能在0-3之间'
+                ,'分值只能在0-2之间'
             ]
         });
 

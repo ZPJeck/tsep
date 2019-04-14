@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>已作业页面</title>
+    <title>心得列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -21,29 +21,30 @@
 </head>
 
 <body>
-<div class="layui-fluid">
-    <div class="layui-card">
+<div class="x-nav" style="padding-bottom: 5px;margin:20px 0;margin-top: -3px">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i>
+    </a>
+</div>
 
-        <div class="layui-card-body">
-            <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
-            </div>
-
-            <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
-            <input type="hidden" value="" id="id">
-        </div>
-    </div>
+<div class="layui-card" >
+    <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+    <script type="text/html" id="table-useradmin-webuser">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    </script>
+    <input type="hidden" value="" id="id">
 </div>
 
 
 <script type="text/html" id="barDemo" >
-    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">回复</a>
 </script>
 <script>
     layui.use(['table','laytpl'], function(){
         var table = layui.table;
         var laytpl = layui.laytpl;
+
 
         layui.laytpl.toDateString = function(d, format){
             if (d != null){
@@ -72,6 +73,7 @@
                 .replace(/mm/g, hms[1])
                 .replace(/ss/g, hms[2]);
         };
+
         layui.laytpl.digit = function(num, length, end){
             var str = '';
             num = String(num);
@@ -84,7 +86,7 @@
 
         table.render({
             elem: '#LAY-user-manage'
-            ,url:'/tsep/wd/list?type='+'1'
+            ,url:'/tsep/wd/xdList?type=1'
             ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                 //,curr: 5 //设定初始在第 5 页
@@ -94,10 +96,11 @@
             }
             ,cols: [[
                 {type:'numbers',  title: '序号'}
-                ,{field:'content',  title: '问答内容'}
-                ,{field:'type',  title: '类型'}
+                ,{field:'studentId',  title: '学生姓名'}
+                ,{field:'content',  title: '心得内容'}
+                ,{field:'type',  title: '类型',templet:'#typeBar'}
                 ,{field:'updateby',  title: '回复人'}
-                ,{field:'createtime', title: '发布时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
+                ,{field:'createtime', title: '提交时间',templet: '<div>{{ layui.laytpl.toDateString(d.createtime) }}</div>'}
                 ,{field:'updatetime', title: '回复时间',templet: '<div>{{ layui.laytpl.toDateString(d.updatetime) }}</div>'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
@@ -108,128 +111,37 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 $("#id").val(data.id);
-                layer.open({
+                var index = layer.open({
                     type: 2
-                    ,title: ''
+                    ,title: '疑难解答'
                     ,content: 'xw-detail.html'
                     ,area: ['700px', '550px']
                     ,btn: ['确定', '取消']
-                    ,yes: function(index, layero){
-                        var iframeWindow = window['layui-layer-iframe'+ index]
-                            ,submitID = 'LAY-user-front-submit'
-                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+                    ,yes: function(index, layero) {
+                        var iframeWindow = window['layui-layer-iframe' + index]
+                            , submitID = 'LAY-user-front-submit'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
 
                         //监听提交
-                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
                             var field = data.field; //获取提交的字段
-
-                            table.reload('LAY-user-front-submit'); //数据刷新
-                            layer.close(index); //关闭弹层
-                        });
-
-                        submit.trigger('click');
-                    }
-                });
-            }else if (obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    console.log(data)
-                    $.ajax({
-                        url: "/tsep/wd/deleteById?id="+data.id,
-                        method: 'post',
-                        dataType: 'JSON',
-                        success: function (res) {
-                            if (res.code == 0) {
-                                layer.close(index);
-                                layer.msg("删除成功",{
-                                    time: 500
-                                },function () {
-                                    location.reload();
-                                });
-                            } else if (res.code == 1) {
-                                layer.msg(res.msg, {icon: 2, time: 2000});
-                                location.href = "/studentLogin"
-                            }else if(res.code == -1){
-                                layer.msg(res.msg);
-                            }
-                        },
-                        error: function (data) {
-                            layer.msg("删除失败", {icon: 2, time: 2000})
-                        }
-
-                    });
-                    layer.close(index);
-                });
-            }
-            if(obj.event === 'add'){
-                console.log(data);
-                $("#id").val(data.id);
-                layer.open({
-                    type: 2
-                    ,title: ''
-                    ,content: 'xw-detail.html'
-                    ,area: ['700px', '550px']
-                    ,btn: ['确定', '取消']
-                    ,yes: function(index, layero){
-                        var iframeWindow = window['layui-layer-iframe'+ index]
-                            ,submitID = 'LAY-user-front-submit'
-                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
-                        //监听提交
-                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                            var field = data.field; //获取提交的字段
-
-                            //提交 Ajax 成功后，静态更新表格中的数据
-                            //$.ajax({});
-                            table.reload('LAY-user-front-submit'); //数据刷新
-                            layer.close(index); //关闭弹层
-                        });
-
-                        submit.trigger('click');
-                    }
-                });
-            }
-        });
-
-        //事件
-        var active = {
-            add: function(){
-                layer.open({
-                    type: 2
-                    ,title: '添加用户'
-                    ,content: 'xd-add.html'
-                    ,maxmin: true
-                    ,area: ['500px', '450px']
-                    ,btn: ['确定', '取消']
-                    ,yes: function(index, layero){
-                        var iframeWindow = window['layui-layer-iframe'+ index]
-                            ,submitID = 'LAY-user-front-submit'
-                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
-                        //监听提交
-                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                            var field = data.field; //获取提交的字段
-                            console.log(field);
-                            //提交 Ajax 成功后，静态更新表格中的数据
-                            //$.ajax({});
+                            console.log(field)
                             $.ajax({
-                                url: "/tsep/wd/add",
+                                url: "/tsep/wd/relayStudent",
                                 method: 'post',
                                 dataType: 'JSON',
                                 data: field,
                                 success: function (res) {
                                     if (res.code == 0) {
                                         layer.close(index);
-                                        layer.msg("添加成功",{
+                                        layer.msg("回复成功",{
                                             time: 500
                                         },function () {
                                             location.reload();
                                         });
-
-
                                     } else if (res.code == 1) {
                                         layer.msg(res.msg, {icon: 2, time: 2000});
-                                        location.href = "/tsep/studentLogin"
+                                        location.href = "/tsep/tLogin"
                                     }else if(res.code == -1){
                                         layer.msg(res.msg);
                                     }
@@ -239,6 +151,7 @@
                                 }
 
                             });
+                            table.reload('LAY-user-front-submit'); //数据刷新
                             layer.close(index); //关闭弹层
                         });
 
@@ -246,16 +159,21 @@
                     }
                 });
             }
-        };
-
-        $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
         });
+
 
 
     });
 </script>
+
+<script type="text/html" id="typeBar">
+    {{#  if(d.type == 0){ }}
+        心得体会
+    {{# }else { }}
+        疑难问题
+    {{# } }}
+</script>
+
 
 
 <script>

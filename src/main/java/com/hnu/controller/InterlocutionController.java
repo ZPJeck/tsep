@@ -76,8 +76,8 @@ public class InterlocutionController {
      *  x学生分页查询
      */
     @RequestMapping(value = "/list")
-    public Result list(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                       @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize,
+    public Result list(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                       @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize,
                        @RequestParam(value = "type",defaultValue = "0")String type){
         if (!isLogin("student")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
@@ -94,8 +94,8 @@ public class InterlocutionController {
      *  老师根据班级id查询信息
      */
     @RequestMapping(value = "/listByClass")
-    public Result listByClass(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                       @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+    public Result listByClass(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                       @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize){
         if (!isLogin("teacher")){
             return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
         }
