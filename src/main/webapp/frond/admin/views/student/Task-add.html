@@ -23,15 +23,15 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">完成时间</label>
+            <label class="layui-form-label">发布时间</label>
             <div class="layui-input-block">
-                <input type="text" name="" value="{{ layui.laytpl.toDateString(d.updatetime)}}" readonly placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text"  value="{{ layui.laytpl.toDateString(d.createtime)}}" readonly placeholder="发布时间" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">作业要求</label>
             <div class="layui-input-block">
-                <textarea name="" placeholder="请输入内容"  readonly class="layui-textarea">{{d.content}}</textarea>
+                <textarea name="" placeholder="作业要求"  readonly class="layui-textarea">{{d.content}}</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

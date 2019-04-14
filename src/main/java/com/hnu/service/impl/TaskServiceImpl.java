@@ -74,8 +74,10 @@ public class TaskServiceImpl implements TaskService {
                 taskList.add(task);
             }
         }
+        PageInfo<Task> pageInfo = new PageInfo<>(taskList);
+        int total = (int) pageInfo.getTotal();
 
-        return ResultUtil.success(taskList,taskList.size());
+        return ResultUtil.success(taskList,total);
     }
 
     @Override
@@ -139,8 +141,11 @@ public class TaskServiceImpl implements TaskService {
                 taskList.add(task);
             }
         }
+        PageInfo<Task> pageInfo = new PageInfo<>(taskList);
+        int total = (int) pageInfo.getTotal();
 
-        return ResultUtil.success(taskList,taskList.size());
+
+        return ResultUtil.success(taskList,total);
     }
 
 
@@ -183,7 +188,9 @@ public class TaskServiceImpl implements TaskService {
             studentTask.setTaskId(task.getTitle());
 
         }
-        return ResultUtil.success(studentTaskList,studentTaskList.size());
+        PageInfo<StudentTask> pageInfo = new PageInfo<>(studentTaskList);
+        int total = (int)pageInfo.getTotal();
+        return ResultUtil.success(studentTaskList,total);
     }
 
     @Override

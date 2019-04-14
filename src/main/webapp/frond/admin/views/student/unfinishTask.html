@@ -117,7 +117,6 @@
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
                             console.log(field);
-                            alert(0)
                             $.ajax({
                                 url: "/tsep/task/saveTask",
                                 method: 'post',

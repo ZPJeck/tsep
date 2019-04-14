@@ -60,7 +60,10 @@ public class PlanServiceImpl implements PlanService {
             Teacher teacher = teacherService.findByTeacher(plan.getCreateby());
             plan.setCreateby(teacher.getName());
         }
-        return ResultUtil.success(list,list.size());
+        PageInfo<Plan> pageInfo = new PageInfo<Plan>(list);
+        long total = pageInfo.getTotal();
+        int size = (int) total;
+        return ResultUtil.success(list,size);
     }
 
     @Override
