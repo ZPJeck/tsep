@@ -110,6 +110,31 @@ public class InterlocutionController {
     }
 
     /*
+     *  教师端展示  心得列表。
+     */
+    @RequestMapping(value = "/xdList")
+    public Result xdList(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                         @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize,
+                         String type,String classId){
+        if (!isLogin("teacher")){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        // 查询所有人，所班级的列表  默认按照  type查询所有班级的
+        return interlocutionService.interLnList(pageNum,pageSize,type,classId);
+    }
+
+
+    @RequestMapping(value = "/findByIdTeacher")
+    public Result findByIdTeacher(String id){
+        if (id == null){
+            return ResultUtil.error(-1,"查询信息失败");
+        }
+        Interlocution byId = interlocutionService.findByIdTeacher(id);
+
+        return ResultUtil.success(byId);
+    }
+
+    /*
      *  老师回复学生信息
      */
     @RequestMapping(value = "/relayStudent")

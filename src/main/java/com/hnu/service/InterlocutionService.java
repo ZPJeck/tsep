@@ -40,4 +40,11 @@ public interface InterlocutionService {
      *  删除心得或者问答
      */
     int deleteById(String id);
+
+    /*
+     *  教师端展示  心得列表
+     */
+    Result interLnList(Integer page,Integer limit,String type,String classId);
+
+    Interlocution findByIdTeacher(String id);
 }

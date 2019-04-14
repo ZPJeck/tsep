@@ -89,7 +89,7 @@
     <select id="listByClass" parameterType="java.lang.String" resultType="com.hnu.model.Interlocution">
       select * from interlocution
       where flag = 1 and class_id = #{classId}
-      ;
+
     </select>
     <update id="replyStudent" parameterType="com.hnu.model.Interlocution">
         update interlocution
@@ -102,6 +102,9 @@
             </if>
             <if test="classId != null">
                 class_id = #{classId},
+            </if>
+            <if test="score != null">
+                score = #{score},
             </if>
             <if test="content != null">
                 content = #{content},
@@ -129,7 +132,7 @@
             </if>
         </set>
         <where>
-            where falg = 1 and id = #{id}
+             flag = 1 and id = #{id}
         </where>
     </update>
     <update id="deleteById" parameterType="java.lang.String">
@@ -137,5 +140,27 @@
         set flag = 0
         where id = #{id}
     </update>
+
+    <select id="findListByType" resultType="com.hnu.model.Interlocution" parameterType="java.lang.String">
+        select it.*
+        from interlocution it,teacher_class tc
+        where it.flag = 1 and tc.flag = 1
+              and it.type = #{type} and tc.teacher_id = #{teacherId} and tc.class_id = it.class_id
+    </select>
+
+    <select id="findListByClass" resultType="com.hnu.model.Interlocution" parameterType="java.lang.String" >
+        select it.*
+        from interlocution it,teacher_class tc
+        where it.flag = 1 and tc.flag = 1
+              and it.type = #{type} and tc.teacher_id = #{teacherId} and tc.class_id = it.class_id and it.class_id = #{classId}
+    </select>
+
+
+
+
+
+
+
+
 
 </mapper>

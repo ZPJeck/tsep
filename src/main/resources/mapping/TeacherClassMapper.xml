@@ -8,5 +8,10 @@
         where t.flag = 1 and tc.flag = 1 and t.id = tc.teacher_id and tc.class_id = #{classId}
     </select>
 
+    <select id="findByTeacherId" parameterType="java.lang.String" resultType="com.hnu.model.Clazz">
+        select c.*
+        from teacher_class tc ,clazz c
+        where c.flag = 1 and tc.flag = 1 and tc.teacher_id = #{teacherId} and tc.class_id = c.id
+    </select>
 
 </mapper>

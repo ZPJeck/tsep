@@ -40,4 +40,18 @@ public interface InterlocutionMapper {
     int replyStudent(Interlocution interlocution);
 
     int deleteById(String id);
+
+    /*
+     *  根据类型查询
+     */
+
+    List<Interlocution> findListByType(@Param("type") String type,@Param("teacherId") String teacherId);
+
+    /*
+     *  根据班级查询
+     */
+
+    List<Interlocution> findListByClass(@Param("type") String type,@Param("teacherId") String teacherId,@Param("classId") String classId);
+
+
 }
