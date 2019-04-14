@@ -1,14 +1,20 @@
 package com.hnu.service.impl;
 
 import com.hnu.dao.StudentMapper;
+import com.hnu.model.Interlocution;
 import com.hnu.model.Student;
+import com.hnu.model.StudentTask;
 import com.hnu.pojo.StudentClass;
 import com.hnu.service.StudentService;
 import com.hnu.util.MD5Encryption;
+import com.hnu.util.Result;
+import com.hnu.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: Zpjeck
@@ -94,5 +100,35 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public int task(String id) {
         return studentMapper.task(id);
+    }
+
+    @Override
+    public Result dataAnalysis(String id) {
+        int taskScore = 0;
+        int xdScore = 0;
+        int wdScore = 0;
+
+        Map<String,Integer> map = new HashMap<>();
+        List<StudentTask> studentTaskList = studentMapper.taskList(id);
+        for (StudentTask studentTask : studentTaskList){
+            if (studentTask.getScore() != null){
+                taskScore += studentTask.getScore();
+            }
+        }
+        List<Interlocution> list = studentMapper.xwdList(id);
+        for (Interlocution interlocution : list){
+            if (interlocution.getScore() != null){
+                if ("0".equals(interlocution.getType())){
+                    xdScore += interlocution.getScore();
+                }else {
+                    wdScore += interlocution.getScore();
+                }
+            }
+        }
+        map.put("taskScore",taskScore);
+        map.put("xdScore",xdScore);
+        map.put("wdScore",wdScore);
+
+        return ResultUtil.success(map);
     }
 }

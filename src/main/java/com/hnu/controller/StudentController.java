@@ -153,6 +153,18 @@ public class StudentController {
     }
 
 
+    /*
+     *  数据分析
+     */
+    @RequestMapping(value = "/dataAnalysis",method = RequestMethod.POST)
+    public Result dataAnalysis(){
+        if (!isLogin()){
+            return ResultUtil.error(ResultEnum.NO_LOGIN.getCode(),"用户未登录");
+        }
+        Student student = (Student) session.getAttribute("student");
+        return studentService.dataAnalysis(student.getId());
+    }
+
 
     /*
      *  校验用户是否登录

@@ -1,9 +1,12 @@
 package com.hnu.dao;
 
+import com.hnu.model.Interlocution;
 import com.hnu.model.Student;
 import java.util.List;
 
+import com.hnu.model.StudentTask;
 import com.hnu.pojo.StudentClass;
+import org.apache.ibatis.annotations.Param;
 
 public interface StudentMapper {
     /*
@@ -48,5 +51,11 @@ public interface StudentMapper {
     int wd(String id);
     int xd(String id);
     int task(String id);
+
+
+    List<StudentTask> taskList(@Param("studentId") String studentId);
+
+    List<Interlocution> xwdList(@Param("studentId")String studentId);
+
 
 }

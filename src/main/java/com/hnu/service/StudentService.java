@@ -2,6 +2,7 @@ package com.hnu.service;
 
 import com.hnu.model.Student;
 import com.hnu.pojo.StudentClass;
+import com.hnu.util.Result;
 
 import java.util.List;
 
@@ -52,4 +53,7 @@ public interface StudentService {
     int wd(String id);
     int xd(String id);
     int task(String id);
+
+    Result dataAnalysis(String id);
+
 }
