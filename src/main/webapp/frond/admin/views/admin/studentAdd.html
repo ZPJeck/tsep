@@ -48,12 +48,7 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">班级编号</label>
-        <span style="color:red; height: 38px; line-height: 38px;">*</span>
-        <!--<div class="layui-input-inline">
-            <input type="text" name="classId" id="classNum" value="" lay-verify="required"  autocomplete="off"
-                   placeholder="请输入班级编号" class="layui-input">
-        </div>-->
-        <div class="layui-input-block" >
+        <div class="layui-input-inline" >
             <select name="classId" id="aa" lay-verify="required">
                 <option value="">请选择</option>
             </select>
@@ -70,8 +65,7 @@
         <label class="layui-form-label">地址</label>
         <div class="layui-input-inline">
             <textarea style="width: 300px"  name="address" placeholder="请输入地址" id="address" value="" lay-verify="" autocomplete="off"
-                      class="layui-textarea">
-            </textarea>
+                      class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-hide">
@@ -80,9 +74,28 @@
 </form>
 </body>
 <script>
-    layui.use(['form'], function(){
+    layui.use(['form','jquery'], function(){
         var form = layui.form;
+        var $ = layui.$;
+        $.ajax({
+            url: "/tsep/teacher/clazzList",
+            method: 'post',
+            dataType: 'JSON',
+            success: function (res) {
+                if (res.code == 0) {
+                    var data = res.data
+                    for (var i = 0; i < data.length ; i++){
+                        $("#aa").append("<option value='"+data[i].id+"'>"+data[i].className+"</option>");
+                    }
 
+                } else if (res.code == 1) {
+                    layer.msg(res.msg+"，请重新登录！", {icon: 2, time: 2000,end:function () {
+                            location.href = "/tsep/login"
+                    }});
+                }
+                form.render();
+            }
+        });
 
 
     })
