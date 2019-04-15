@@ -36,7 +36,7 @@ public interface TaskMapper {
 
     List<Task> selectBystudent(String id);
 
-    List<Task> selectByTeacher(String teacherId);
+    List<Task> selectByTeacher(@Param("teacherId") String teacherId);
 
     int save(Task task);
 

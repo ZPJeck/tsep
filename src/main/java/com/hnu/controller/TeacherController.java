@@ -331,8 +331,8 @@ public class TeacherController {
      *  查看老师列表
      */
     @RequestMapping(value = "/teacherList")
-    public Result teacherList(@RequestParam(value = "pageNum",defaultValue = "1")Integer  pageNum,
-                              @RequestParam(value = "pageSize",defaultValue = "10")Integer  pageSize){
+    public Result teacherList(@RequestParam(value = "page",defaultValue = "1")Integer  pageNum,
+                              @RequestParam(value = "limit",defaultValue = "10")Integer  pageSize){
         Result<Teacher> teacherPageInfo = teacherService.teacherList(pageNum, pageSize);
         return teacherPageInfo;
     }
@@ -342,7 +342,8 @@ public class TeacherController {
      */
     @RequestMapping(value = "list",method = RequestMethod.POST)
     public Result list(){
-        return teacherService.list();
+        Result<Teacher> list = teacherService.list();
+        return list;
     }
 
     /*

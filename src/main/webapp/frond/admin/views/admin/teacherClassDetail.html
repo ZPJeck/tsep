@@ -46,7 +46,6 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">老师</label>
-                <!--&lt;!&ndash;<input type="text" name="teacherId"  value="{{}}"  lay-verify="required" autocomplete="off" class="layui-input">&ndash;&gt;-->
             <div class="layui-input-block" >
                 <select name="teacherId" id="aa" lay-verify="required">
                     <option value="">请选择</option>
@@ -120,7 +119,30 @@
                     laytpl(getTpl).render(res.data, function(html){
                         view.innerHTML = html;
                     });
-                    form.render();
+                    $.ajax({
+                        url: "/tsep/teacher/list",
+                        method: 'post',
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == 0) {
+                                // form.render();
+                                var data = res.data
+                                for (var i = 0; i < data.length ; i++){
+                                    $("#aa").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+                                }
+                            } else if (res.code == 1) {
+                                layer.msg(res.msg, {icon: 2, time: 2000});
+                                location.href = "/tsep/login"
+                            }else if(res.code == -2){
+                                layer.msg(res.msg);
+                            }
+                            form.render();
+                        },
+                        error: function (data) {
+                            layer.msg("查看失败", {icon: 2, time: 2000})
+                        }
+
+                    });
                 } else if (res.code == 1) {
                     layer.msg(res.msg, {icon: 2, time: 2000});
                     location.href = "/tsep/login"
@@ -134,29 +156,7 @@
 
         });
 
-        $.ajax({
-            url: "/tsep/teacher/list",
-            method: 'post',
-            dataType: 'JSON',
-            success: function (res) {
-                if (res.code == 0) {
-                    var data = res.data
-                    for (var i = 0; i < data.length ; i++){
-                        $("#aa").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
-                    }
-                    form.render();
-                } else if (res.code == 1) {
-                    layer.msg(res.msg, {icon: 2, time: 2000});
-                    location.href = "/tsep/login"
-                }else if(res.code == -2){
-                    layer.msg(res.msg);
-                }
-            },
-            error: function (data) {
-                layer.msg("查看失败", {icon: 2, time: 2000})
-            }
 
-        });
 
 
     });

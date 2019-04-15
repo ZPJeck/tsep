@@ -84,7 +84,7 @@ public class TaskServiceImpl implements TaskService {
     public Result<Task> selectByTeacher(Integer pageNum, Integer pageSize,String teacherId) {
         Page page = PageHelper.startPage(pageNum, pageSize,true);
         // 查询数据
-        List<Task> list = taskMapper.selectBystudent(teacherId);
+        List<Task> list = taskMapper.selectByTeacher(teacherId);
         for (Task task : list) {
             Teacher teacher = teacherService.findByTeacher(task.getTeacherId());
             task.setCreateby(teacher.getName());
@@ -160,6 +160,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Result updateTask(Task task) {
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        task.setUpdateby(teacher.getId());
+        task.setUpdatetime(new Date());
         int i = taskMapper.updateTask(task);
         if (i == 0){
             return ResultUtil.error(ResultEnum.USER_DATABASE_FAIL.getCode(),"删除失败");

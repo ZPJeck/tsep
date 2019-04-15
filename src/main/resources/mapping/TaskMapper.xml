@@ -21,7 +21,7 @@
     </select>
 
     <select id="selectByTeacher" parameterType="java.lang.String" resultType="com.hnu.model.Task">
-        select * from task where flag = 1 and teacher_id = #{teacherId};
+        select * from task where flag = 1 and teacher_id = #{teacherId}
     </select>
 
     <insert id="save" parameterType="com.hnu.model.Task">

@@ -49,9 +49,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">班级编号</label>
         <span style="color:red; height: 38px; line-height: 38px;">*</span>
-        <div class="layui-input-inline">
+        <!--<div class="layui-input-inline">
             <input type="text" name="classId" id="classNum" value="" lay-verify="required"  autocomplete="off"
                    placeholder="请输入班级编号" class="layui-input">
+        </div>-->
+        <div class="layui-input-block" >
+            <select name="classId" id="aa" lay-verify="required">
+                <option value="">请选择</option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
@@ -77,6 +82,8 @@
 <script>
     layui.use(['form'], function(){
         var form = layui.form;
+
+
 
     })
 </script>

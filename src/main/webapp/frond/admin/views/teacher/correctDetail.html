@@ -73,7 +73,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">回复</label>
             <div class="layui-input-block">
-                <textarea name="feedback"    class="layui-textarea">{{d.feedback}}</textarea>
+                <textarea name="feedback"    class="layui-textarea">{{d.feedback==null ? '':d.feedback}}</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-card">
