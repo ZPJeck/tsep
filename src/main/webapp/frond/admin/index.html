@@ -1,0 +1,95 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>河师大师生交流平台</title>
+		<link rel="icon" href="images/logo.jpg"  />
+		<link href="css/style.css" rel="stylesheet" type="text/css">
+		<script src="js/jquery.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/superslide.2.1.js"></script>
+		<script src="js/nicescroll.js"></script>
+	</head>
+	<style type="text/css">
+		
+		
+		.div {
+			text-align: center;
+		}
+		
+		.div img {
+			display: block;
+			vertical-align: middle;
+		}
+		.img-container {
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.div:after {
+			content: "";
+			display: inline-block;
+			vertical-align: middle;
+			height: 100%;
+			width: 0;
+		}
+		.admin {
+			position: absolute;
+			top: 20%;
+			left: 0;
+		}
+		.imgnews-item{
+			position: absolute;
+			top: 20%;
+			left: 2%;
+		}
+		.imgnews-item a {
+			display: block;
+			margin-bottom: 20px;
+		}
+		.imgnews-item span {
+			display: block;
+			background-color: #000;
+			opacity: 0.4;
+			filter: alpha(opacity=40);
+			width: 100%;
+			height: 26px;
+			margin-top: 10px;
+			line-height: 26px;
+			overflow: hidden;
+			font-size: 14px;
+			text-align: center;
+		}
+
+
+	</style>
+
+	<body>
+
+		<div class="img-container" style="text-align : center;background-color: #F5DEB3;">
+			<!--<div class="admin">
+				<img src="images/admin.png"><input type="text" readonly="readonly" value="管理员登录" placeholder="腾讯QQ">
+			</div>-->
+			<!--<div class="teacher">
+				<img src="images/teacher.jpg" style="width: 100px;height: 100px;"><input type="text" readonly="readonly" value="管理员登录" placeholder="腾讯QQ">
+			</div>-->
+			<div class="imgnews-item">
+				<a href="/tsep/login">
+					<img  src="images/admin.jpg" style="width: 100px;height: 100px; border-radius:100%; overflow:hidden;">
+					<span >管理员登录</span>
+				</a>
+				<a href="/tsep/tLogin" >
+					<img  src="images/teacher.jpg" style="width: 100px;height: 100px; border-radius:100%; overflow:hidden;">
+					<span >教师登录</span>
+				</a>
+				<a href="/tsep/studentLogin">
+					<img  src="images/student.jpg" style="width: 100px;height: 100px; border-radius:100%; overflow:hidden;">
+					<span >学生登录</span>
+				</a>
+			</div>
+			<img src="images/1.png">
+		</div>
+	</body>
+
+</html>
