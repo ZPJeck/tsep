@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hnu.dao.StudentMapper" >
-    <select id="login" parameterType="com.hnu.model.Student" resultType="com.hnu.model.Student">
+    <select id="login" parameterType="java.lang.String" resultType="com.hnu.model.Student">
         select *
         from student
-        where flag = 1 and number =#{number}
+        where flag = 1 and number = #{number}
     </select>
     <select id="selectByPrimaryKey" resultType="com.hnu.pojo.StudentClass" parameterType="java.lang.String">
         select s.*,c.class_name,c.class_num

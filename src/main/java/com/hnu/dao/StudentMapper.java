@@ -41,7 +41,7 @@ public interface StudentMapper {
     /*
      *  学生登录
      */
-    Student login(String number);
+    Student login(@Param("number") String number);
 
     Student selectById(String id);
 

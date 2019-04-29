@@ -51,10 +51,10 @@ public class StudentController {
             result.setCode(0);
             result.setData(login);
             session.setAttribute("student",login);
-        }
-        if (login.getUpdateby().equals("1")){
-            // 系统正在维护
-            result.setCode(3);
+            if (login.getUpdateby().equals("1")){
+                // 系统正在维护
+                result.setCode(3);
+            }
         }
         return result;
     }
