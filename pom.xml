@@ -9,7 +9,7 @@
       <version>v1.0.0</version>
       <packaging>war</packaging>
 
-      <name>com.hnu.com Maven Webapp</name>
+      <name>tsep Maven Webapp</name>
       <!-- FIXME change it to the project's website -->
       <url>http://www.zpjeck.com</url>
 
@@ -23,13 +23,13 @@
 
       <dependencies>
 
-          <!-- 批量导入文件  -->
-          <!-- jxl -->
-          <dependency>
-              <groupId>net.sourceforge.jexcelapi</groupId>
-              <artifactId>jxl</artifactId>
-              <version>2.6.12</version>
-          </dependency>
+          <!--&lt;!&ndash; 批量导入文件  &ndash;&gt;-->
+          <!--&lt;!&ndash; jxl &ndash;&gt;-->
+          <!--<dependency>-->
+              <!--<groupId>net.sourceforge.jexcelapi</groupId>-->
+              <!--<artifactId>jxl</artifactId>-->
+              <!--<version>2.6.12</version>-->
+          <!--</dependency>-->
 
           <dependency>
             <groupId>junit</groupId>
@@ -226,11 +226,11 @@
               <artifactId>jackson-databind</artifactId>
               <version>2.4.2</version>
           </dependency>
-          <dependency>
-              <groupId>jexcelapi</groupId>
-              <artifactId>jxl</artifactId>
-              <version>2.6.9</version>
-          </dependency>
+          <!--<dependency>-->
+              <!--<groupId>jexcelapi</groupId>-->
+              <!--<artifactId>jxl</artifactId>-->
+              <!--<version>2.6.9</version>-->
+          <!--</dependency>-->
 
 
       </dependencies>

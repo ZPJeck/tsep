@@ -24,10 +24,12 @@
         <!--&lt;!&ndash; 上传图片最大大小5M&ndash;&gt;-->
         <!--<property name="maxUploadSize" value="5242440"></property>-->
     <!--</bean>-->
+    <!-- 定义无Controller的path<->view直接映射 -->
+    <mvc:view-controller path="/" view-name="redirect:/index" />
 
     <!-- 配置jsp文件的前后缀 “／”代表的是项目设定的Resource目录 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF"/>
+        <property name="prefix" value="/frond/admin"/>
         <property name="suffix" value=".html" />
     </bean>
 

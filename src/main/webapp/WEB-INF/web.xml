@@ -7,6 +7,10 @@
           xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
           version="3.1">
 
+    <welcome-file-list>
+        <welcome-file></welcome-file>
+    </welcome-file-list>
+
     <!-- Spring监听器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -81,13 +85,13 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/</url-pattern>
     </filter-mapping>
-    <error-page>
+    <!--<error-page>
         <error-code>500</error-code>
         <location>/five</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
         <location>/four0four</location>
-    </error-page>
+    </error-page>-->
 
 </web-app>

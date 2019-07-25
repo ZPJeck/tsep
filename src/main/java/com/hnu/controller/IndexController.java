@@ -29,12 +29,12 @@ public class IndexController {
         return "redirect:/frond/admin/login.html";
     }
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = {"/index","/"})
     public String index(){
         return "redirect:/frond/admin/index.html";
     }
 
-    @RequestMapping(value = {"/studentLogin","/"})
+    @RequestMapping(value = {"/studentLogin"})
     public String login2(){
         if (session.getAttribute("student") != null){
             return "redirect:/frond/admin/views/student/index.html";
